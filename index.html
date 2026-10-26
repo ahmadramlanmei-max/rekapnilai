@@ -1,0 +1,7696 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Rekap Nilai Siswa</title>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background:
+    #f1f5f9;
+
+  color:
+    #0f172a;
+}
+
+:root {
+
+  --primary:
+    #2563eb;
+
+  --success:
+    #16a34a;
+
+  --danger:
+    #dc2626;
+
+  --warning:
+    #d97706;
+
+  --dark:
+    #0f172a;
+
+  --border:
+    #e2e8f0;
+
+  --muted:
+    #64748b;
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-title{line-height:1.3!important;}
+#loginScreen {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 10000;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #0f172a
+    );
+
+}
+
+#loginScreen.hidden {
+  display: none;
+}
+
+.login-card {
+
+  width: 100%;
+
+  max-width: 410px;
+
+  padding: 35px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.25);
+
+}
+
+.login-logo {
+
+  width: 72px;
+
+  height: 72px;
+
+  margin:
+    0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #dbeafe;
+
+  font-size: 34px;
+
+}
+
+.login-title {
+
+  text-align: center;
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+}
+
+.login-subtitle {
+
+  margin:
+    7px 0 28px;
+
+  text-align: center;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+}
+
+.login-group {
+  margin-bottom: 17px;
+}
+
+.login-group label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+}
+
+.login-group input {
+
+  width: 100%;
+
+  padding: 13px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 9px;
+
+  outline: none;
+
+  font-size: 14px;
+
+}
+
+.login-button {
+
+  width: 100%;
+
+  padding: 13px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background:
+    var(--primary);
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+.login-button:disabled {
+
+  opacity: .7;
+
+}
+
+.login-error {
+
+  display: none;
+
+  margin-bottom: 15px;
+
+  padding: 11px;
+
+  border-radius: 8px;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+  font-size: 13px;
+
+}
+
+.login-error.show {
+  display: block;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+
+  position: fixed;
+
+  left: 0;
+
+  top: 0;
+
+  width: 250px;
+
+  height: 100vh;
+
+  background:
+    #0f172a;
+
+  color: white;
+
+  z-index: 1000;
+
+}
+
+.logo {
+
+  padding:
+    22px 20px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.1);
+
+}
+
+.logo-title {
+
+  font-size: 19px;
+
+  font-weight: 800;
+
+}
+
+.logo-subtitle {
+
+  margin-top: 5px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+
+}
+
+.menu {
+
+  padding: 15px 10px;
+
+}
+
+.menu button {
+
+  width: 100%;
+
+  margin-bottom: 4px;
+
+  padding: 13px 14px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #cbd5e1;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+}
+
+.menu button:hover {
+
+  background:
+    #1e293b;
+
+  color: white;
+
+}
+
+.menu button.active {
+
+  background:
+    #2563eb;
+
+  color: white;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+}
+
+.topbar {
+
+  height: 70px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding:
+    0 25px;
+
+  background: white;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+.topbar-title {
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+}
+
+.user-area {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+.user-name {
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+}
+
+.logout-button {
+
+  border: none;
+
+  padding: 8px 12px;
+
+  border-radius: 7px;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+.content {
+  padding: 25px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+
+}
+
+.page-title {
+
+  font-size: 23px;
+
+  font-weight: 800;
+
+}
+
+.page-description {
+
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+  padding: 20px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 18px;
+
+  margin-bottom: 25px;
+
+}
+
+.stat-card {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+}
+
+.stat-title {
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+}
+
+.stat-value {
+
+  margin-top: 7px;
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+}
+
+.stat-icon {
+
+  width: 50px;
+
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #dbeafe;
+
+  font-size: 22px;
+
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.btn {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  padding:
+    10px 15px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+}
+
+.btn-primary {
+
+  background:
+    var(--primary);
+
+  color: white;
+
+}
+
+.btn-secondary {
+
+  background:
+    #e2e8f0;
+
+  color:
+    #334155;
+
+}
+
+.btn-warning {
+
+  background:
+    var(--warning);
+
+  color: white;
+
+}
+
+.btn-danger {
+
+  background:
+    var(--danger);
+
+  color: white;
+
+}
+
+.btn-success {
+
+  background:
+    var(--success);
+
+  color: white;
+
+}
+
+.btn-small {
+
+  padding:
+    7px 10px;
+
+  font-size: 12px;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-card {
+
+  overflow: hidden;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+}
+
+.table-toolbar {
+
+  display: flex;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  padding: 15px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+.search {
+
+  flex: 1;
+
+  min-width: 220px;
+
+}
+
+input,
+select {
+
+  width: 100%;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: white;
+
+  font-size: 14px;
+
+}
+
+input:focus,
+select:focus {
+
+  border-color:
+    var(--primary);
+
+}
+
+.table-wrapper {
+
+  width: 100%;
+
+  overflow-x: auto;
+
+}
+
+table {
+
+  width: 100%;
+
+  min-width: 850px;
+
+  border-collapse: collapse;
+
+}
+
+th {
+
+  padding: 13px;
+
+  background: #f8fafc;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  text-align: left;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+td {
+
+  padding: 12px 13px;
+
+  font-size: 13px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+.empty {
+
+  padding: 40px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+}
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+.badge {
+
+  display: inline-flex;
+
+  padding: 5px 8px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+}
+
+.badge-success {
+
+  background: #dcfce7;
+
+  color: #166534;
+
+}
+
+.badge-danger {
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap: 15px;
+
+}
+
+.form-group label {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+}
+
+.form-actions {
+
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 20px;
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(15,23,42,.55);
+
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+
+  width: 100%;
+
+  max-width: 700px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 15px;
+
+}
+
+.modal-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding:
+    18px 20px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+.modal-title {
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+}
+
+.modal-close {
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 24px;
+
+  cursor: pointer;
+
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+
+/* =====================================================
+   NILAI
+===================================================== */
+
+.semester-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 12px;
+
+}
+
+.semester-card {
+
+  padding: 12px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+}
+
+.semester-card label {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+.average-box {
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  border:
+    1px solid #bfdbfe;
+
+  border-radius: 10px;
+
+  background: #eff6ff;
+
+}
+
+.average-number {
+
+  color:
+    var(--primary);
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+}
+
+
+/* =====================================================
+   IJAZAH
+===================================================== */
+
+.ijazah-info {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+}
+
+.info-box {
+
+  padding: 15px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 10px;
+
+  background: white;
+
+}
+
+.info-label {
+
+  color:
+    var(--muted);
+
+  font-size: 12px;
+
+}
+
+.info-value {
+
+  margin-top: 5px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+}
+
+.ijazah-total {
+
+  margin-top: 20px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 15px;
+
+}
+
+.ijazah-total-box {
+
+  padding: 18px;
+
+  text-align: center;
+
+  border:
+    1px solid
+    #bfdbfe;
+
+  border-radius: 12px;
+
+  background: #eff6ff;
+
+}
+
+.ijazah-total-box strong {
+
+  display: block;
+
+  margin-top: 7px;
+
+  color:
+    var(--primary);
+
+  font-size: 24px;
+
+}
+
+.print-area {
+  display: none;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast-container {
+
+  position: fixed;
+
+  top: 85px;
+
+  right: 20px;
+
+  z-index: 7000;
+
+}
+
+.toast {
+
+  min-width: 280px;
+
+  margin-bottom: 10px;
+
+  padding:
+    13px 15px;
+
+  background: white;
+
+  border-left:
+    4px solid
+    var(--primary);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.15);
+
+  font-size: 13px;
+
+}
+
+.toast.success {
+
+  border-left-color:
+    var(--success);
+
+}
+
+.toast.error {
+
+  border-left-color:
+    var(--danger);
+
+}
+
+.toast.warning {
+
+  border-left-color:
+    var(--warning);
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 6000;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(255,255,255,.8);
+
+}
+
+.loading.show {
+  display: flex;
+}
+
+.loader-box {
+
+  min-width: 240px;
+
+  padding:
+    25px 30px;
+
+  background: white;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 10px 40px
+    rgba(0,0,0,.15);
+
+  text-align: center;
+
+}
+
+.spinner {
+
+  width: 38px;
+
+  height: 38px;
+
+  margin: auto;
+
+  border:
+    4px solid #e2e8f0;
+
+  border-top-color:
+    var(--primary);
+
+  border-radius: 50%;
+
+  animation:
+    spin .8s linear infinite;
+
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+@media(max-width:1000px) {
+
+  .stats {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .ijazah-info,
+  .ijazah-total {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
+
+
+@media(max-width:768px) {
+
+  .sidebar {
+
+    width: 220px;
+
+  }
+
+  .main {
+
+    margin-left: 220px;
+
+  }
+
+  .stats {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .semester-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+}
+
+
+
+/* =====================================================
+   LEGER NILAI
+===================================================== */
+.leger-toolbar{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:18px}
+.leger-toolbar .form-group{margin:0;min-width:220px}
+.leger-table{min-width:900px}
+.leger-table th,.leger-table td{text-align:center;white-space:nowrap}
+.leger-table th:nth-child(3),.leger-table td:nth-child(3){text-align:left;min-width:180px}
+.leger-table tfoot th{background:#f1f5f9}
+.leger-complete{font-weight:700}
+.leger-incomplete{font-weight:700}
+.leger-note{margin-top:14px;padding:12px;border-radius:8px;background:#f8fafc;color:#64748b;font-size:12px}
+@media print{
+  body *{visibility:hidden!important}
+  #legerPrintArea,#legerPrintArea *{visibility:visible!important}
+  #transkripPrintArea,#transkripPrintArea *{visibility:visible!important}
+  #legerPrintArea{position:absolute;left:0;top:0;width:100%;padding:0!important;margin:0!important}
+  #transkripPrintArea{position:absolute;left:0;top:0;width:210mm;max-width:210mm;padding:0!important;margin:0!important}
+  @page{size:A4 landscape;margin:10mm}
+  .no-print{display:none!important}
+  .leger-print-title{text-align:center;margin-bottom:10px}
+  .leger-print-title h2{margin:0;font-size:16px}
+  .leger-print-title p{margin:3px 0;font-size:11px}
+  .leger-table{width:100%;min-width:0;border-collapse:collapse;font-size:8px}
+  .leger-table th,.leger-table td{border:1px solid #000!important;padding:4px 3px}
+}
+
+
+.transkrip-paper{background:#fff;color:#111;width:210mm;max-width:210mm;min-height:297mm;box-sizing:border-box;margin:18px auto;padding:14mm 13mm;font-family:Arial,sans-serif;font-size:12pt;box-shadow:0 8px 30px rgba(15,23,42,.08);overflow:hidden}.transkrip-kop{display:flex;align-items:center;gap:10mm}.transkrip-logo-wrap{width:25mm;flex:0 0 25mm;display:flex;align-items:center;justify-content:center}.transkrip-logo{width:23mm;height:23mm;object-fit:contain;display:block}.transkrip-kop-center{flex:1;text-align:center;font-size:9.5px;font-weight:700;line-height:1.18}.transkrip-kop-center .tr-instansi{font-size:11px;font-weight:700}.transkrip-kop-center .tr-sekolah{font-size:13px;font-weight:700}.transkrip-kop-center .tr-kecamatan{font-size:11px;font-weight:700}.transkrip-kop-center .tr-alamat,.transkrip-kop-center .tr-email{font-size:8.8px;font-weight:400;font-style:italic}.transkrip-line{height:1.5px;background:#111;border-top:3px double #111;margin:2px 0 5px}.transkrip-title{text-align:center}.transkrip-title h2{font-size:15px;margin:2px 0}.transkrip-title div{font-size:9.5px}.transkrip-identitas{margin:19px 0 14px;font-size:12pt;line-height:1.55}.transkrip-identitas div{display:grid;grid-template-columns:48% 3% 49%;min-height:17px}.transkrip-identitas span{white-space:normal}.transkrip-table{width:100%;max-width:100%;min-width:0!important;table-layout:fixed;border-collapse:collapse;font-size:12pt;box-sizing:border-box}.transkrip-table th,.transkrip-table td{border:1px solid #111;padding:3.5px 5px;line-height:1.35;vertical-align:middle;box-sizing:border-box;overflow-wrap:anywhere;word-break:normal}.transkrip-table th{font-weight:700;text-align:center}.transkrip-table th:nth-child(1),.transkrip-table td:nth-child(1){width:9%;text-align:center}.transkrip-table th:nth-child(2),.transkrip-table td:nth-child(2){width:72%;min-width:0;text-align:left;overflow-wrap:anywhere}.transkrip-table th:nth-child(3),.transkrip-table td:nth-child(3){width:20%;min-width:0;text-align:center}.transkrip-footer{margin-top:24px;margin-left:auto;width:38%;font-size:9.5px;text-align:center}.ttd-space{height:58px}.ttd-name{font-weight:700;text-decoration:underline}.no-print{ }
+@media print{body{background:#fff!important}.sidebar,.topbar,.page-header,.no-print,#loginScreen,.toast-container,#loading{display:none!important}.main{margin:0!important;padding:0!important}.page{display:none!important}.page.active{display:block!important}.page.active#page-transkrip{display:block!important;visibility:visible!important}.page.active#page-transkrip *{visibility:visible!important}.transkrip-kop{gap:8mm}.transkrip-logo-wrap{width:22mm;flex-basis:22mm}.transkrip-logo{width:20mm;height:20mm}.transkrip-kop-center .tr-instansi{font-size:10px}.transkrip-kop-center .tr-sekolah{font-size:12px}.transkrip-kop-center .tr-kecamatan{font-size:10px}.transkrip-kop-center .tr-alamat,.transkrip-kop-center .tr-email{font-size:8px}.transkrip-paper{display:block!important;position:relative!important;width:210mm;height:297mm;min-height:297mm;margin:0;padding:10mm 12mm;color:#111;box-shadow:none;box-sizing:border-box;overflow:hidden}.transkrip-identitas{margin:16px 0 12px;font-size:9.5px;line-height:1.45}.transkrip-identitas div{grid-template-columns:48% 3% 49%;min-height:16px}.transkrip-table{width:100%!important;max-width:100%!important;min-width:0!important;font-size:8.8px;table-layout:fixed;box-sizing:border-box}.transkrip-table th,.transkrip-table td{padding:2.8px 4px;line-height:1.15;box-sizing:border-box;overflow-wrap:anywhere}.transkrip-table th:nth-child(1),.transkrip-table td:nth-child(1){width:8%;min-width:0}.transkrip-table th:nth-child(2),.transkrip-table td:nth-child(2){width:72%;min-width:0}.transkrip-table th:nth-child(3),.transkrip-table td:nth-child(3){width:20%;min-width:0}.transkrip-footer{margin-top:18px;width:38%;font-size:9.5px}.ttd-space{height:55px}@page{size:A4 portrait;margin:8mm}}
+@media screen and (max-width:760px){
+.transkrip-paper{width:calc(100vw - 24px);max-width:210mm;margin:12px auto;padding:10mm 8mm}
+.transkrip-table{font-size:8.5px}
+.transkrip-table th,.transkrip-table td{padding:3px 3px}
+}
+
+@media print{
+  #transkripPrintArea .transkrip-paper,
+  #transkripPrintArea .transkrip-paper *{
+    font-size:12pt;
+  }
+  #transkripPrintArea .transkrip-table th,
+  #transkripPrintArea .transkrip-table td{
+    font-size:12pt;
+    line-height:1.25;
+  }
+}
+
+/* Ukuran font Transkrip Nilai */
+#transkripPrintArea .tr-instansi,
+#transkripPrintArea #trInstansi{
+  font-size:12pt !important;
+}
+#transkripPrintArea .tr-sekolah,
+#transkripPrintArea #trSekolahKop{
+  font-size:14pt !important;
+  font-weight:700;
+}
+#transkripPrintArea .tr-kecamatan,
+#transkripPrintArea #trKecamatan{
+  font-size:12pt !important;
+}
+#transkripPrintArea .tr-alamat,
+#transkripPrintArea #trAlamat,
+#transkripPrintArea .tr-email,
+#transkripPrintArea #trEmail{
+  font-size:10pt !important;
+}
+#transkripPrintArea .transkrip-table,
+#transkripPrintArea .transkrip-table th,
+#transkripPrintArea .transkrip-table td{
+  font-size:11pt !important;
+}
+#transkripPrintArea .tr-kepala,
+#transkripPrintArea #trKepala,
+#transkripPrintArea .tr-nip,
+#transkripPrintArea #trNipKepala{
+  font-size:12pt !important;
+}
+@media print{
+  #transkripPrintArea .tr-instansi,
+  #transkripPrintArea #trInstansi{font-size:12pt !important}
+  #transkripPrintArea .tr-sekolah,
+  #transkripPrintArea #trSekolahKop{font-size:14pt !important}
+  #transkripPrintArea .tr-kecamatan,
+  #transkripPrintArea #trKecamatan{font-size:12pt !important}
+  #transkripPrintArea .tr-alamat,
+  #transkripPrintArea #trAlamat,
+  #transkripPrintArea .tr-email,
+  #transkripPrintArea #trEmail{font-size:10pt !important}
+  #transkripPrintArea .transkrip-table,
+  #transkripPrintArea .transkrip-table th,
+  #transkripPrintArea .transkrip-table td{font-size:11pt !important}
+  #transkripPrintArea .tr-kepala,
+  #transkripPrintArea #trKepala,
+  #transkripPrintArea .tr-nip,
+  #transkripPrintArea #trNipKepala{font-size:12pt !important}
+}
+
+
+/* Ukuran bagian tanda tangan Transkrip */
+#transkripPrintArea .tr-tempat-tanggal,
+#transkripPrintArea #trKotaTanggal{
+  font-size:12pt !important;
+}
+#transkripPrintArea .tr-kepala,
+#transkripPrintArea #trKepala,
+#transkripPrintArea .tr-nip,
+#transkripPrintArea #trNipKepala{
+  font-size:12pt !important;
+}
+@media print{
+  #transkripPrintArea .tr-tempat-tanggal,
+  #transkripPrintArea #trKotaTanggal,
+  #transkripPrintArea .tr-kepala,
+  #transkripPrintArea #trKepala,
+  #transkripPrintArea .tr-nip,
+  #transkripPrintArea #trNipKepala{
+    font-size:12pt !important;
+  }
+}
+
+
+/* FINAL: ukuran bagian tanda tangan Transkrip benar-benar 12pt */
+#transkripPrintArea #trKotaTanggal,
+#transkripPrintArea #trKepala,
+#transkripPrintArea #trNipKepala,
+#transkripPrintArea .tr-kepala,
+#transkripPrintArea .tr-nip{
+  font-size:12pt !important;
+  line-height:1.25 !important;
+}
+#transkripPrintArea #trKepala{
+  font-weight:400 !important;
+}
+#transkripPrintArea #trNipKepala{
+  font-weight:400 !important;
+}
+@media print{
+  #transkripPrintArea #trKotaTanggal,
+  #transkripPrintArea #trKepala,
+  #transkripPrintArea #trNipKepala,
+  #transkripPrintArea .tr-kepala,
+  #transkripPrintArea .tr-nip{
+    font-size:12pt !important;
+    line-height:1.25 !important;
+  }
+}
+
+
+/* PERBAIKAN AKTUAL: seluruh teks blok tanda tangan Transkrip = 12pt */
+#transkripPrintArea .transkrip-footer,
+#transkripPrintArea .transkrip-footer > div,
+#transkripPrintArea .transkrip-footer .ttd-name,
+#transkripPrintArea .transkrip-footer #trKotaTanggal,
+#transkripPrintArea .transkrip-footer #trKepala,
+#transkripPrintArea .transkrip-footer #trNipKepala,
+#transkripPrintArea .transkrip-footer #trNipKepala::before{
+  font-size:12pt !important;
+  line-height:1.25 !important;
+}
+#transkripPrintArea .transkrip-footer .ttd-space{
+  font-size:0 !important;
+}
+@media print{
+  #transkripPrintArea .transkrip-footer,
+  #transkripPrintArea .transkrip-footer > div,
+  #transkripPrintArea .transkrip-footer .ttd-name,
+  #transkripPrintArea .transkrip-footer #trKotaTanggal,
+  #transkripPrintArea .transkrip-footer #trKepala,
+  #transkripPrintArea .transkrip-footer #trNipKepala{
+    font-size:12pt !important;
+    line-height:1.25 !important;
+  }
+}
+
+
+/* Final Transkrip: empat kolom proporsional A4 Portrait */
+#transkripPrintArea .transkrip-table{width:100%!important;max-width:100%!important;min-width:0!important;table-layout:fixed!important}
+#transkripPrintArea .transkrip-table th:nth-child(1),
+#transkripPrintArea .transkrip-table td:nth-child(1){width:8%!important;text-align:center!important}
+#transkripPrintArea .transkrip-table th:nth-child(2),
+#transkripPrintArea .transkrip-table td:nth-child(2){width:62%!important;text-align:left!important;overflow-wrap:anywhere!important}
+#transkripPrintArea .transkrip-table th:nth-child(3),
+#transkripPrintArea .transkrip-table td:nth-child(3){width:15%!important;text-align:center!important}
+#transkripPrintArea .transkrip-table th:nth-child(4),
+#transkripPrintArea .transkrip-table td:nth-child(4){width:15%!important;text-align:center!important}
+
+
+/* Final: Transkrip memakai 3 kolom dan satu baris Rata-rata di bawah semua mapel */
+#transkripPrintArea .transkrip-table{width:100%!important;table-layout:fixed!important}
+#transkripPrintArea .transkrip-table th:nth-child(1),
+#transkripPrintArea .transkrip-table td:nth-child(1){width:8%!important;text-align:center!important}
+#transkripPrintArea .transkrip-table th:nth-child(2),
+#transkripPrintArea .transkrip-table td:nth-child(2){width:72%!important;text-align:left!important}
+#transkripPrintArea .transkrip-table th:nth-child(3),
+#transkripPrintArea .transkrip-table td:nth-child(3){width:20%!important;text-align:center!important}
+#transkripPrintArea .tr-rata-total td{font-size:11pt!important;padding:4px 5px!important}
+
+
+/* Transkrip: header Mata Pelajaran di tengah, nama mapel tetap kiri */
+#transkripPrintArea .transkrip-table thead th:nth-child(2){
+  text-align:center!important;
+}
+#transkripPrintArea .transkrip-table tbody td:nth-child(2){
+  text-align:left!important;
+}
+
+
+#transkripPrintArea .transkrip-table thead th:nth-child(2){text-align:center!important}
+#transkripPrintArea .transkrip-table tbody td:nth-child(2){text-align:left!important}
+
+
+/* =====================================================
+   FINAL TRANSKRIP: NOMOR SATU BARIS + KOP BENAR-BENAR TENGAH
+   ===================================================== */
+.transkrip-kop{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  min-height:25mm!important;
+  box-sizing:border-box!important;
+}
+.transkrip-logo-wrap{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:25mm!important;
+  height:25mm!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+}
+.transkrip-kop-center{
+  display:block!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  padding:0!important;
+  margin:0!important;
+  text-align:center!important;
+}
+
+/* Nomor harus bersambung: "Nomor: 421", bukan turun ke baris berikutnya. */
+.transkrip-title .tr-nomor-surat,
+.transkrip-title .tr-nomor-surat span,
+#transkripPrintArea .transkrip-title .tr-nomor-surat,
+#transkripPrintArea .transkrip-title .tr-nomor-surat span{
+  font-size:12pt!important;
+  line-height:1.25!important;
+  font-family:Arial,sans-serif!important;
+  white-space:nowrap!important;
+}
+.transkrip-title .tr-nomor-surat{
+  display:block!important;
+  text-align:center!important;
+}
+.transkrip-title .tr-nomor-surat span{
+  display:inline!important;
+  visibility:visible!important;
+}
+
+/* Nilai dan nilai rata-rata selalu berada di tengah. */
+#transkripPrintArea .transkrip-table thead th:nth-child(3),
+#transkripPrintArea .transkrip-table tbody td:nth-child(3),
+#transkripPrintArea .transkrip-table .tr-rata-total td:last-child{
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+#transkripPrintArea .transkrip-table .tr-rata-total td:first-child{
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+
+@media print{
+  .transkrip-kop{
+    position:relative!important;
+    display:block!important;
+    width:100%!important;
+    min-height:25mm!important;
+  }
+  .transkrip-logo-wrap{
+    position:absolute!important;
+    left:0!important;
+    top:0!important;
+  }
+  .transkrip-kop-center{
+    width:100%!important;
+    text-align:center!important;
+  }
+  .transkrip-title .tr-nomor-surat,
+  .transkrip-title .tr-nomor-surat span,
+  #transkripPrintArea .transkrip-title .tr-nomor-surat,
+  #transkripPrintArea .transkrip-title .tr-nomor-surat span{
+    font-size:12pt!important;
+    white-space:nowrap!important;
+  }
+  #transkripPrintArea .transkrip-table thead th:nth-child(3),
+  #transkripPrintArea .transkrip-table tbody td:nth-child(3),
+  #transkripPrintArea .transkrip-table .tr-rata-total td:last-child,
+  #transkripPrintArea .transkrip-table .tr-rata-total td:first-child{
+    text-align:center!important;
+  }
+}
+
+
+/* PENETAPAN KELULUSAN MASSAL */
+.skl-bulk-card .form-group label{font-weight:700}.skl-bulk-table{min-width:980px}.skl-bulk-table th,.skl-bulk-table td{vertical-align:middle}.skl-bulk-table input[type=text],.skl-bulk-table select{width:100%;box-sizing:border-box;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}.skl-bulk-table td:nth-child(6){text-align:center}.skl-bulk-print-area{display:none}.skl-bulk-paper{page-break-after:always;break-after:page;margin:0 auto!important;box-shadow:none!important}.skl-bulk-paper:last-child{page-break-after:auto;break-after:auto}
+@media print{body.skl-bulk-print #page-skl>div:not(#sklBulkPrintArea){display:none!important}body.skl-bulk-print #sklBulkPrintArea{display:block!important;visibility:visible!important}.skl-bulk-paper{display:block!important;visibility:visible!important;width:210mm!important;height:297mm!important;min-height:297mm!important;padding:10mm 13mm!important;box-sizing:border-box!important;overflow:hidden!important}.skl-bulk-paper *{visibility:visible!important}.skl-bulk-paper .skl-table{font-size:9pt!important}.skl-bulk-paper .skl-table td:nth-child(3),.skl-bulk-paper .skl-table th:nth-child(3),.skl-bulk-paper .skl-table tfoot th:last-child{text-align:center!important}@page{size:A4 portrait;margin:0}}
+
+/* SKL: nilai mapel bulat, rata-rata tetap desimal dan seluruh baris rata-rata di tengah */
+.skl-table tfoot th,.skl-table tfoot td{text-align:center!important;vertical-align:middle!important}
+/* FINAL REQUESTED FIX: hanya pembulatan nilai mapel Transkrip dan rata-rata SKL di tengah */
+.transkrip-table tbody td:nth-child(3){text-align:center!important;}
+.skl-table tfoot th,.skl-table tfoot td{text-align:center!important;vertical-align:middle!important;}
+@media print{
+  .transkrip-table tbody td:nth-child(3){text-align:center!important;}
+  .skl-table tfoot th,.skl-table tfoot td{text-align:center!important;vertical-align:middle!important;}
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="login-logo">
+      📚
+    </div>
+
+    <div class="login-title">
+      Aplikasi Rekap Nilai Siswa SMPN 3 Bukit Raya
+    </div>
+
+    <div class="login-subtitle">
+      Desain Ahmad Ramlan
+    </div>
+
+
+    <div
+      id="loginError"
+      class="login-error"
+    ></div>
+
+
+    <div class="login-group">
+
+      <label>
+        Username
+      </label>
+
+      <input
+        id="loginUsername"
+        type="text"
+        placeholder="Masukkan username"
+      >
+
+    </div>
+
+
+    <div class="login-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Masukkan password"
+      >
+
+    </div>
+
+
+    <button
+      id="loginButton"
+      class="login-button"
+      onclick="doLogin()"
+    >
+      🔐 Masuk ke Aplikasi
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+
+    <div class="logo-title">
+      📚 Rekap Nilai
+    </div>
+
+    <div class="logo-subtitle">
+      Semester 1 – Semester 6
+    </div>
+
+  </div>
+
+
+  <div class="menu">
+
+    <button
+      class="active"
+      onclick="showPage('dashboard',this)"
+    >
+      📊 &nbsp; Dashboard
+    </button>
+
+
+    <button
+      onclick="showPage('siswa',this)"
+    >
+      👨‍🎓 &nbsp; Data Siswa
+    </button>
+
+
+    <button
+      onclick="showPage('mapel',this)"
+    >
+      📚 &nbsp; Data Mata Pelajaran
+    </button>
+
+
+    <button
+      onclick="showPage('nilai',this)"
+    >
+      📝 &nbsp; Rekap Nilai
+    </button>
+
+
+
+    <button
+      onclick="openLegerPage(this)"
+    >
+      📊 &nbsp; Leger Nilai
+    </button>
+
+    <button
+      onclick="openTranskripPage(this)"
+    >
+      📄 &nbsp; Transkrip Nilai
+    </button>
+
+
+    <button
+      id="menuSKL" onclick="openSKLPage(this)"
+    >
+      🏅 &nbsp; Surat Kelulusan (SKL)
+    </button>
+
+
+    <!-- MENU BARU -->
+
+    <button
+      onclick="showPage('ijazah',this)"
+    >
+      🎓 &nbsp; Nilai Ijazah
+    </button>
+
+
+    <button
+      onclick="showPage('pengaturan',this)"
+    >
+      ⚙️ &nbsp; Pengaturan
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+  <div
+    id="topbarTitle"
+    class="topbar-title"
+  >
+    Dashboard
+  </div>
+
+
+  <div class="user-area">
+
+    <span
+      id="schoolNameTop"
+      class="user-name"
+    >
+      Nama Sekolah
+    </span>
+
+
+    <button
+      class="logout-button"
+      onclick="doLogout()"
+    >
+      Keluar
+    </button>
+
+  </div>
+
+</header>
+
+
+<section class="content">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div
+  id="page-dashboard"
+  class="page active"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        Dashboard
+      </div>
+
+      <div class="page-description">
+        Ringkasan data aplikasi rekap nilai siswa
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="stats">
+
+
+    <div class="card stat-card">
+
+      <div>
+
+        <div class="stat-title">
+          Total Siswa
+        </div>
+
+        <div
+          id="statSiswa"
+          class="stat-value"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+        👨‍🎓
+      </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+      <div>
+
+        <div class="stat-title">
+          Siswa Aktif
+        </div>
+
+        <div
+          id="statSiswaAktif"
+          class="stat-value"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+        ✅
+      </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+      <div>
+
+        <div class="stat-title">
+          Mata Pelajaran
+        </div>
+
+        <div
+          id="statMapel"
+          class="stat-value"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+        📚
+      </div>
+
+    </div>
+
+
+    <div class="card stat-card">
+
+      <div>
+
+        <div class="stat-title">
+          Rata-rata Nilai
+        </div>
+
+        <div
+          id="statRata"
+          class="stat-value"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-icon">
+        📈
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Informasi Sekolah
+    </h3>
+
+    <div
+      id="dashboardSchool"
+      style="
+        line-height:1.8;
+        color:#64748b;
+      "
+    >
+      Memuat...
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     DATA SISWA
+===================================================== -->
+
+<div
+  id="page-siswa"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        Data Siswa
+      </div>
+
+      <div class="page-description">
+        Kelola data peserta didik
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn btn-primary"
+      onclick="openSiswaModal()"
+    >
+      ＋ Tambah Siswa
+    </button>
+
+  </div>
+
+
+  <div class="table-card">
+
+    <div class="table-toolbar">
+
+      <input
+        id="searchSiswa"
+        class="search"
+        type="text"
+        placeholder="Cari NISN, nama atau kelas..."
+        oninput="renderSiswa()"
+      >
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>No</th>
+            <th>NISN</th>
+            <th>Nama Siswa</th>
+            <th>Kelas</th>
+            <th>JK</th>
+            <th>Status</th>
+            <th>Aksi</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="tableSiswa"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAPEL
+===================================================== -->
+
+<div
+  id="page-mapel"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        Data Mata Pelajaran
+      </div>
+
+      <div class="page-description">
+        Kelola mata pelajaran
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn btn-primary"
+      onclick="openMapelModal()"
+    >
+      ＋ Tambah Mata Pelajaran
+    </button>
+
+  </div>
+
+
+  <div class="table-card">
+
+    <div class="table-toolbar">
+
+      <input
+        id="searchMapel"
+        class="search"
+        type="text"
+        placeholder="Cari kode atau mata pelajaran..."
+        oninput="renderMapel()"
+      >
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>No</th>
+            <th>Kode</th>
+            <th>Mata Pelajaran</th>
+            <th>KKM</th>
+            <th>Urutan</th>
+            <th>Status</th>
+            <th>Aksi</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="tableMapel"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     REKAP NILAI
+===================================================== -->
+
+<div
+  id="page-nilai"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        Rekap Nilai Semester 1–6
+      </div>
+
+      <div class="page-description">
+        Input dan kelola nilai siswa
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn btn-primary"
+      onclick="openNilaiModal()"
+    >
+      ＋ Input Nilai
+    </button>
+
+  </div>
+
+
+  <div class="table-card">
+
+    <div class="table-toolbar">
+
+      <select
+        id="filterNilaiSiswa"
+        style="max-width:300px;"
+        onchange="renderNilai()"
+      ></select>
+
+
+      <input
+        id="searchNilai"
+        class="search"
+        type="text"
+        placeholder="Cari siswa atau mata pelajaran..."
+        oninput="renderNilai()"
+      >
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>No</th>
+            <th>Nama Siswa</th>
+            <th>Mata Pelajaran</th>
+            <th>S1</th>
+            <th>S2</th>
+            <th>S3</th>
+            <th>S4</th>
+            <th>S5</th>
+            <th>S6</th>
+            <th>Rata-rata</th>
+            <th>Aksi</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="tableNilai"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     LEGER NILAI
+===================================================== -->
+<div id="page-leger" class="page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">📊 Leger Nilai</div>
+      <div class="page-description">Rekap nilai seluruh siswa berdasarkan mata pelajaran</div>
+    </div>
+    <button class="btn btn-success no-print" onclick="printLeger()">🖨️ Cetak Leger</button>
+  </div>
+
+  <div class="card no-print">
+    <div class="leger-toolbar">
+      <div class="form-group">
+        <label>Kelas</label>
+        <select id="legerKelas" onchange="renderLeger()">
+          <option value="">Semua Kelas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cari Siswa</label>
+        <input id="searchLeger" type="text" placeholder="Cari nama atau NISN..." oninput="renderLeger()">
+      </div>
+    </div>
+  </div>
+
+  <div id="legerPrintArea" class="card" style="margin-top:18px;">
+    <div class="leger-print-title" style="display:none;">
+      <h2 id="legerSchoolName">Nama Sekolah</h2>
+      <p id="legerSchoolInfo"></p>
+      <p><strong>LEGER NILAI SISWA</strong></p>
+    </div>
+    <div class="table-wrapper">
+      <table id="tableLeger" class="leger-table">
+        <thead id="headLeger"></thead>
+        <tbody id="bodyLeger"></tbody>
+        <tfoot id="footLeger"></tfoot>
+      </table>
+    </div>
+    <div id="legerNote" class="leger-note no-print"></div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     TRANSKRIP NILAI
+===================================================== -->
+<div id="page-transkrip" class="page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">📄 Transkrip Nilai</div>
+      <div class="page-description">Pratinjau transkrip nilai peserta didik dan ekspor PDF, Excel, atau Word</div>
+    </div>
+    <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+      <button class="btn btn-success" onclick="exportTranskripPDF()">📄 PDF</button>
+      <button class="btn btn-secondary" onclick="exportTranskripExcel()">📊 Excel</button>
+      <button class="btn btn-secondary" onclick="exportTranskripWord()">📝 Word</button>
+    </div>
+  </div>
+  <div class="card no-print">
+    <div class="form-group" style="max-width:520px;margin:0">
+      <label>Pilih Siswa</label>
+      <select id="transkrip_siswa" onchange="renderTranskrip()">
+        <option value="">Pilih siswa</option>
+      </select>
+    </div>
+  </div>
+  <div id="transkripPrintArea" class="transkrip-paper">
+    <div class="transkrip-kop">
+      <div class="transkrip-logo-wrap">
+        <img id="trLogo" class="transkrip-logo" alt="Logo sekolah">
+      </div>
+      <div class="transkrip-kop-center">
+        <div id="trInstansi" class="tr-instansi">-</div>
+        <div id="trSekolahKop" class="tr-sekolah">-</div>
+        <div class="tr-kecamatan">KECAMATAN <span id="trKecamatan">-</span></div>
+        <div id="trAlamat" class="tr-alamat">-</div>
+        <div class="tr-email">Email : <span id="trEmail">-</span></div>
+      </div>
+    </div>
+    <div class="transkrip-line"></div>
+    <div class="transkrip-title">
+      <h2>TRANSKRIP NILAI</h2>
+      <div class="tr-nomor-surat">Nomor: <span id="trNomor">-</span></div>
+    </div>
+    <div class="transkrip-identitas">
+      <div><span>Satuan Pendidikan</span><b>:</b><span id="trSekolah">-</span></div>
+      <div><span>Nomor Pokok Satuan Pendidikan</span><b>:</b><span id="trNpsn">-</span></div>
+      <div><span>Nama Lengkap</span><b>:</b><strong id="trNama">-</strong></div>
+      <div><span>Tempat, Tanggal Lahir</span><b>:</b><span id="trLahir">-</span></div>
+      <div><span>Nomor Induk Siswa Nasional</span><b>:</b><span id="trNisn">-</span></div>
+      <div><span>Nomor Ijazah</span><b>:</b><span id="trIjazah">-</span></div>
+      <div><span>Tanggal Kelulusan</span><b>:</b><span id="trLulus">-</span></div>
+    </div>
+    <table class="transkrip-table">
+      <thead><tr><th>No.</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead>
+      <tbody id="transkripBody"><tr><td colspan="3">Silakan pilih siswa.</td></tr></tbody>
+    </table>
+    <div class="transkrip-footer">
+      <div id="trKotaTanggal">-</div>
+      <div>Kepala Sekolah,</div>
+      <div class="ttd-space"></div>
+      <div class="ttd-name" id="trKepala">-</div>
+      <div>NIP. <span id="trNipKepala">-</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     SURAT KETERANGAN LULUS (SKL)
+===================================================== -->
+<div id="page-skl" class="page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">🏅 Surat Keterangan Lulus</div>
+      <div class="page-description">Membuat, menyimpan, dan mencetak Surat Keterangan Lulus (SKL) siswa kelas IX.</div>
+    </div>
+    <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+      <button class="btn btn-primary" onclick="saveSKL()">💾 Simpan Data SKL</button>
+      <button class="btn btn-success" onclick="printSKL()">📄 Cetak PDF</button>
+    </div>
+  </div>
+
+  <div class="card no-print" style="margin-bottom:18px">
+    <div class="form-grid" style="grid-template-columns:repeat(2,minmax(220px,1fr));gap:14px">
+      <div class="form-group"><label>Pilih Siswa</label><select id="skl_siswa" onchange="renderSKL()"><option value="">Pilih siswa</option></select></div>
+      <div class="form-group"><label>Nomor Induk Siswa (NIS)</label><input id="skl_nis" type="text" placeholder="Ketik NIS siswa untuk SKL"></div>
+      <div class="form-group"><label>Nomor SKL</label><input id="skl_nomor" type="text" placeholder="Contoh: 421.3/123/SMPN3-BR/2026"></div>
+      <div class="form-group"><label>Tanggal SKL / Tanggal Kelulusan</label><input id="skl_tanggal" type="text" placeholder="Contoh: 2 Juli 2026"></div>
+      <div class="form-group"><label>Nama Orang Tua/Wali</label><input id="skl_ortu" type="text" placeholder="Nama orang tua/wali"></div>
+      <div class="form-group"><label>Nomor Keputusan Kelulusan</label><input id="skl_keputusan" type="text" placeholder="Nomor SK Kepala Sekolah tentang penetapan kelulusan"></div>
+      <div class="form-group"><label>Tanggal Keputusan Kelulusan</label><input id="skl_tgl_keputusan" type="date"></div>
+      <div class="form-group"><label>Status Kelulusan</label><select id="skl_status"><option value="LULUS">LULUS</option><option value="TIDAK LULUS">TIDAK LULUS</option></select></div>
+      <div class="form-group"><label>Keterangan</label><input id="skl_keterangan" type="text" placeholder="Opsional"></div>
+    </div>
+    <div style="margin-top:10px;padding:10px 12px;background:#f8fafc;border-radius:8px;font-size:12px;color:#475569">
+      Format SKL mengikuti pedoman dokumen hasil belajar: memuat identitas peserta didik dan rata-rata nilai yang sama dengan nilai pada Transkrip Nilai. SKL diterbitkan pada tanggal penetapan kelulusan dan bersifat sementara sampai Ijazah diterbitkan.
+    </div>
+  </div>
+
+  <div class="card no-print skl-bulk-card" style="margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+      <div>
+        <div style="font-size:16px;font-weight:800;color:#0f172a">📋 Penetapan Kelulusan Kelas IX</div>
+        <div style="font-size:12px;color:#64748b;margin-top:3px">Tetapkan status kelulusan, nomor keputusan, dan tanggal secara massal untuk siswa yang dipilih.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary" type="button" onclick="selectAllSKLBulk(true)">☑️ Pilih Semua</button>
+        <button class="btn btn-secondary" type="button" onclick="selectAllSKLBulk(false)">⬜ Hapus Pilihan</button>
+      </div>
+    </div>
+    <div class="form-grid" style="grid-template-columns:repeat(4,minmax(170px,1fr));gap:12px">
+      <div class="form-group"><label>Filter Kelas</label><select id="skl_bulk_kelas" onchange="renderSKLBulkList()"><option value="IX">Kelas IX</option></select></div>
+      <div class="form-group"><label>Status Kelulusan</label><select id="skl_bulk_status"><option value="LULUS">LULUS</option><option value="TIDAK LULUS">TIDAK LULUS</option></select></div>
+      <div class="form-group"><label>Nomor Keputusan</label><input id="skl_bulk_keputusan" type="text" placeholder="Nomor keputusan kelulusan"></div>
+      <div class="form-group"><label>Tanggal Keputusan</label><input id="skl_bulk_tgl_keputusan" type="date"></div>
+      <div class="form-group"><label>Tanggal SKL / Kelulusan</label><input id="skl_bulk_tanggal" type="text" placeholder="Contoh: 2 Juli 2026"></div>
+      <div class="form-group"><label>Pola Nomor SKL</label><input id="skl_bulk_prefix" type="text" value="421.3/{n}/SMPN3-BR/2026" placeholder="Gunakan {n} untuk nomor urut"></div>
+      <div class="form-group"><label>Nomor Urut Awal</label><input id="skl_bulk_start" type="number" value="1" min="1"></div>
+      <div class="form-group" style="display:flex;align-items:end"><button class="btn btn-primary" type="button" onclick="generateSKLBulkNumbers()" style="width:100%">🔢 Buat Nomor SKL</button></div>
+    </div>
+    <div id="sklBulkSummary" style="margin:10px 0;font-size:12px;color:#475569">Belum ada siswa yang dipilih.</div>
+    <div class="table-wrap" style="max-height:420px;overflow:auto">
+      <table class="data-table skl-bulk-table"><thead><tr><th style="width:45px;text-align:center"><input id="skl_bulk_check_all" type="checkbox" onchange="selectAllSKLBulk(this.checked)"></th><th>No.</th><th>NISN</th><th>Nama Siswa</th><th>Kelas</th><th>Rata-rata</th><th>Status</th><th>Nomor SKL</th></tr></thead><tbody id="sklBulkBody"><tr><td colspan="8" class="empty">Memuat siswa...</td></tr></tbody></table>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px">
+      <button class="btn btn-success" type="button" onclick="saveSKLBulk()">💾 Simpan Penetapan Terpilih</button>
+      <button class="btn btn-primary" type="button" onclick="printSKLBulk()">🖨️ Cetak SKL Terpilih</button>
+    </div>
+  </div>
+
+  <div id="sklPrintArea" class="skl-paper">
+    <div class="skl-kop">
+      <div class="skl-logo-wrap"><img id="sklLogo" class="skl-logo" alt="Logo sekolah"></div>
+      <div class="skl-kop-center">
+        <div id="sklInstansi" class="skl-instansi">-</div>
+        <div id="sklSekolahKop" class="skl-sekolah">-</div>
+        <div class="skl-kecamatan">KECAMATAN <span id="sklKecamatan">-</span></div>
+        <div id="sklAlamat" class="skl-alamat">-</div>
+        <div class="skl-email">Email : <span id="sklEmail">-</span></div>
+      </div>
+    </div>
+    <div class="skl-line"></div>
+    <div class="skl-title"><h2>SURAT KETERANGAN LULUS</h2><div>Nomor: <span id="sklPrintNomor">-</span></div></div>
+    <p class="skl-intro">Yang bertanda tangan di bawah ini, Kepala <strong id="sklPrintSekolah">-</strong>, menerangkan bahwa:</p>
+    <div class="skl-identitas">
+      <div><span>Nama</span><b>:</b><strong id="sklNama">-</strong></div>
+      <div><span>Tempat, Tanggal Lahir</span><b>:</b><span id="sklLahir">-</span></div>
+      <div><span>Nama Orang Tua/Wali</span><b>:</b><span id="sklPrintOrtu">-</span></div>
+      <div><span>Nomor Induk Siswa</span><b>:</b><span id="sklNis">-</span></div>
+      <div><span>Nomor Induk Siswa Nasional (NISN)</span><b>:</b><span id="sklNisn">-</span></div>
+    </div>
+    <p class="skl-statement">Berdasarkan keputusan Kepala Sekolah <strong id="sklKeputusanSekolah">-</strong> Nomor <strong id="sklPrintKeputusan">-</strong> tanggal <strong id="sklPrintTglKeputusan">-</strong>, peserta didik tersebut dinyatakan:</p>
+    <div id="sklStatusPrint" class="skl-status">LULUS</div>
+    <p class="skl-statement">dari <strong id="sklSekolahPernyataan">-</strong> Tahun Pelajaran <strong id="sklTahunPelajaran">-</strong>, dengan rata-rata nilai sebagai berikut:</p>
+    <table class="skl-table"><thead><tr><th>No.</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody id="sklBody"><tr><td colspan="3">Silakan pilih siswa.</td></tr></tbody><tfoot><tr><th colspan="2">Rata-rata</th><th id="sklRata">-</th></tr></tfoot></table>
+    <p class="skl-note">Surat Keterangan Lulus ini dapat digunakan untuk keperluan melanjutkan pendidikan dan keperluan lain sesuai kebutuhan, serta bersifat sementara sampai dengan diterbitkannya Ijazah.</p>
+    <div class="skl-footer"><div id="sklKotaTanggal">-</div><div>Kepala Sekolah,</div><div class="skl-ttd-space"></div><strong id="sklKepala">-</strong><div>NIP. <span id="sklNip">-</span></div></div>
+  </div>
+
+  <div id="sklBulkPrintArea" class="skl-bulk-print-area no-print"></div>
+</div>
+
+<!-- =====================================================
+     MENU IJAZAH
+===================================================== -->
+
+<div
+  id="page-ijazah"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        🎓 Nilai Ijazah
+      </div>
+
+      <div class="page-description">
+        Rekap nilai Semester 1 sampai Semester 6
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn btn-success"
+      onclick="printIjazah()"
+    >
+      🖨️ Cetak Rekap
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+
+    <div
+      class="form-group"
+      style="max-width:450px;"
+    >
+
+      <label>
+        Pilih Siswa
+      </label>
+
+      <select
+        id="ijazah_siswa"
+        onchange="renderIjazah()"
+      ></select>
+
+    </div>
+
+
+    <div
+      id="ijazahContent"
+      style="margin-top:20px;"
+    >
+
+      <div class="empty">
+        Silakan pilih siswa untuk melihat rekap nilai.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     PENGATURAN
+===================================================== -->
+
+<div
+  id="page-pengaturan"
+  class="page"
+>
+
+  <div class="page-header">
+
+    <div>
+
+      <div class="page-title">
+        Pengaturan
+      </div>
+
+      <div class="page-description">
+        Identitas sekolah
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>
+          Nama Sekolah
+        </label>
+
+        <input
+          id="set_nama_sekolah"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Instansi Pemerintah
+        </label>
+
+        <input
+          id="set_instansi_pemerintah"
+          type="text"
+          placeholder="Contoh: PEMERINTAH KABUPATEN KATINGAN"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Email Sekolah
+        </label>
+
+        <input
+          id="set_email_sekolah"
+          type="email"
+          placeholder="contoh@sekolah.sch.id"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          URL Logo Sekolah
+        </label>
+
+        <input
+          id="set_url_logo"
+          type="url"
+          placeholder="https://.../logo.png"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          NPSN
+        </label>
+
+        <input
+          id="set_npsn"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Alamat Sekolah
+        </label>
+
+        <input
+          id="set_alamat_sekolah"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Desa/Kelurahan
+        </label>
+
+        <input
+          id="set_desa"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Kecamatan
+        </label>
+
+        <input
+          id="set_kecamatan"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Kabupaten
+        </label>
+
+        <input
+          id="set_kabupaten"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Provinsi
+        </label>
+
+        <input
+          id="set_provinsi"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Tempat Tanda Tangan SKL
+        </label>
+
+        <input
+          id="set_tempat_tanda_tangan_skl"
+          type="text"
+          placeholder="Contoh: Katingan"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Tahun Pelajaran
+        </label>
+
+        <input
+          id="set_tahun_pelajaran"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Wali Kelas
+        </label>
+
+        <input
+          id="set_wali_kelas"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          NIP Wali Kelas
+        </label>
+
+        <input
+          id="set_nip_wali_kelas"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Kepala Sekolah
+        </label>
+
+        <input
+          id="set_kepala_sekolah"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          NIP Kepala Sekolah
+        </label>
+
+        <input
+          id="set_nip_kepala_sekolah"
+          type="text"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Semester Aktif
+        </label>
+
+        <select
+          id="set_semester_aktif"
+        >
+
+          <option value="1">
+            Semester 1
+          </option>
+
+          <option value="2">
+            Semester 2
+          </option>
+
+          <option value="3">
+            Semester 3
+          </option>
+
+          <option value="4">
+            Semester 4
+          </option>
+
+          <option value="5">
+            Semester 5
+          </option>
+
+          <option value="6">
+            Semester 6
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        class="btn btn-primary"
+        onclick="saveSettings()"
+      >
+        💾 Simpan Pengaturan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL SISWA
+===================================================== -->
+
+<div
+  id="modalSiswa"
+  class="modal"
+>
+
+<div class="modal-box">
+
+
+<div class="modal-header">
+
+<div
+  id="modalSiswaTitle"
+  class="modal-title"
+>
+Tambah Siswa
+</div>
+
+<button
+  class="modal-close"
+  onclick="closeModal('modalSiswa')"
+>
+×
+</button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<input
+  id="siswa_id"
+  type="hidden"
+>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+  NISN
+</label>
+
+<input
+  id="siswa_nisn"
+  type="text"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Nama Lengkap
+</label>
+
+<input
+  id="siswa_nama"
+  type="text"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Kelas
+</label>
+
+<input
+  id="siswa_kelas"
+  type="text"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Jenis Kelamin
+</label>
+
+<select
+  id="siswa_jk"
+>
+
+<option value="">
+  Pilih
+</option>
+
+<option value="L">
+  Laki-laki
+</option>
+
+<option value="P">
+  Perempuan
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group"><label>Tempat Lahir</label><input id="siswa_tempat_lahir" type="text" placeholder="Contoh: Kasongan"></div>
+<div class="form-group"><label>Tanggal Lahir</label><input id="siswa_tanggal_lahir" type="date"></div>
+<div class="form-group"><label>Nomor Ijazah</label><input id="siswa_nomor_ijazah" type="text" placeholder="Nomor ijazah"></div>
+<div class="form-group"><label>Nomor Surat Transkrip</label><input id="siswa_nomor_surat" type="text" placeholder="Nomor surat untuk siswa ini"></div>
+<div class="form-group"><label>Tanggal Kelulusan</label><input id="siswa_tanggal_lulus" type="date"></div>
+
+<div class="form-group">
+
+<label>
+  Status
+</label>
+
+<select
+  id="siswa_status"
+>
+
+<option value="Aktif">
+  Aktif
+</option>
+
+<option value="Lulus">
+  Lulus
+</option>
+
+<option value="Tidak Aktif">
+  Tidak Aktif
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  class="btn btn-secondary"
+  onclick="closeModal('modalSiswa')"
+>
+Batal
+</button>
+
+<button
+  class="btn btn-primary"
+  onclick="saveSiswa()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL MAPEL
+===================================================== -->
+
+<div
+  id="modalMapel"
+  class="modal"
+>
+
+<div class="modal-box">
+
+
+<div class="modal-header">
+
+<div
+  id="modalMapelTitle"
+  class="modal-title"
+>
+Tambah Mata Pelajaran
+</div>
+
+<button
+  class="modal-close"
+  onclick="closeModal('modalMapel')"
+>
+×
+</button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<input
+  id="mapel_id"
+  type="hidden"
+>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+  Kode
+</label>
+
+<input
+  id="mapel_kode"
+  type="text"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Nama Mata Pelajaran
+</label>
+
+<input
+  id="mapel_nama"
+  type="text"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  KKM
+</label>
+
+<input
+  id="mapel_kkm"
+  type="number"
+  min="0"
+  max="100"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Urutan
+</label>
+
+<input
+  id="mapel_urutan"
+  type="number"
+  min="1"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Status
+</label>
+
+<select
+  id="mapel_status"
+>
+
+<option value="Aktif">
+  Aktif
+</option>
+
+<option value="Tidak Aktif">
+  Tidak Aktif
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  class="btn btn-secondary"
+  onclick="closeModal('modalMapel')"
+>
+Batal
+</button>
+
+<button
+  class="btn btn-primary"
+  onclick="saveMapel()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL NILAI
+===================================================== -->
+
+<div
+  id="modalNilai"
+  class="modal"
+>
+
+<div class="modal-box">
+
+
+<div class="modal-header">
+
+<div class="modal-title">
+Input Nilai Semester 1–6
+</div>
+
+<button
+  class="modal-close"
+  onclick="closeModal('modalNilai')"
+>
+×
+</button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+  Siswa
+</label>
+
+<select
+  id="nilai_siswa"
+  onchange="loadExistingNilai()"
+></select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  Mata Pelajaran
+</label>
+
+<select
+  id="nilai_mapel"
+  onchange="loadExistingNilai()"
+></select>
+
+</div>
+
+
+</div>
+
+
+<div
+  style="
+    margin-top:20px;
+    margin-bottom:10px;
+    font-weight:700;
+  "
+>
+Nilai Semester
+</div>
+
+
+<div class="semester-grid">
+
+
+<div class="semester-card">
+
+<label>
+  Semester 1
+</label>
+
+<input
+  id="nilai_s1"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+<div class="semester-card">
+
+<label>
+  Semester 2
+</label>
+
+<input
+  id="nilai_s2"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+<div class="semester-card">
+
+<label>
+  Semester 3
+</label>
+
+<input
+  id="nilai_s3"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+<div class="semester-card">
+
+<label>
+  Semester 4
+</label>
+
+<input
+  id="nilai_s4"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+<div class="semester-card">
+
+<label>
+  Semester 5
+</label>
+
+<input
+  id="nilai_s5"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+<div class="semester-card">
+
+<label>
+  Semester 6
+</label>
+
+<input
+  id="nilai_s6"
+  type="number"
+  min="0"
+  max="100"
+  oninput="calculatePreview()"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="average-box">
+
+<div
+  style="
+    font-size:12px;
+    color:#64748b;
+  "
+>
+Rata-rata Semester 1–6
+</div>
+
+<div
+  id="previewAverage"
+  class="average-number"
+>
+-
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  class="btn btn-secondary"
+  onclick="closeModal('modalNilai')"
+>
+Batal
+</button>
+
+<button
+  class="btn btn-primary"
+  onclick="saveNilai()"
+>
+💾 Simpan Nilai
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+  id="toastContainer"
+  class="toast-container"
+></div>
+
+
+<!-- LOADING -->
+
+<div
+  id="loading"
+  class="loading"
+>
+
+<div class="loader-box">
+
+<div class="spinner"></div>
+
+<div
+  id="loadingText"
+  style="
+    margin-top:12px;
+    color:#64748b;
+  "
+>
+Memproses data...
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+
+
+/* =====================================================
+   CLOUDFLARE WORKERS BRIDGE
+   Endpoint diatur pada API_BASE. Tidak mengubah logika UI.
+===================================================== */
+window.API_BASE = window.API_BASE || 'https://rekapnilai.ahmad-ramlan-mei.workers.dev/';
+(function () {
+  let successHandler = null;
+  let failureHandler = null;
+  const runner = new Proxy({}, {
+    get: function (_target, property) {
+      if (property === 'withSuccessHandler') {
+        return function (fn) { successHandler = fn; return runner; };
+      }
+      if (property === 'withFailureHandler') {
+        return function (fn) { failureHandler = fn; return runner; };
+      }
+      if (property === 'withUserObject') {
+        return function () { return runner; };
+      }
+      return function () {
+        const method = String(property);
+        const args = Array.from(arguments);
+        const onSuccess = successHandler;
+        const onFailure = failureHandler;
+        successHandler = null;
+        failureHandler = null;
+        fetch(window.API_BASE.replace(/\/+$/, '') + '/api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ method: method, args: args })
+        })
+        .then(async function (response) {
+          const data = await response.json().catch(function () { return {}; });
+          if (!response.ok || data.success !== true) {
+            throw new Error(data.error || ('HTTP ' + response.status));
+          }
+          return data.result;
+        })
+        .then(function (result) { if (typeof onSuccess === 'function') onSuccess(result); })
+        .catch(function (error) {
+          if (typeof onFailure === 'function') onFailure({ message: error.message });
+          else console.error('Bridge error:', error);
+        });
+      };
+    }
+  });
+  window.google = window.google || {};
+  window.google.script = window.google.script || {};
+  window.google.script.run = runner;
+})();
+
+/* =====================================================
+   DATA APLIKASI
+===================================================== */
+
+let APP_DATA = {
+
+  dashboard: {},
+
+  siswa: [],
+
+  mapel: [],
+
+  nilai: [],
+
+  settings: {}
+
+};
+
+
+let SESSION_TOKEN =
+  sessionStorage.getItem(
+    'REKAP_NILAI_TOKEN'
+  ) || '';
+
+
+let isProcessing = false;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+
+    if (
+      SESSION_TOKEN
+    ) {
+
+      showLogin(false);
+
+      loadApplication();
+
+    } else {
+
+      showLogin(true);
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function doLogin() {
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  const username =
+    document
+      .getElementById(
+        'loginUsername'
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        'loginPassword'
+      )
+      .value;
+
+
+  if (!username) {
+
+    showLoginError(
+      'Username wajib diisi.'
+    );
+
+    return;
+
+  }
+
+
+  if (!password) {
+
+    showLoginError(
+      'Password wajib diisi.'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'loginButton'
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    'Memeriksa login...';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          '🔐 Masuk ke Aplikasi';
+
+
+        if (
+          !result ||
+          !result.token
+        ) {
+
+          showLoginError(
+            'Token login tidak diterima server.'
+          );
+
+          return;
+
+        }
+
+
+        SESSION_TOKEN =
+          result.token;
+
+
+        sessionStorage.setItem(
+          'REKAP_NILAI_TOKEN',
+          SESSION_TOKEN
+        );
+
+
+        showLogin(false);
+
+        loadApplication();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          '🔐 Masuk ke Aplikasi';
+
+
+        showLoginError(
+          getErrorMessage(
+            error
+          )
+        );
+
+      }
+    )
+
+    .login(
+      username,
+      password
+    );
+
+}
+
+
+/* =====================================================
+   LOAD APPLICATION
+===================================================== */
+
+function loadApplication() {
+
+  if (!SESSION_TOKEN) {
+
+    showLogin(true);
+
+    return;
+
+  }
+
+
+  setLoading(
+    true,
+    'Memuat data aplikasi...'
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        try {
+
+          let data =
+            result;
+
+
+          if (
+            typeof data ===
+            'string'
+          ) {
+
+            data =
+              JSON.parse(
+                data
+              );
+
+          }
+
+
+          if (
+            !data ||
+            typeof data !==
+            'object'
+          ) {
+
+            throw new Error(
+              'Data dari server tidak valid.'
+            );
+
+          }
+
+
+          APP_DATA = {
+
+            dashboard:
+              data.dashboard || {},
+
+            siswa:
+              Array.isArray(
+                data.siswa
+              )
+                ? data.siswa
+                : [],
+
+            mapel:
+              Array.isArray(
+                data.mapel
+              )
+                ? data.mapel
+                : [],
+
+            nilai:
+              Array.isArray(
+                data.nilai
+              )
+                ? data.nilai
+                : [],
+
+            settings:
+              data.settings || {}
+
+          };
+
+
+          renderAll();
+
+
+          setLoading(false);
+
+
+          if (
+            APP_DATA.siswa.length === 0 &&
+            APP_DATA.mapel.length === 0
+          ) {
+
+            toast(
+              'Koneksi berhasil. Data aplikasi belum tersedia.',
+              'warning'
+            );
+
+          }
+
+        }
+
+        catch(error) {
+
+          setLoading(false);
+
+          toast(
+            getErrorMessage(error),
+            'error'
+          );
+
+        }
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        setLoading(false);
+
+        const message =
+          getErrorMessage(
+            error
+          );
+
+
+        if (
+          message
+            .toLowerCase()
+            .includes('sesi')
+        ) {
+
+          sessionExpired(
+            message
+          );
+
+        } else {
+
+          toast(
+            message,
+            'error'
+          );
+
+        }
+
+      }
+    )
+
+    .getInitialData(
+      SESSION_TOKEN
+    );
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+===================================================== */
+
+function renderAll() {
+
+  renderDashboard();
+
+  renderSiswa();
+
+  renderMapel();
+
+  populateNilaiSelects();
+
+  renderNilai();
+
+  populateIjazahSelect();
+
+  populateTranskripSelect();
+
+  renderSettings();
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function renderDashboard() {
+
+  const d =
+    APP_DATA.dashboard || {};
+
+
+  document.getElementById(
+    'statSiswa'
+  ).textContent =
+    d.siswa || 0;
+
+
+  document.getElementById(
+    'statSiswaAktif'
+  ).textContent =
+    d.siswaAktif || 0;
+
+
+  document.getElementById(
+    'statMapel'
+  ).textContent =
+    d.mapel || 0;
+
+
+  document.getElementById(
+    'statRata'
+  ).textContent =
+    d.rataRata || 0;
+
+
+  const s =
+    APP_DATA.settings || {};
+
+
+  document.getElementById(
+    'schoolNameTop'
+  ).textContent =
+    s.nama_sekolah ||
+    'Nama Sekolah';
+
+
+  document.getElementById(
+    'dashboardSchool'
+  ).innerHTML = `
+
+    <strong>
+      ${escapeHtml(
+        s.nama_sekolah ||
+        'Nama Sekolah'
+      )}
+    </strong>
+
+    <br>
+
+    NPSN:
+    ${escapeHtml(
+      s.npsn || '-'
+    )}
+
+    <br>
+
+    Alamat:
+    ${escapeHtml(
+      s.alamat_sekolah || '-'
+    )}
+
+    <br>
+
+    Kecamatan:
+    ${escapeHtml(
+      s.kecamatan || '-'
+    )}
+
+    <br>
+
+    Kabupaten:
+    ${escapeHtml(
+      s.kabupaten || '-'
+    )}
+
+    <br>
+
+    Provinsi:
+    ${escapeHtml(
+      s.provinsi || '-'
+    )}
+
+    <br>
+
+    Wali Kelas:
+    ${escapeHtml(
+      s.wali_kelas || '-'
+    )}
+
+    <br>
+
+    Kepala Sekolah:
+    ${escapeHtml(
+      s.kepala_sekolah || '-'
+    )}
+
+  `;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(
+  page,
+  button
+) {
+
+  document
+    .querySelectorAll(
+      '.page'
+    )
+    .forEach(
+      function(item) {
+
+        item.classList.remove(
+          'active'
+        );
+
+      }
+    );
+
+
+  const target =
+    document.getElementById(
+      'page-' + page
+    );
+
+
+  if (target) {
+
+    target.classList.add(
+      'active'
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      '.menu button'
+    )
+    .forEach(
+      function(item) {
+
+        item.classList.remove(
+          'active'
+        );
+
+      }
+    );
+
+
+  if (button) {
+
+    button.classList.add(
+      'active'
+    );
+
+  }
+
+
+  const titles = {
+
+    dashboard:
+      'Dashboard',
+
+    siswa:
+      'Data Siswa',
+
+    mapel:
+      'Data Mata Pelajaran',
+
+    nilai:
+      'Rekap Nilai',
+
+    leger:
+      'Leger Nilai',
+
+    transkrip:
+      'Transkrip Nilai',
+
+    skl:
+      'Surat Keterangan Lulus',
+
+    ijazah:
+      'Nilai Ijazah',
+
+    pengaturan:
+      'Pengaturan'
+
+  };
+
+
+  document.getElementById(
+    'topbarTitle'
+  ).textContent =
+    titles[page] ||
+    'Aplikasi';
+
+}
+
+
+/* =====================================================
+   SISWA
+===================================================== */
+
+function renderSiswa() {
+
+  const tbody =
+    document.getElementById(
+      'tableSiswa'
+    );
+
+
+  const keyword =
+    (
+      document.getElementById(
+        'searchSiswa'
+      ).value ||
+      ''
+    )
+    .toLowerCase()
+    .trim();
+
+
+  const data =
+    APP_DATA.siswa.filter(
+      function(item) {
+
+        const text =
+          (
+            item.nisn || ''
+          ) +
+          ' ' +
+          (
+            item.nama || ''
+          ) +
+          ' ' +
+          (
+            item.kelas || ''
+          );
+
+
+        return (
+          !keyword ||
+          text
+            .toLowerCase()
+            .includes(
+              keyword
+            )
+        );
+
+      }
+    );
+
+
+  if (
+    data.length === 0
+  ) {
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td colspan="7">
+
+          <div class="empty">
+            Belum ada data siswa.
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    data.map(
+      function(item,index) {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${index + 1}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.nisn
+              )}
+            </td>
+
+            <td>
+              <strong>
+                ${escapeHtml(
+                  item.nama
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.kelas
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.jk
+              )}
+            </td>
+
+            <td>
+
+              <span
+                class="
+                  badge
+                  ${
+                    item.status ===
+                    'Aktif'
+                      ? 'badge-success'
+                      : 'badge-danger'
+                  }
+                "
+              >
+                ${escapeHtml(
+                  item.status
+                )}
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-warning btn-small"
+                onclick="
+                  openSiswaModal(
+                    '${jsString(item.id)}'
+                  )
+                "
+              >
+                Edit
+              </button>
+
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="
+                  hapusSiswa(
+                    '${jsString(item.id)}'
+                  )
+                "
+              >
+                Hapus
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    )
+    .join('');
+
+}
+
+
+/* =====================================================
+   MODAL SISWA
+===================================================== */
+
+function toDateInput(v){if(!v)return'';const s=String(v).trim();if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);if(m)return m[3]+'-'+String(m[2]).padStart(2,'0')+'-'+String(m[1]).padStart(2,'0');const d=new Date(s);return isNaN(d.getTime())?'':d.toISOString().slice(0,10);}
+
+function openSiswaModal(
+  id
+) {
+
+  document.getElementById(
+    'siswa_id'
+  ).value = '';
+
+
+  document.getElementById(
+    'siswa_nisn'
+  ).value = '';
+
+
+  document.getElementById(
+    'siswa_nama'
+  ).value = '';
+
+
+  document.getElementById(
+    'siswa_kelas'
+  ).value = '';
+
+
+  document.getElementById(
+    'siswa_jk'
+  ).value = '';
+
+
+  document.getElementById(
+    'siswa_status'
+  ).value = 'Aktif';
+
+  document.getElementById('siswa_tempat_lahir').value='';
+  document.getElementById('siswa_tanggal_lahir').value='';
+  document.getElementById('siswa_nomor_ijazah').value='';
+  document.getElementById('siswa_nomor_surat').value='';
+  document.getElementById('siswa_tanggal_lulus').value='';
+
+
+  document.getElementById(
+    'modalSiswaTitle'
+  ).textContent =
+    id
+      ? 'Edit Data Siswa'
+      : 'Tambah Siswa';
+
+
+  if (id) {
+
+    const item =
+      APP_DATA.siswa.find(
+        function(x) {
+
+          return (
+            String(x.id) ===
+            String(id)
+          );
+
+        }
+      );
+
+
+    if (!item) {
+
+      toast(
+        'Data siswa tidak ditemukan.',
+        'error'
+      );
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      'siswa_id'
+    ).value =
+      item.id;
+
+
+    document.getElementById(
+      'siswa_nisn'
+    ).value =
+      item.nisn || '';
+
+
+    document.getElementById(
+      'siswa_nama'
+    ).value =
+      item.nama || '';
+
+
+    document.getElementById(
+      'siswa_kelas'
+    ).value =
+      item.kelas || '';
+
+
+    document.getElementById(
+      'siswa_jk'
+    ).value =
+      item.jk || '';
+
+
+    document.getElementById(
+      'siswa_status'
+    ).value =
+      item.status ||
+      'Aktif';
+
+    document.getElementById('siswa_tempat_lahir').value=item.tempatLahir||'';
+    document.getElementById('siswa_tanggal_lahir').value=toDateInput(item.tanggalLahir||'');
+    document.getElementById('siswa_nomor_ijazah').value=item.nomorIjazah||'';
+    document.getElementById('siswa_nomor_surat').value=item.nomorSurat||'';
+    document.getElementById('siswa_tanggal_lulus').value=toDateInput(item.tanggalLulus||'');
+
+  }
+
+
+  document.getElementById(
+    'modalSiswa'
+  ).classList.add(
+    'show'
+  );
+
+}
+
+
+/* =====================================================
+   SAVE SISWA
+===================================================== */
+
+function saveSiswa() {
+
+  const data = {
+
+    id:
+      document.getElementById(
+        'siswa_id'
+      ).value.trim(),
+
+    nisn:
+      document.getElementById(
+        'siswa_nisn'
+      ).value.trim(),
+
+    nama:
+      document.getElementById(
+        'siswa_nama'
+      ).value.trim(),
+
+    kelas:
+      document.getElementById(
+        'siswa_kelas'
+      ).value.trim(),
+
+    jk:
+      document.getElementById(
+        'siswa_jk'
+      ).value,
+
+    status:
+      document.getElementById(
+        'siswa_status'
+      ).value,
+
+    tempatLahir:document.getElementById('siswa_tempat_lahir').value.trim(),
+    tanggalLahir:document.getElementById('siswa_tanggal_lahir').value,
+    nomorIjazah:document.getElementById('siswa_nomor_ijazah').value.trim(),
+    nomorSurat:document.getElementById('siswa_nomor_surat').value.trim(),
+    tanggalLulus:document.getElementById('siswa_tanggal_lulus').value
+
+  };
+
+
+  if (!data.nama) {
+
+    toast(
+      'Nama siswa wajib diisi.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  setLoading(
+    true,
+    'Menyimpan data siswa...'
+  );
+
+
+  const success =
+    function(result) {
+
+      closeModal(
+        'modalSiswa'
+      );
+
+      toast(
+        result.message,
+        'success'
+      );
+
+      loadApplication();
+
+    };
+
+
+  const failure =
+    function(error) {
+
+      setLoading(
+        false
+      );
+
+      toast(
+        getErrorMessage(error),
+        'error'
+      );
+
+    };
+
+
+  if (data.id) {
+
+    google.script.run
+
+      .withSuccessHandler(
+        success
+      )
+
+      .withFailureHandler(
+        failure
+      )
+
+      .updateSiswa(
+        SESSION_TOKEN,
+        data
+      );
+
+  } else {
+
+    google.script.run
+
+      .withSuccessHandler(
+        success
+      )
+
+      .withFailureHandler(
+        failure
+      )
+
+      .addSiswa(
+        SESSION_TOKEN,
+        data
+      );
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE SISWA
+===================================================== */
+
+function hapusSiswa(
+  id
+) {
+
+  const item =
+    APP_DATA.siswa.find(
+      function(x) {
+
+        return (
+          String(x.id) ===
+          String(id)
+        );
+
+      }
+    );
+
+
+  if (!item) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      'Hapus siswa "' +
+      item.nama +
+      '"?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  setLoading(
+    true,
+    'Menghapus data siswa...'
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        toast(
+          result.message,
+          'success'
+        );
+
+        loadApplication();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        setLoading(false);
+
+        toast(
+          getErrorMessage(error),
+          'error'
+        );
+
+      }
+    )
+
+    .deleteSiswa(
+      SESSION_TOKEN,
+      id
+    );
+
+}
+
+
+/* =====================================================
+   MAPEL
+===================================================== */
+
+function renderMapel() {
+
+  const tbody =
+    document.getElementById(
+      'tableMapel'
+    );
+
+
+  const keyword =
+    (
+      document.getElementById(
+        'searchMapel'
+      ).value ||
+      ''
+    )
+    .toLowerCase()
+    .trim();
+
+
+  const data =
+    APP_DATA.mapel.filter(
+      function(item) {
+
+        const text =
+          (
+            item.kode || ''
+          ) +
+          ' ' +
+          (
+            item.nama || ''
+          );
+
+
+        return (
+          !keyword ||
+          text
+            .toLowerCase()
+            .includes(
+              keyword
+            )
+        );
+
+      }
+    );
+
+
+  if (
+    data.length === 0
+  ) {
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td colspan="7">
+
+          <div class="empty">
+            Belum ada mata pelajaran.
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    data.map(
+      function(item,index) {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${index + 1}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.kode
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.nama
+              )}
+            </td>
+
+            <td>
+              ${displayNumber(
+                item.kkm
+              )}
+            </td>
+
+            <td>
+              ${displayNumber(
+                item.urutan
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.status
+              )}
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-warning btn-small"
+                onclick="
+                  openMapelModal(
+                    '${jsString(item.id)}'
+                  )
+                "
+              >
+                Edit
+              </button>
+
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="
+                  hapusMapel(
+                    '${jsString(item.id)}'
+                  )
+                "
+              >
+                Hapus
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    )
+    .join('');
+
+}
+
+
+/* =====================================================
+   MODAL MAPEL
+===================================================== */
+
+function openMapelModal(
+  id
+) {
+
+  document.getElementById(
+    'mapel_id'
+  ).value = '';
+
+  document.getElementById(
+    'mapel_kode'
+  ).value = '';
+
+  document.getElementById(
+    'mapel_nama'
+  ).value = '';
+
+  document.getElementById(
+    'mapel_kkm'
+  ).value = '';
+
+  document.getElementById(
+    'mapel_urutan'
+  ).value = '';
+
+  document.getElementById(
+    'mapel_status'
+  ).value = 'Aktif';
+
+
+  if (id) {
+
+    const item =
+      APP_DATA.mapel.find(
+        function(x) {
+
+          return (
+            String(x.id) ===
+            String(id)
+          );
+
+        }
+      );
+
+
+    if (!item) {
+      return;
+    }
+
+
+    document.getElementById(
+      'mapel_id'
+    ).value =
+      item.id;
+
+    document.getElementById(
+      'mapel_kode'
+    ).value =
+      item.kode || '';
+
+    document.getElementById(
+      'mapel_nama'
+    ).value =
+      item.nama || '';
+
+    document.getElementById(
+      'mapel_kkm'
+    ).value =
+      item.kkm || '';
+
+    document.getElementById(
+      'mapel_urutan'
+    ).value =
+      item.urutan || '';
+
+    document.getElementById(
+      'mapel_status'
+    ).value =
+      item.status ||
+      'Aktif';
+
+
+    document.getElementById(
+      'modalMapelTitle'
+    ).textContent =
+      'Edit Mata Pelajaran';
+
+  } else {
+
+    document.getElementById(
+      'modalMapelTitle'
+    ).textContent =
+      'Tambah Mata Pelajaran';
+
+  }
+
+
+  document.getElementById(
+    'modalMapel'
+  ).classList.add(
+    'show'
+  );
+
+}
+
+
+/* =====================================================
+   SAVE MAPEL
+===================================================== */
+
+function saveMapel() {
+
+  const data = {
+
+    id:
+      document.getElementById(
+        'mapel_id'
+      ).value.trim(),
+
+    kode:
+      document.getElementById(
+        'mapel_kode'
+      ).value.trim(),
+
+    nama:
+      document.getElementById(
+        'mapel_nama'
+      ).value.trim(),
+
+    kkm:
+      document.getElementById(
+        'mapel_kkm'
+      ).value,
+
+    urutan:
+      document.getElementById(
+        'mapel_urutan'
+      ).value,
+
+    status:
+      document.getElementById(
+        'mapel_status'
+      ).value
+
+  };
+
+
+  if (!data.nama) {
+
+    toast(
+      'Nama mata pelajaran wajib diisi.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  setLoading(
+    true,
+    'Menyimpan mata pelajaran...'
+  );
+
+
+  const success =
+    function(result) {
+
+      closeModal(
+        'modalMapel'
+      );
+
+      toast(
+        result.message,
+        'success'
+      );
+
+      loadApplication();
+
+    };
+
+
+  const failure =
+    function(error) {
+
+      setLoading(false);
+
+      toast(
+        getErrorMessage(error),
+        'error'
+      );
+
+    };
+
+
+  if (data.id) {
+
+    google.script.run
+
+      .withSuccessHandler(
+        success
+      )
+
+      .withFailureHandler(
+        failure
+      )
+
+      .updateMapel(
+        SESSION_TOKEN,
+        data
+      );
+
+  } else {
+
+    google.script.run
+
+      .withSuccessHandler(
+        success
+      )
+
+      .withFailureHandler(
+        failure
+      )
+
+      .addMapel(
+        SESSION_TOKEN,
+        data
+      );
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE MAPEL
+===================================================== */
+
+function hapusMapel(
+  id
+) {
+
+  const item =
+    APP_DATA.mapel.find(
+      function(x) {
+
+        return (
+          String(x.id) ===
+          String(id)
+        );
+
+      }
+    );
+
+
+  if (!item) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      'Hapus mata pelajaran "' +
+      item.nama +
+      '"?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  setLoading(
+    true,
+    'Menghapus mata pelajaran...'
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        toast(
+          result.message,
+          'success'
+        );
+
+        loadApplication();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        setLoading(false);
+
+        toast(
+          getErrorMessage(error),
+          'error'
+        );
+
+      }
+    )
+
+    .deleteMapel(
+      SESSION_TOKEN,
+      id
+    );
+
+}
+
+
+/* =====================================================
+   POPULATE NILAI SELECT
+ *
+ * PERBAIKAN UTAMA ADA DI SINI
+===================================================== */
+
+function populateNilaiSelects(){
+  const siswa=document.getElementById('nilai_siswa');
+  const mapel=document.getElementById('nilai_mapel');
+  const filter=document.getElementById('filterNilaiSiswa');
+  if(!siswa||!mapel)return;
+  const ss=Array.isArray(APP_DATA.siswa)?APP_DATA.siswa:[];
+  const mm=Array.isArray(APP_DATA.mapel)?APP_DATA.mapel:[];
+  const sid=x=>String(x.id??x.ID??x.nisn??'').trim();
+  const sn=x=>String(x.nama??x.Nama??x['Nama Siswa']??x.nisn??'Siswa').trim();
+  const mid=x=>String(x.id??x.ID??x.kode??'').trim();
+  const mn=x=>String(x.nama??x.Nama??x['Nama Mapel']??x['Mata Pelajaran']??x.kode??'Mata Pelajaran').trim();
+  const esc=v=>escapeHtml(v);
+  const escA=v=>escapeAttribute(v);
+  siswa.innerHTML='<option value="">Pilih siswa</option>'+ss.map(x=>{const id=sid(x),nisn=String(x.nisn??x.NISN??'').trim(),nama=sn(x);return id?`<option value="${escA(id)}" data-nisn="${escA(nisn)}" data-nama="${escA(nama)}">${esc(nama)}${x.kelas?' — '+esc(x.kelas):''}</option>`:''}).join('');
+  mapel.innerHTML='<option value="">Pilih mata pelajaran</option>'+mm.map(x=>{const id=mid(x),kode=String(x.kode??x.Kode??'').trim(),nama=mn(x);return id?`<option value="${escA(id)}" data-kode="${escA(kode)}" data-nama="${escA(nama)}">${esc(nama)}</option>`:''}).join('');
+  if(filter)filter.innerHTML='<option value="">Semua siswa</option>'+ss.map(x=>{const id=sid(x);return id?`<option value="${escA(id)}">${esc(sn(x))}</option>`:''}).join('');
+}
+
+function openNilaiModal(idSiswa,idMapel){
+  const modal=document.getElementById('modalNilai');
+  const siswa=document.getElementById('nilai_siswa');
+  const mapel=document.getElementById('nilai_mapel');
+  if(!modal||!siswa||!mapel){toast('Form Input Nilai tidak ditemukan.','error');return;}
+  clearNilaiForm();
+  modal.classList.add('show');
+  siswa.innerHTML='<option value="">Memuat siswa...</option>';
+  mapel.innerHTML='<option value="">Memuat mata pelajaran...</option>';
+  if(!SESSION_TOKEN){toast('Sesi login tidak ditemukan.','error');return;}
+  google.script.run
+    .withSuccessHandler(function(r){
+      try{
+        const d=typeof r==='string'?JSON.parse(r):r;
+        if(!d||!Array.isArray(d.siswa)||!Array.isArray(d.mapel))throw new Error('Server tidak mengirim data siswa dan mapel.');
+        APP_DATA.siswa=d.siswa; APP_DATA.mapel=d.mapel; APP_DATA.nilai=Array.isArray(d.nilai)?d.nilai:[];
+        populateNilaiSelects();
+        if(idSiswa)siswa.value=String(idSiswa);
+        if(idMapel)mapel.value=String(idMapel);
+        loadExistingNilai();
+        if(!d.siswa.length||!d.mapel.length)toast('Data siswa atau mapel kosong. Periksa isi sheet SISWA dan MAPEL.','warning');
+      }catch(e){toast(e.message||String(e),'error');}
+    })
+    .withFailureHandler(function(e){toast(getErrorMessage(e),'error');siswa.innerHTML='<option value="">Gagal memuat siswa</option>';mapel.innerHTML='<option value="">Gagal memuat mata pelajaran</option>';})
+    .getInputNilaiData(SESSION_TOKEN);
+}
+
+function normalizeId(v){return String(v===null||v===undefined?'':v).trim().replace(/\s+/g,'');}
+
+function renderNilai(){
+  const tbody=document.getElementById('tableNilai');
+  const filter=normalizeId(document.getElementById('filterNilaiSiswa')?.value||'');
+  const keyword=String(document.getElementById('searchNilai')?.value||'').toLowerCase().trim();
+  const siswaList=Array.isArray(APP_DATA.siswa)?APP_DATA.siswa:[],mapelList=Array.isArray(APP_DATA.mapel)?APP_DATA.mapel:[],nilaiList=Array.isArray(APP_DATA.nilai)?APP_DATA.nilai:[],rows=[];
+  const findSiswa=id=>siswaList.find(x=>normalizeId(x.id)===normalizeId(id));
+  const findMapel=id=>mapelList.find(x=>normalizeId(x.id)===normalizeId(id));
+  nilaiList.forEach(item=>{
+    const siswa=findSiswa(item.idSiswa),mapel=findMapel(item.idMapel);
+    const namaSiswa=siswa?.nama||item.namaSiswa||item.nisn||'Siswa tidak ditemukan';
+    const namaMapel=mapel?.nama||item.namaMapel||item.kodeMapel||'Mata pelajaran tidak ditemukan';
+    if(filter&&normalizeId(siswa?.id||item.idSiswa)!==filter)return;
+    const text=(namaSiswa+' '+namaMapel).toLowerCase();
+    if(keyword&&!text.includes(keyword))return;
+    rows.push({item,siswa:siswa||{id:item.idSiswa,nama:namaSiswa},mapel:mapel||{id:item.idMapel,nama:namaMapel}});
+  });
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty">'+(nilaiList.length?'Data nilai ada di Spreadsheet, tetapi data siswa/mapel belum cocok.':'Belum ada data nilai.')+'</div></td></tr>';return;}
+  tbody.innerHTML=rows.map((row,index)=>{const n=row.item;return `<tr><td>${index+1}</td><td>${escapeHtml(row.siswa.nama||'')}</td><td>${escapeHtml(row.mapel.nama||'')}</td><td>${displayNumber(n.s1)}</td><td>${displayNumber(n.s2)}</td><td>${displayNumber(n.s3)}</td><td>${displayNumber(n.s4)}</td><td>${displayNumber(n.s5)}</td><td>${displayNumber(n.s6)}</td><td><strong>${displayNumber(n.rataRata)}</strong></td><td><button class="btn btn-warning btn-small" onclick="openNilaiModal('${jsString(row.siswa.id)}','${jsString(row.mapel.id)}')">Edit</button></td></tr>`;}).join('');
+}
+
+/* =====================================================
+   MODAL NILAI
+===================================================== */
+
+function clearNilaiForm() {
+
+  [
+
+    'nilai_s1',
+    'nilai_s2',
+    'nilai_s3',
+    'nilai_s4',
+    'nilai_s5',
+    'nilai_s6'
+
+  ].forEach(
+    function(id) {
+
+      document.getElementById(
+        id
+      ).value = '';
+
+    }
+  );
+
+
+  document.getElementById(
+    'previewAverage'
+  ).textContent =
+    '-';
+
+}
+
+
+/* =====================================================
+   LOAD EXISTING NILAI
+===================================================== */
+
+function loadExistingNilai(){
+  const idSiswa=normalizeId(document.getElementById('nilai_siswa')?.value||''),idMapel=normalizeId(document.getElementById('nilai_mapel')?.value||'');
+  if(!idSiswa||!idMapel)return;
+  const item=(Array.isArray(APP_DATA.nilai)?APP_DATA.nilai:[]).find(x=>normalizeId(x.idSiswa)===idSiswa&&normalizeId(x.idMapel)===idMapel);
+  if(!item)return;
+  ['s1','s2','s3','s4','s5','s6'].forEach((k,i)=>{const el=document.getElementById('nilai_s'+(i+1));if(el)el.value=item[k]??'';});
+  calculatePreview();
+}
+
+/* =====================================================
+   SAVE NILAI
+ *
+ * PERBAIKAN UTAMA:
+ * Ambil selected option.value langsung.
+===================================================== */
+
+function saveNilai(){
+  const siswaSelect=document.getElementById('nilai_siswa'),mapelSelect=document.getElementById('nilai_mapel');
+  const idSiswa=String(siswaSelect?.value||'').trim(),idMapel=String(mapelSelect?.value||'').trim();
+  if(!idSiswa){toast('Silakan pilih siswa.','error');siswaSelect?.focus();return;}
+  if(!idMapel){toast('Silakan pilih mata pelajaran.','error');mapelSelect?.focus();return;}
+
+  const so=siswaSelect.options[siswaSelect.selectedIndex],mo=mapelSelect.options[mapelSelect.selectedIndex];
+  const data={
+    idSiswa:idSiswa,
+    nisn:so?.dataset?.nisn||'',
+    namaSiswa:so?.dataset?.nama||'',
+    idMapel:idMapel,
+    kodeMapel:mo?.dataset?.kode||'',
+    namaMapel:mo?.dataset?.nama||'',
+    s1:document.getElementById('nilai_s1').value,
+    s2:document.getElementById('nilai_s2').value,
+    s3:document.getElementById('nilai_s3').value,
+    s4:document.getElementById('nilai_s4').value,
+    s5:document.getElementById('nilai_s5').value,
+    s6:document.getElementById('nilai_s6').value
+  };
+
+  setLoading(true,'Menyimpan nilai...');
+  google.script.run.withSuccessHandler(function(result){
+    setLoading(false);closeModal('modalNilai');toast(result.message||'Nilai berhasil disimpan.','success');loadApplication();
+  }).withFailureHandler(function(error){setLoading(false);toast(getErrorMessage(error),'error');}).saveNilai(SESSION_TOKEN,data);
+}
+
+/* =====================================================
+   PREVIEW NILAI
+===================================================== */
+
+function calculatePreview() {
+
+  const ids = [
+
+    'nilai_s1',
+    'nilai_s2',
+    'nilai_s3',
+    'nilai_s4',
+    'nilai_s5',
+    'nilai_s6'
+
+  ];
+
+
+  const values =
+    ids
+      .map(
+        function(id) {
+
+          const value =
+            document.getElementById(
+              id
+            ).value;
+
+
+          if (
+            value === ''
+          ) {
+
+            return null;
+
+          }
+
+
+          return Number(
+            value
+          );
+
+        }
+      )
+      .filter(
+        function(value) {
+
+          return (
+            value !== null &&
+            !isNaN(value)
+          );
+
+        }
+      );
+
+
+  if (
+    values.length === 0
+  ) {
+
+    document.getElementById(
+      'previewAverage'
+    ).textContent =
+      '-';
+
+    return;
+
+  }
+
+
+  const total =
+    values.reduce(
+      function(
+        sum,
+        value
+      ) {
+
+        return sum + value;
+
+      },
+      0
+    );
+
+
+  document.getElementById(
+    'previewAverage'
+  ).textContent =
+    (
+      total /
+      values.length
+    ).toFixed(2);
+
+}
+
+
+/* =====================================================
+   IJAZAH - SELECT SISWA
+===================================================== */
+
+function populateIjazahSelect() {
+
+  const select =
+    document.getElementById(
+      'ijazah_siswa'
+    );
+
+
+  if (!select) {
+    return;
+  }
+
+
+  const previous =
+    select.value;
+
+
+  select.innerHTML =
+
+    '<option value="">Pilih siswa</option>' +
+
+    APP_DATA.siswa
+      .filter(
+        function(item) {
+
+          return (
+            item &&
+            item.id &&
+            String(
+              item.id
+            ).trim() !== ''
+          );
+
+        }
+      )
+      .map(
+        function(item) {
+
+          return (
+
+            '<option value="' +
+            escapeAttribute(
+              item.id
+            ) +
+            '">' +
+
+            escapeHtml(
+              item.nama
+            ) +
+
+            (
+              item.kelas
+                ? ' — ' +
+                  escapeHtml(
+                    item.kelas
+                  )
+                : ''
+            ) +
+
+            '</option>'
+
+          );
+
+        }
+      )
+      .join('');
+
+
+  if (previous) {
+
+    select.value =
+      previous;
+
+  }
+
+}
+
+
+/* =====================================================
+   LEGER NILAI
+===================================================== */
+function openLegerPage(button){
+  showPage('leger',button);
+  loadLegerData();
+}
+
+function loadLegerData(){
+  if(!SESSION_TOKEN){toast('Sesi login tidak ditemukan.','error');return;}
+  setLoading(true,'Memuat Leger Nilai...');
+  google.script.run.withSuccessHandler(function(r){
+    setLoading(false);
+    try{
+      const d=typeof r==='string'?JSON.parse(r):r;
+      if(!d||!Array.isArray(d.siswa)||!Array.isArray(d.mapel)||!Array.isArray(d.nilai))throw new Error('Data Leger dari server tidak valid.');
+      APP_DATA.siswa=d.siswa; APP_DATA.mapel=d.mapel; APP_DATA.nilai=d.nilai; APP_DATA.settings=d.settings||APP_DATA.settings||{};
+      populateLegerKelas();
+      renderLeger();
+    }catch(e){toast(e.message||String(e),'error');}
+  }).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).getLegerData(SESSION_TOKEN);
+}
+
+function populateLegerKelas(){
+  const el=document.getElementById('legerKelas'); if(!el)return;
+  const current=el.value;
+  const classes=[...new Set((APP_DATA.siswa||[]).map(x=>String(x.kelas||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id',{numeric:true}));
+  el.innerHTML='<option value="">Semua Kelas</option>'+classes.map(k=>'<option value="'+escapeAttribute(k)+'">'+escapeHtml(k)+'</option>').join('');
+  if(classes.includes(current))el.value=current;
+}
+
+function renderLeger(){
+  const head=document.getElementById('headLeger'),body=document.getElementById('bodyLeger'),foot=document.getElementById('footLeger'),note=document.getElementById('legerNote');
+  if(!head||!body||!foot)return;
+  const kelas=String(document.getElementById('legerKelas')?.value||'').trim();
+  const key=String(document.getElementById('searchLeger')?.value||'').toLowerCase().trim();
+  const siswa=(APP_DATA.siswa||[]).filter(x=>(!kelas||String(x.kelas||'').trim()===kelas)&&(!key||(String(x.nama||'')+' '+String(x.nisn||'')).toLowerCase().includes(key)));
+  const mapel=(APP_DATA.mapel||[]).filter(x=>String(x.status||'Aktif').toLowerCase()!=='nonaktif').sort((a,b)=>Number(a.urutan||9999)-Number(b.urutan||9999)||String(a.nama||'').localeCompare(String(b.nama||''),'id'));
+  const nilai=APP_DATA.nilai||[];
+  const findNilai=(sid,mid)=>nilai.find(n=>normalizeId(n.idSiswa)===normalizeId(sid)&&normalizeId(n.idMapel)===normalizeId(mid));
+  head.innerHTML='<tr><th>No</th><th>NISN</th><th>Nama Siswa</th><th>Kelas</th>'+mapel.map(m=>'<th>'+escapeHtml(m.nama||'-')+'</th>').join('')+'<th>Rata-rata</th><th>Status</th></tr>';
+  if(!siswa.length){
+    body.innerHTML='<tr><td colspan="'+(6+mapel.length)+'"><div class="empty">Belum ada siswa sesuai pilihan.</div></td></tr>';
+    foot.innerHTML=''; note.textContent=''; return;
+  }
+  const rows=siswa.map((s,i)=>{
+    const vals=mapel.map(m=>{const n=findNilai(s.id,m.id);return n&&n.rataRata!==''?Number(n.rataRata):null;});
+    const filled=vals.filter(v=>v!==null).length, overall=filled?vals.filter(v=>v!==null).reduce((a,b)=>a+b,0)/filled:null;
+    return {s,vals,filled,overall};
+  });
+  body.innerHTML=rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+escapeHtml(r.s.nisn||'-')+'</td><td><strong>'+escapeHtml(r.s.nama||'-')+'</strong></td><td>'+escapeHtml(r.s.kelas||'-')+'</td>'+r.vals.map(v=>'<td>'+ (v===null?'-':displayNumber(v))+'</td>').join('')+'<td><strong>'+(r.overall===null?'-':formatRataRata(r.overall))+'</strong></td><td class="'+(r.filled===mapel.length?'leger-complete':'leger-incomplete')+'">'+(r.filled===mapel.length?'Lengkap':r.filled+'/'+mapel.length)+'</td></tr>').join('');
+  const classAvgs=mapel.map((m,j)=>{const a=rows.map(r=>r.vals[j]).filter(v=>v!==null);return a.length?formatRataRata(a.reduce((x,y)=>x+y,0)/a.length):'-';});
+  const overallVals=rows.map(r=>r.overall).filter(v=>v!==null);
+  const overallAvg=overallVals.length?formatRataRata(overallVals.reduce((a,b)=>a+b,0)/overallVals.length):'-';
+  foot.innerHTML='<tr><th colspan="4">Rata-rata Kelas</th>'+classAvgs.map(v=>'<th>'+v+'</th>').join('')+'<th>'+overallAvg+'</th><th>-</th></tr>';
+  const school=APP_DATA.settings||{};
+  document.getElementById('legerSchoolName').textContent=school.nama_sekolah||'Nama Sekolah';
+  document.getElementById('legerSchoolInfo').textContent=(school.alamat_sekolah||'')+(school.kecamatan?' • '+school.kecamatan:'')+(school.kabupaten?' • '+school.kabupaten:'');
+  note.textContent='Menampilkan '+rows.length+' siswa dan '+mapel.length+' mata pelajaran. Nilai setiap mata pelajaran adalah rata-rata Semester 1–6 yang tersimpan.';
+}
+
+function getLegerPrintCss_(){
+  return `
+html,body{margin:0!important;padding:0!important;background:#fff!important;color:#111!important;font-family:Arial,sans-serif!important}
+@page{size:A4 landscape;margin:0}
+.leger-paper{width:297mm!important;height:210mm!important;min-height:210mm!important;box-sizing:border-box!important;padding:8mm 8mm 7mm!important;margin:0!important;background:#fff!important;color:#111!important;overflow:visible!important;page-break-after:always!important}
+.leger-paper:last-child{page-break-after:auto!important}
+.leger-kop{position:relative!important;width:100%!important;min-height:25mm!important;box-sizing:border-box!important}
+.leger-logo-wrap{position:absolute!important;left:0!important;top:0!important;width:23mm!important;height:23mm!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.leger-logo{width:20mm!important;height:20mm!important;object-fit:contain!important;display:block!important}
+.leger-kop-center{width:100%!important;text-align:center!important;line-height:1.15!important}
+.leger-instansi{font-size:11pt!important;font-weight:700!important}
+.leger-sekolah{font-size:14pt!important;font-weight:800!important}
+.leger-kecamatan{font-size:10pt!important;font-weight:700!important}
+.leger-alamat,.leger-email{font-size:8.5pt!important;font-style:italic!important}
+.leger-line{border-bottom:3px double #111!important;margin-top:2.5mm!important}
+.leger-title{text-align:center!important;margin:3mm 0 4mm!important}
+.leger-title h2{margin:0!important;font-size:13pt!important}
+.leger-title p{margin:2px 0!important;font-size:9pt!important}
+.leger-table-wrap{width:100%!important;overflow:visible!important}
+.leger-print-table{width:100%!important;min-width:0!important;max-width:100%!important;border-collapse:collapse!important;table-layout:fixed!important;font-size:6.8pt!important}
+.leger-print-table th,.leger-print-table td{border:1px solid #222!important;padding:2.2px 2.5px!important;line-height:1.08!important;vertical-align:middle!important;box-sizing:border-box!important;white-space:nowrap!important;overflow-wrap:break-word!important}
+.leger-print-table th{text-align:center!important;font-weight:700!important;white-space:normal!important}
+.leger-print-table td{text-align:center!important}
+.leger-print-table th:nth-child(1),.leger-print-table td:nth-child(1){width:9mm!important}
+.leger-print-table th:nth-child(2),.leger-print-table td:nth-child(2){width:25mm!important}
+.leger-print-table th:nth-child(3),.leger-print-table td:nth-child(3){width:42mm!important;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important}
+.leger-print-table th:nth-child(4),.leger-print-table td:nth-child(4){width:16mm!important}
+.leger-print-table tfoot th{white-space:normal!important}
+.leger-print-table tfoot th{font-weight:700!important;background:#f5f5f5!important}
+.leger-print-note{margin-top:3mm!important;font-size:7.5pt!important;color:#333!important}
+`;
+}
+
+function printLeger(){
+  const body=document.getElementById('bodyLeger');
+  if(!body?.children.length){toast('Data Leger belum tersedia.','warning');return;}
+  const table=document.getElementById('tableLeger');
+  if(!table){toast('Tabel Leger belum tersedia.','warning');return;}
+  const settings=APP_DATA.settings||{};
+  const logo=String(settings.url_logo||'').trim();
+  const kelas=String(document.getElementById('legerKelas')?.value||'').trim();
+  const filter=kelas?('Kelas '+kelas):'Semua Kelas';
+  const title=`
+    <div class="leger-kop">
+      <div class="leger-logo-wrap">${logo?'<img class="leger-logo" src="'+escapeAttribute(logo)+'">':''}</div>
+      <div class="leger-kop-center">
+        <div class="leger-instansi">${escapeHtml(settings.instansi_pemerintah||'')}</div>
+        <div class="leger-sekolah">${escapeHtml(settings.nama_sekolah||'Nama Sekolah')}</div>
+        <div class="leger-kecamatan">${escapeHtml(settings.kecamatan||'')}</div>
+        <div class="leger-alamat">${escapeHtml(settings.alamat_sekolah||'')}</div>
+        <div class="leger-email">${escapeHtml(settings.email_sekolah||'')}</div>
+      </div>
+      <div class="leger-line"></div>
+    </div>
+    <div class="leger-title">
+      <h2>LEGER NILAI SISWA</h2>
+      <p>${escapeHtml(filter)}</p>
+    </div>`;
+  const clonedTable=table.cloneNode(true);
+  clonedTable.removeAttribute('id');
+  clonedTable.className='leger-print-table';
+  const note=document.getElementById('legerNote');
+  const noteText=note?String(note.textContent||'').trim():'';
+  const html='<!doctype html><html><head><meta charset="utf-8"><title>Leger Nilai Siswa</title><style>'+getLegerPrintCss_()+'</style></head><body><div class="leger-paper">'+title+'<div class="leger-table-wrap">'+clonedTable.outerHTML+'</div>'+(noteText?'<div class="leger-print-note">'+escapeHtml(noteText)+'</div>':'')+'</div></body></html>';
+  const w=window.open('','_blank','width=1200,height=900');
+  if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak Leger.','error');return;}
+  w.document.open();w.document.write(html);w.document.close();
+  const imgs=Array.from(w.document.images||[]);
+  const ready=Promise.all(imgs.map(img=>new Promise(resolve=>{if(img.complete)return resolve();img.onload=resolve;img.onerror=resolve;})));
+  ready.then(function(){setTimeout(function(){w.focus();w.print();},350);});
+}
+
+/* =====================================================
+   SURAT KETERANGAN LULUS (SKL)
+===================================================== */
+let SKL_DATA={records:[]};
+function openSKLPage(button){showPage('skl',button);loadSKLData();}
+function loadSKLData(){
+  if(!SESSION_TOKEN){toast('Sesi login tidak ditemukan.','error');return;}
+  setLoading(true,'Memuat data Surat Keterangan Lulus...');
+  google.script.run.withSuccessHandler(function(r){
+    const d=typeof r==='string'?JSON.parse(r):r;
+    if(d&&Array.isArray(d.siswa)){
+      SKL_DATA={siswa:d.siswa,mapel:Array.isArray(d.mapel)?d.mapel:[],nilai:Array.isArray(d.nilai)?d.nilai:[],records:Array.isArray(d.skl)?d.skl:[],settings:d.settings||{}};
+      APP_DATA.settings=SKL_DATA.settings;setLoading(false);populateSKLSelect();populateSKLBulkClassFilter();renderSKL();renderSKLBulkList();return;
+    }
+    setLoading(false);toast('Data SKL tidak valid dari server.','error');
+  }).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).getSKLData(SESSION_TOKEN);
+}
+function populateSKLSelect(){const el=document.getElementById('skl_siswa');if(!el)return;const old=String(el.value||'');const siswa=SKL_DATA.siswa||[];el.innerHTML='<option value="">Pilih siswa</option>'+siswa.map((s,i)=>{const id=String(s.id||s.nisn||('SIS-'+(i+1))).trim();return '<option value="'+escapeAttribute(id)+'">'+escapeHtml((s.nama||'-')+(s.kelas?' — '+s.kelas:''))+'</option>';}).join('');if(old)el.value=old;}
+function getSelectedSKLStudent(){const id=String(document.getElementById('skl_siswa')?.value||'').trim();if(!id)return null;return (SKL_DATA.siswa||[]).find(s=>normalizeId(s.id||s.nisn)===normalizeId(id))||null;}
+function getSKLRecord(id){return (SKL_DATA.records||[]).find(r=>normalizeId(r.idSiswa)===normalizeId(id))||null;}
+function formatTempatTanggalSKL_(tempat,tanggal){const t=String(tempat||'').trim();const d=String(tanggal||'').trim();if(t&&d)return t+', '+formatTanggalIndonesia(d);return t||formatTanggalIndonesia(d);}
+function renderSKL(){
+  const s=getSelectedSKLStudent(), settings=SKL_DATA.settings||{};
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=(v===null||v===undefined||String(v).trim()==='')?'-':String(v);};
+  const vals={sklInstansi:settings.instansi_pemerintah,sklSekolahKop:settings.nama_sekolah,sklKecamatan:settings.kecamatan,sklAlamat:settings.alamat_sekolah,sklEmail:settings.email_sekolah,sklPrintSekolah:settings.nama_sekolah,sklSekolahPernyataan:settings.nama_sekolah,sklTahunPelajaran:settings.tahun_pelajaran,sklKepala:settings.kepala_sekolah,sklNip:settings.nip_kepala_sekolah};Object.keys(vals).forEach(k=>set(k,vals[k]));
+  const logo=document.getElementById('sklLogo');if(logo){const u=String(settings.url_logo||'').trim();logo.src=u;logo.style.display=u?'block':'none';logo.onerror=function(){this.style.display='none';};}
+  if(!s){document.getElementById('sklBody').innerHTML='<tr><td colspan="3">Silakan pilih siswa.</td></tr>';set('sklPrintNomor','-');set('sklNama','-');set('sklLahir','-');set('sklPrintOrtu','-');if(document.getElementById('skl_nis'))document.getElementById('skl_nis').value='';set('sklNis','-');set('sklNisn','-');set('sklPrintKeputusan','-');set('sklPrintTglKeputusan','-');set('sklStatusPrint','LULUS');set('sklRata','-');return;}
+  const r=getSKLRecord(s.id||s.nisn)||{};
+  document.getElementById('skl_nomor').value=r.nomorSKL||'';document.getElementById('skl_nis').value=r.nis||'';document.getElementById('skl_tanggal').value=r.tanggalSKL||s.tanggalLulus||'';document.getElementById('skl_ortu').value=r.orangTuaWali||'';document.getElementById('skl_keputusan').value=r.nomorKeputusan||'';document.getElementById('skl_tgl_keputusan').value=r.tanggalKeputusan||'';document.getElementById('skl_status').value=r.statusKelulusan||'LULUS';document.getElementById('skl_keterangan').value=r.keterangan||'';
+  set('sklPrintNomor',r.nomorSKL||'-');set('sklNama',s.nama);set('sklLahir',s.tempatLahir&&s.tanggalLahir?s.tempatLahir+', '+formatTanggalIndonesia(s.tanggalLahir):(s.tempatLahir||formatTanggalIndonesia(s.tanggalLahir)));set('sklPrintOrtu',r.orangTuaWali||'-');set('sklNis',r.nis||'-');set('sklNisn',s.nisn||'-');set('sklPrintKeputusan',r.nomorKeputusan||'-');set('sklPrintTglKeputusan',formatTanggalIndonesia(r.tanggalKeputusan));set('sklStatusPrint',r.statusKelulusan||'LULUS');set('sklKotaTanggal',formatTempatTanggalSKL_(settings.tempat_tanda_tangan_skl,r.tanggalSKL));
+  const nilai=SKL_DATA.nilai||[], mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&n.rataRata!=null&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return {no:i+1,nama:m.nama||'-',nilai:v};});const nums=rows.map(x=>x.nilai).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;document.getElementById('sklBody').innerHTML=rows.map(x=>'<tr><td>'+x.no+'</td><td>'+escapeHtml(x.nama)+'</td><td>'+(x.nilai===null?'-':String(Math.round(x.nilai)))+'</td></tr>').join('');set('sklRata',avg===null?'-':formatRataRata(avg));
+}
+function saveSKL(){const s=getSelectedSKLStudent();if(!s){toast('Silakan pilih siswa terlebih dahulu.','warning');return;}const data={idSiswa:s.id||s.nisn,nis:document.getElementById('skl_nis').value,nomorSKL:document.getElementById('skl_nomor').value,tanggalSKL:document.getElementById('skl_tanggal').value,orangTuaWali:document.getElementById('skl_ortu').value,statusKelulusan:document.getElementById('skl_status').value,nomorKeputusan:document.getElementById('skl_keputusan').value,tanggalKeputusan:document.getElementById('skl_tgl_keputusan').value,keterangan:document.getElementById('skl_keterangan').value};setLoading(true,'Menyimpan data SKL...');google.script.run.withSuccessHandler(function(r){setLoading(false);toast(r?.message||'Data SKL tersimpan.','success');google.script.run.withSuccessHandler(function(d){SKL_DATA.records=d||[];renderSKL();}).withFailureHandler(function(){}).getSKLRecordsOnly(SESSION_TOKEN);}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).saveSKLRecord(SESSION_TOKEN,data);}
+function printSKL(){const s=getSelectedSKLStudent();if(!s){toast('Silakan pilih siswa terlebih dahulu.','warning');return;}saveSKLAndPrint_();}
+function getSKLPrintCss_(){return `
+html,body{margin:0!important;padding:0!important;background:#fff!important;color:#111!important;font-family:Arial,sans-serif!important}
+@page{size:A4 portrait;margin:0}
+.skl-paper{display:block!important;position:relative!important;width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;padding:10mm 13mm!important;box-sizing:border-box!important;background:#fff!important;color:#111!important;font-family:Arial,sans-serif!important;box-shadow:none!important;overflow:hidden!important;page-break-after:always!important}
+.skl-paper:last-child{page-break-after:auto!important}
+.skl-kop{position:relative!important;width:100%!important;min-height:25mm!important;box-sizing:border-box!important}
+.skl-logo-wrap{position:absolute!important;left:0!important;top:0!important;width:24mm!important;height:24mm!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.skl-logo{width:21mm!important;height:21mm!important;object-fit:contain!important;display:block!important}
+.skl-kop-center{width:100%!important;text-align:center!important}
+.skl-instansi{font-size:12pt!important;font-weight:700!important;line-height:1.15!important}
+.skl-sekolah{font-size:15pt!important;font-weight:800!important;line-height:1.15!important}
+.skl-kecamatan{font-size:11pt!important;font-weight:700!important;line-height:1.15!important}
+.skl-alamat,.skl-email{font-size:9.5pt!important;line-height:1.15!important}
+.skl-line{border-bottom:3px double #111!important;margin-top:3mm!important}
+.skl-title{text-align:center!important;margin:4mm 0!important;font-size:11pt!important}
+.skl-title h2{margin:0!important;font-size:14pt!important;text-decoration:underline!important}
+.skl-title div{margin-top:2px!important;font-size:12pt!important;line-height:1.3!important}
+.skl-intro,.skl-statement,.skl-note{font-size:10.5pt!important;line-height:1.5!important;text-align:justify!important}
+.skl-identitas{margin:4mm 0!important}
+.skl-identitas div{display:grid!important;grid-template-columns:42% 3% 55%!important;min-height:6mm!important;font-size:10.5pt!important;line-height:1.35!important}
+.skl-status{text-align:center!important;font-weight:800!important;font-size:15pt!important;letter-spacing:1px!important;margin:3mm 0!important;text-decoration:underline!important}
+.skl-table{display:table!important;width:100%!important;max-width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;font-size:9.5pt!important;margin:4mm 0!important;visibility:visible!important}
+.skl-table thead{display:table-header-group!important;visibility:visible!important}.skl-table tbody{display:table-row-group!important;visibility:visible!important}.skl-table tfoot{display:table-footer-group!important;visibility:visible!important}
+.skl-table tr{display:table-row!important;visibility:visible!important}.skl-table th,.skl-table td{display:table-cell!important;border:1px solid #222!important;padding:4px 5px!important;vertical-align:middle!important;box-sizing:border-box!important;visibility:visible!important}
+.skl-table th:nth-child(1),.skl-table td:nth-child(1){width:9%!important;text-align:center!important}.skl-table th:nth-child(2),.skl-table td:nth-child(2){width:71%!important;text-align:left!important}.skl-table th:nth-child(2){text-align:center!important}.skl-table td:nth-child(2){text-align:left!important}.skl-table th:nth-child(3),.skl-table td:nth-child(3){width:20%!important;text-align:center!important}.skl-table tfoot th{font-weight:700!important}
+.skl-note{font-size:9pt!important}.skl-footer{margin-top:8mm!important;margin-left:auto!important;width:40%!important;text-align:center!important;font-size:10.5pt!important;line-height:1.35!important}.skl-ttd-space{height:18mm!important}.skl-footer strong{font-size:11pt!important;text-decoration:underline!important}
+`;}
+function waitForSKLImages_(doc){const imgs=Array.from(doc.images||[]);if(!imgs.length)return Promise.resolve();return Promise.all(imgs.map(img=>new Promise(resolve=>{if(img.complete)return resolve();img.onload=resolve;img.onerror=resolve;})));}
+function exportSKLCurrentArea_(){const area=document.getElementById('sklPrintArea');if(!area)return Promise.resolve(null);const clone=area.cloneNode(true);clone.classList.add('skl-paper');const html='<!doctype html><html><head><meta charset="utf-8"><title>Surat Keterangan Lulus</title><style>'+getSKLPrintCss_()+'</style></head><body>'+clone.outerHTML+'</body></html>';const w=window.open('','_blank','width=900,height=1000');if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak SKL.','error');return Promise.resolve(null);}w.document.open();w.document.write(html);w.document.close();return waitForSKLImages_(w.document).then(function(){return new Promise(resolve=>setTimeout(function(){w.focus();w.print();resolve(w);},350));});}
+function saveSKLAndPrint_(){const s=getSelectedSKLStudent();const data={idSiswa:s.id||s.nisn,nis:document.getElementById('skl_nis').value,nomorSKL:document.getElementById('skl_nomor').value,tanggalSKL:document.getElementById('skl_tanggal').value,orangTuaWali:document.getElementById('skl_ortu').value,statusKelulusan:document.getElementById('skl_status').value,nomorKeputusan:document.getElementById('skl_keputusan').value,tanggalKeputusan:document.getElementById('skl_tgl_keputusan').value,keterangan:document.getElementById('skl_keterangan').value};setLoading(true,'Menyiapkan surat kelulusan...');google.script.run.withSuccessHandler(function(){google.script.run.withSuccessHandler(function(d){SKL_DATA.records=Array.isArray(d)?d:[];renderSKL();setLoading(false);setTimeout(function(){exportSKLCurrentArea_();},80);}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).getSKLRecordsOnly(SESSION_TOKEN);}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).saveSKLRecord(SESSION_TOKEN,data);}
+function isSKLGradeIX_(kelas){const k=String(kelas||'').trim().toLowerCase();return /(^|[^0-9a-z])(ix|9)([^0-9a-z]|$)/i.test(k)||k==='9'||k.startsWith('9 ');}
+function getSKLBulkStudents(){const filter=String(document.getElementById('skl_bulk_kelas')?.value||'IX').trim();let arr=SKL_DATA.siswa||[];if(filter==='IX')arr=arr.filter(s=>isSKLGradeIX_(s.kelas));else if(filter!=='ALL')arr=arr.filter(s=>String(s.kelas||'').trim()===filter);return arr;}
+function getSKLStudentAverage_(s){const nilai=SKL_DATA.nilai||[],mapel=SKL_DATA.mapel||[];const vals=mapel.map(m=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));return n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;}).filter(v=>v!==null);return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
+function renderSKLBulkList(){const body=document.getElementById('sklBulkBody');if(!body)return;const oldSelected=new Set(Array.from(document.querySelectorAll('.skl-bulk-check:checked')).map(x=>x.value));const students=getSKLBulkStudents();const records=SKL_DATA.records||[];if(!students.length){body.innerHTML='<tr><td colspan="8" class="empty">Tidak ditemukan siswa kelas IX.</td></tr>';updateSKLBulkSummary();return;}body.innerHTML=students.map((s,i)=>{const id=String(s.id||s.nisn||'').trim();const r=getSKLRecord(id)||{};const avg=getSKLStudentAverage_(s);const checked=oldSelected.has(id)?' checked':'';return '<tr><td style="text-align:center"><input class="skl-bulk-check" type="checkbox" value="'+escapeAttribute(id)+'" data-nama="'+escapeAttribute(s.nama||'')+'"'+checked+' onchange="updateSKLBulkSummary()"></td><td style="text-align:center">'+(i+1)+'</td><td>'+escapeHtml(s.nisn||'-')+'</td><td><strong>'+escapeHtml(s.nama||'-')+'</strong></td><td>'+escapeHtml(s.kelas||'-')+'</td><td style="text-align:center">'+(avg===null?'-':formatRataRata(avg))+'</td><td><select class="skl-bulk-row-status" data-id="'+escapeAttribute(id)+'"><option value="LULUS" '+((r.statusKelulusan||'LULUS')==='LULUS'?'selected':'')+'>LULUS</option><option value="TIDAK LULUS" '+((r.statusKelulusan||'LULUS')==='TIDAK LULUS'?'selected':'')+'>TIDAK LULUS</option></select></td><td><input class="skl-bulk-row-number" data-id="'+escapeAttribute(id)+'" type="text" value="'+escapeAttribute(r.nomorSKL||'')+'" placeholder="Nomor SKL"></td></tr>';}).join('');document.getElementById('skl_bulk_check_all').checked=students.length>0&&students.every(s=>oldSelected.has(String(s.id||s.nisn||'')));updateSKLBulkSummary();}
+function populateSKLBulkClassFilter(){const el=document.getElementById('skl_bulk_kelas');if(!el)return;const classes=[...new Set((SKL_DATA.siswa||[]).map(s=>String(s.kelas||'').trim()).filter(Boolean))];const ix=classes.filter(isSKLGradeIX_);el.innerHTML='<option value="IX">Kelas IX</option>'+classes.filter(c=>!ix.includes(c)).sort((a,b)=>a.localeCompare(b,'id')).map(c=>'<option value="'+escapeAttribute(c)+'">'+escapeHtml(c)+'</option>').join('')+'<option value="ALL">Semua Kelas</option>';el.value='IX';}
+function updateSKLBulkSummary(){const checks=Array.from(document.querySelectorAll('.skl-bulk-check:checked'));const total=document.querySelectorAll('.skl-bulk-check').length;const el=document.getElementById('sklBulkSummary');if(el)el.textContent=checks.length+' siswa dipilih dari '+total+' siswa yang ditampilkan.';const all=document.getElementById('skl_bulk_check_all');if(all)all.checked=total>0&&checks.length===total;}
+function selectAllSKLBulk(flag){document.querySelectorAll('.skl-bulk-check').forEach(x=>x.checked=!!flag);const all=document.getElementById('skl_bulk_check_all');if(all)all.checked=!!flag;updateSKLBulkSummary();}
+function generateSKLBulkNumbers(){const prefix=String(document.getElementById('skl_bulk_prefix')?.value||'').trim();let start=parseInt(document.getElementById('skl_bulk_start')?.value||'1',10);if(!prefix||isNaN(start)){toast('Isi pola nomor dan nomor urut awal terlebih dahulu.','warning');return;}let n=start;document.querySelectorAll('.skl-bulk-check:checked').forEach(ch=>{const input=document.querySelector('.skl-bulk-row-number[data-id="'+CSS.escape(ch.value)+'"]');if(input){input.value=prefix.replace(/\{n\}/g,String(n++));}});toast('Nomor SKL berhasil dibuat untuk siswa terpilih.','success');}
+function collectSKLBulkRecords(){const statusDefault=document.getElementById('skl_bulk_status').value;const keputusan=document.getElementById('skl_bulk_keputusan').value.trim();const tglKeputusan=document.getElementById('skl_bulk_tgl_keputusan').value;const tanggal=document.getElementById('skl_bulk_tanggal').value;const selected=Array.from(document.querySelectorAll('.skl-bulk-check:checked'));return selected.map(ch=>{const id=ch.value;const s=(SKL_DATA.siswa||[]).find(x=>normalizeId(x.id||x.nisn)===normalizeId(id))||{};const numEl=document.querySelector('.skl-bulk-row-number[data-id="'+CSS.escape(id)+'"]');const statEl=document.querySelector('.skl-bulk-row-status[data-id="'+CSS.escape(id)+'"]');const old=getSKLRecord(id)||{};return {idSiswa:id,nis:(old.nis||'').trim(),nomorSKL:(numEl?.value||old.nomorSKL||'').trim(),tanggalSKL:tanggal||old.tanggalSKL||s.tanggalLulus||'',orangTuaWali:old.orangTuaWali||'',statusKelulusan:statEl?.value||statusDefault||'LULUS',nomorKeputusan:keputusan||old.nomorKeputusan||'',tanggalKeputusan:tglKeputusan||old.tanggalKeputusan||'',keterangan:old.keterangan||''};});}
+function saveSKLBulk(){const records=collectSKLBulkRecords();if(!records.length){toast('Pilih minimal satu siswa.','warning');return;}const noNum=records.filter(r=>!r.nomorSKL);if(noNum.length){toast('Masih ada siswa terpilih yang belum memiliki Nomor SKL. Gunakan tombol Buat Nomor SKL atau isi manual.','warning');return;}setLoading(true,'Menyimpan penetapan kelulusan...');google.script.run.withSuccessHandler(function(r){setLoading(false);toast(r?.message||'Penetapan kelulusan tersimpan.','success');loadSKLData();}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).saveSKLBulk(SESSION_TOKEN,records);}
+function buildSKLBulkPaper_(s,rec){const settings=SKL_DATA.settings||{};const nilai=SKL_DATA.nilai||[],mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return '<tr><td>'+(i+1)+'</td><td>'+escapeHtml(m.nama||'-')+'</td><td>'+(v===null?'-':String(Math.round(v)))+'</td></tr>';}).join('');const nums=mapel.map(m=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));return n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;}).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;const logo=settings.url_logo?'<img class="skl-logo" src="'+escapeAttribute(settings.url_logo)+'" alt="Logo">':'';const lahir=s.tempatLahir&&s.tanggalLahir?s.tempatLahir+', '+formatTanggalIndonesia(s.tanggalLahir):(s.tempatLahir||formatTanggalIndonesia(s.tanggalLahir));return '<div class="skl-paper skl-bulk-paper"><div class="skl-kop"><div class="skl-logo-wrap">'+logo+'</div><div class="skl-kop-center"><div class="skl-instansi">'+escapeHtml(settings.instansi_pemerintah||'')+'</div><div class="skl-sekolah">'+escapeHtml(settings.nama_sekolah||'')+'</div><div class="skl-kecamatan">KECAMATAN '+escapeHtml(settings.kecamatan||'')+'</div><div class="skl-alamat">'+escapeHtml(settings.alamat_sekolah||'')+'</div><div class="skl-email">Email : '+escapeHtml(settings.email_sekolah||'')+'</div></div></div><div class="skl-line"></div><div class="skl-title"><h2>SURAT KETERANGAN LULUS</h2><div>Nomor: '+escapeHtml(rec.nomorSKL||'-')+'</div></div><p class="skl-intro">Yang bertanda tangan di bawah ini, Kepala <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong>, menerangkan bahwa:</p><div class="skl-identitas"><div><span>Nama</span><b>:</b><strong>'+escapeHtml(s.nama||'-')+'</strong></div><div><span>Tempat, Tanggal Lahir</span><b>:</b><strong>'+escapeHtml(lahir||'-')+'</strong></div><div><span>Nama Orang Tua/Wali</span><b>:</b><strong>'+escapeHtml(rec.orangTuaWali||'-')+'</strong></div><div><span>Nomor Induk Siswa</span><b>:</b><strong>'+escapeHtml(rec.nis||'-')+'</strong></div><div><span>Nomor Induk Siswa Nasional (NISN)</span><b>:</b><strong>'+escapeHtml(s.nisn||'-')+'</strong></div></div><p class="skl-statement">Berdasarkan keputusan Kepala Sekolah '+escapeHtml(settings.nama_sekolah||'-')+' Nomor <strong>'+escapeHtml(rec.nomorKeputusan||'-')+'</strong> tanggal <strong>'+escapeHtml(formatTanggalIndonesia(rec.tanggalKeputusan)||'-')+'</strong>, peserta didik tersebut dinyatakan:</p><div class="skl-status">'+escapeHtml(rec.statusKelulusan||'LULUS')+'</div><p class="skl-statement">dari <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong> Tahun Pelajaran <strong>'+escapeHtml(settings.tahun_pelajaran||'-')+'</strong>, dengan rata-rata nilai sebagai berikut:</p><table class="skl-table"><thead><tr><th>No.</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr><th colspan="2">Rata-rata</th><th>'+escapeHtml(avg===null?'-':formatRataRata(avg))+'</th></tr></tfoot></table><p class="skl-note">Surat Keterangan Lulus ini dapat digunakan untuk keperluan melanjutkan pendidikan dan keperluan lain sesuai kebutuhan, serta bersifat sementara sampai dengan diterbitkannya Ijazah.</p><div class="skl-footer"><div>'+escapeHtml(formatTempatTanggalSKL_(settings.tempat_tanda_tangan_skl,rec.tanggalSKL))+'</div><div>Kepala Sekolah,</div><div class="skl-ttd-space"></div><strong>'+escapeHtml(settings.kepala_sekolah||'-')+'</strong><div>NIP. '+escapeHtml(settings.nip_kepala_sekolah||'-')+'</div></div></div>';}
+function printSKLBulk(){const records=collectSKLBulkRecords();if(!records.length){toast('Pilih minimal satu siswa.','warning');return;}const missing=records.filter(r=>!r.nomorSKL);if(missing.length){toast('Lengkapi Nomor SKL siswa terpilih sebelum mencetak.','warning');return;}const papers=records.map(rec=>{const s=(SKL_DATA.siswa||[]).find(x=>normalizeId(x.id||x.nisn)===normalizeId(rec.idSiswa));return s?buildSKLBulkPaper_(s,rec):'';}).join('');const w=window.open('','_blank','width=900,height=1000');if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak SKL.','error');return;}const html='<!doctype html><html><head><meta charset="utf-8"><title>SKL Siswa Terpilih</title><style>'+getSKLPrintCss_()+'</style></head><body>'+papers+'</body></html>';w.document.open();w.document.write(html);w.document.close();waitForSKLImages_(w.document).then(function(){setTimeout(function(){w.focus();w.print();},350);});}
+
+/* =====================================================
+   TRANSKRIP NILAI
+===================================================== */
+
+function openTranskripPage(button){showPage('transkrip',button);loadTranskripData();}
+
+function loadTranskripData(){
+  if(!SESSION_TOKEN){toast('Sesi login tidak ditemukan.','error');return;}
+  setLoading(true,'Memuat data transkrip...');
+  google.script.run.withSuccessHandler(function(r){
+    const d=typeof r==='string'?JSON.parse(r):r;
+    if(d&&Array.isArray(d.siswa)){
+      APP_DATA.siswa=d.siswa;
+      APP_DATA.mapel=Array.isArray(d.mapel)?d.mapel:[];
+      APP_DATA.nilai=Array.isArray(d.nilai)?d.nilai:[];
+      APP_DATA.settings=d.settings||{};
+      setLoading(false);
+      populateTranskripSelect();
+      renderTranskrip();
+      return;
+    }
+    setLoading(false);
+    toast('Data transkrip tidak valid dari server.','error');
+  }).withFailureHandler(function(e){
+    setLoading(false);
+    toast(getErrorMessage(e),'error');
+  }).getTranskripData(SESSION_TOKEN);
+}
+
+function populateTranskripSelect(){
+  const el=document.getElementById('transkrip_siswa');
+  if(!el)return;
+  const old=String(el.value||'').trim();
+  const siswa=Array.isArray(APP_DATA.siswa)?APP_DATA.siswa:[];
+  el.innerHTML='<option value="">Pilih siswa</option>'+siswa.filter(s=>s).map((s,i)=>{
+    const id=String(s.id||s.nisn||('SIS-'+(i+1))).trim();
+    return '<option value="'+escapeAttribute(id)+'">'+escapeHtml((s.nama||'-')+(s.kelas?' — '+s.kelas:''))+'</option>';
+  }).join('');
+  if(old)el.value=old;
+}
+
+function getSelectedTranskripStudent(){
+  const el=document.getElementById('transkrip_siswa');
+  const id=String(el?.value||'').trim();
+  if(!id)return null;
+  return (APP_DATA.siswa||[]).find((s,i)=>{
+    return normalizeId(s.id||s.nisn||('SIS-'+(i+1)))===normalizeId(id);
+  })||null;
+}
+
+function getTranskripRows(siswa){
+  const nilai=Array.isArray(APP_DATA.nilai)?APP_DATA.nilai:[];
+  const mapel=(APP_DATA.mapel||[]).filter(m=>String(m.status||'Aktif').toLowerCase()!=='nonaktif')
+    .sort((a,b)=>Number(a.urutan||9999)-Number(b.urutan||9999)||String(a.nama||'').localeCompare(String(b.nama||''),'id'));
+  const sid=normalizeId(siswa.id),snisn=normalizeId(siswa.nisn),sname=String(siswa.nama||'').trim().toLowerCase();
+
+  function same(a,b){return normalizeId(a)!==''&&normalizeId(a)===normalizeId(b);}
+  function findNilai(m){
+    const mid=normalizeId(m.id),mcode=String(m.kode||'').trim().toLowerCase(),mname=String(m.nama||'').trim().toLowerCase();
+    return nilai.find(x=>{
+      const xs=normalizeId(x.idSiswa),xm=normalizeId(x.idMapel);
+      const siswaMatch=same(xs,sid)||same(xs,snisn)||String(x.nisnSiswa||'').trim()===String(siswa.nisn||'').trim()||String(x.namaSiswa||'').trim().toLowerCase()===sname;
+      const mapelMatch=same(xm,mid)||String(x.kodeMapel||'').trim().toLowerCase()===mcode||String(x.namaMapel||'').trim().toLowerCase()===mname;
+      return siswaMatch&&mapelMatch;
+    });
+  }
+
+  const rows=mapel.map((m,i)=>{
+    const n=findNilai(m);
+    const avg=n&&n.rataRata!==''&&n.rataRata!==null&&n.rataRata!==undefined?Number(n.rataRata):null;
+    return {no:i+1,nama:m.nama||'-',nilai:avg===null||isNaN(avg)?'-':String(Math.round(avg)),avg:avg};
+  });
+  const angka=rows.map(r=>r.avg).filter(v=>v!==null&&!isNaN(v));
+  return {rows:rows,rataSemua:angka.length?angka.reduce((a,b)=>a+b,0)/angka.length:null};
+}
+
+function formatTanggalIndonesia(value){
+  if(value===null||value===undefined||String(value).trim()==='')return '-';
+  const raw=String(value).trim();
+  let y='',m='',d='';
+  let match=raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(match){y=match[1];m=match[2];d=match[3];}
+  else{
+    match=raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+    if(match){d=match[1];m=match[2];y=match[3];}
+  }
+  if(!y){
+    const dt=new Date(raw);
+    if(!isNaN(dt.getTime())){
+      y=dt.getFullYear();
+      m=dt.getMonth()+1;
+      d=dt.getDate();
+    }
+  }
+  if(!y||!m||!d)return raw;
+  const bulan=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const mi=Number(m)-1;
+  if(mi<0||mi>11)return raw;
+  return String(Number(d))+' '+bulan[mi]+' '+String(y);
+}
+
+function renderTranskrip(){
+  const body=document.getElementById('transkripBody');
+  if(!body)return Promise.resolve(null);
+  const siswa=getSelectedTranskripStudent();
+  if(!siswa){
+    body.innerHTML='<tr><td colspan="3">Silakan pilih siswa.</td></tr>';
+    return Promise.resolve(null);
+  }
+  const settings=APP_DATA.settings||{};
+  const setText=(id,v)=>{
+    const x=document.getElementById(id);
+    if(x)x.textContent=v===null||v===undefined||String(v)===''?'-':String(v);
+  };
+  setText('trInstansi',settings.instansi_pemerintah);
+  setText('trSekolahKop',settings.nama_sekolah);
+  setText('trKecamatan',settings.kecamatan);
+  setText('trAlamat',settings.alamat_sekolah);
+  setText('trEmail',settings.email_sekolah);
+  setText('trSekolah',settings.nama_sekolah);
+  setText('trNpsn',settings.npsn);
+  setText('trNama',siswa.nama);
+  setText('trLahir',siswa.tempatLahir&&siswa.tanggalLahir?siswa.tempatLahir+', '+formatTanggalIndonesia(siswa.tanggalLahir):(siswa.tempatLahir||formatTanggalIndonesia(siswa.tanggalLahir)));
+  setText('trNisn',siswa.nisn);
+  setText('trIjazah',siswa.nomorIjazah);
+  setText('trLulus',formatTanggalIndonesia(siswa.tanggalLulus));
+  const nomorSuratInicial=String(siswa.nomorSurat||settings.nomor_transkrip||'').trim();
+  setText('trNomor',nomorSuratInicial||'-');
+  setText('trKepala',settings.kepala_sekolah);
+  setText('trNipKepala',settings.nip_kepala_sekolah);
+  setText('trKotaTanggal',(settings.kabupaten||settings.kota||'')+(settings.tanggal_cetak?(', '+settings.tanggal_cetak):''));
+  const logo=document.getElementById('trLogo');
+  if(logo){
+    const url=String(settings.url_logo||'').trim();
+    logo.src=url;logo.style.display=url?'block':'none';
+    logo.onerror=function(){this.style.display='none';};
+  }
+
+  body.innerHTML='<tr><td colspan="3">Memuat nilai siswa...</td></tr>';
+
+  return new Promise(function(resolve,reject){
+    google.script.run
+      .withSuccessHandler(function(result){
+        try{
+          const d=typeof result==='string'?JSON.parse(result):result;
+          if(d&&d.siswa){
+            const ns=String(d.siswa.nomorSurat||siswa.nomorSurat||settings.nomor_transkrip||'').trim();
+            setText('trNomor',ns||'-');
+          }
+          const rows=Array.isArray(d?.rows)?d.rows:[];
+          const nilaiRows=rows.map(r=>{
+            const v=Number(r.nilai);
+            const tampil=(r.nilai===''||r.nilai===null||r.nilai===undefined||isNaN(v))?'-':String(Math.round(v));
+            return '<tr><td>'+r.no+'</td><td>'+escapeHtml(r.nama)+'</td><td>'+tampil+'</td></tr>';
+          }).join('');
+          const rataAkhir=d&&d.rataSemua!==null&&d.rataSemua!==undefined?formatRataRata(d.rataSemua):'-';
+          body.innerHTML=rows.length?nilaiRows+'<tr class="tr-rata-total"><td colspan="2" style="text-align:right;font-weight:700">Rata-rata</td><td style="text-align:center;font-weight:700">'+rataAkhir+'</td></tr>':'<tr><td colspan="3">Belum ada mata pelajaran.</td></tr>';
+          resolve(document.getElementById('transkripPrintArea'));
+        }catch(err){
+          body.innerHTML='<tr><td colspan="3">Gagal memproses data transkrip.</td></tr>';
+          reject(err);
+        }
+      })
+      .withFailureHandler(function(e){
+        body.innerHTML='<tr><td colspan="3">Gagal memuat nilai: '+escapeHtml(getErrorMessage(e))+'</td></tr>';
+        toast(getErrorMessage(e),'error');
+        reject(e);
+      })
+      .getTranskripRowsServer(SESSION_TOKEN,String(siswa.id||siswa.nisn||''));
+  });
+}
+
+async function ensureTranskripReady(){
+  const siswa=getSelectedTranskripStudent();
+  if(!siswa){
+    toast('Silakan pilih siswa terlebih dahulu.','warning');
+    return null;
+  }
+  const area=await renderTranskrip();
+  if(!area){toast('Area Transkrip tidak ditemukan.','error');return null;}
+  return area;
+}
+
+function getTranskripCss(){
+  return `
+html,body{margin:0!important;padding:0!important;background:#fff!important;color:#111!important;font-family:Arial,sans-serif!important}
+@page{size:A4 portrait;margin:0!important}
+.transkrip-paper{display:block!important;position:relative!important;width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;padding:10mm 13mm!important;box-sizing:border-box!important;background:#fff!important;color:#111!important;font-family:Arial,sans-serif!important;box-shadow:none!important;overflow:hidden!important;page-break-after:always!important}
+.transkrip-paper:last-child{page-break-after:auto!important}
+.transkrip-kop{position:relative!important;display:block!important;width:100%!important;min-height:25mm!important;box-sizing:border-box!important}
+.transkrip-logo-wrap{position:absolute!important;left:0!important;top:0!important;width:25mm!important;height:25mm!important;display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important}
+.transkrip-logo{width:21mm!important;height:21mm!important;object-fit:contain!important;display:block!important}
+.transkrip-kop-center{display:block!important;width:100%!important;padding:0!important;margin:0!important;box-sizing:border-box!important;text-align:center!important;font-weight:700!important;line-height:1.18!important}
+.transkrip-kop-center .tr-instansi{font-size:12pt!important;font-weight:700!important;line-height:1.15!important}
+.transkrip-kop-center .tr-sekolah{font-size:14pt!important;font-weight:800!important;line-height:1.15!important}
+.transkrip-kop-center .tr-kecamatan{font-size:12pt!important;font-weight:700!important;line-height:1.15!important}
+.transkrip-kop-center .tr-alamat,.transkrip-kop-center .tr-email{font-size:10pt!important;font-weight:400!important;font-style:italic!important;line-height:1.15!important}
+.transkrip-line{height:auto!important;border-bottom:3px double #111!important;margin:3mm 0 4mm!important}
+.transkrip-title{text-align:center!important;margin:4mm 0!important}
+.transkrip-title h2{margin:0!important;font-size:14pt!important;line-height:1.2!important}
+.transkrip-title .tr-nomor-surat,.transkrip-title .tr-nomor-surat span{font-size:12pt!important;line-height:1.3!important;white-space:nowrap!important;font-family:Arial,sans-serif!important}
+.transkrip-title .tr-nomor-surat{display:block!important;text-align:center!important}
+.transkrip-title .tr-nomor-surat span{display:inline!important}
+.transkrip-identitas{margin:4mm 0!important;font-size:10.5pt!important;line-height:1.35!important}
+.transkrip-identitas div{display:grid!important;grid-template-columns:48% 3% 49%!important;min-height:6mm!important}
+.transkrip-identitas span{white-space:normal!important}
+.transkrip-table{display:table!important;width:100%!important;max-width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;font-size:11pt!important;margin:4mm 0!important;box-sizing:border-box!important;visibility:visible!important}
+.transkrip-table thead{display:table-header-group!important;visibility:visible!important}.transkrip-table tbody{display:table-row-group!important;visibility:visible!important}.transkrip-table tr{display:table-row!important;visibility:visible!important}.transkrip-table th,.transkrip-table td{display:table-cell!important;border:1px solid #111!important;padding:4px 5px!important;line-height:1.25!important;vertical-align:middle!important;box-sizing:border-box!important;visibility:visible!important;overflow-wrap:anywhere!important}
+.transkrip-table th{font-weight:700!important;text-align:center!important}
+.transkrip-table th:nth-child(1),.transkrip-table td:nth-child(1){width:8%!important;text-align:center!important}
+.transkrip-table th:nth-child(2){width:72%!important;text-align:center!important}.transkrip-table td:nth-child(2){width:72%!important;text-align:left!important}
+.transkrip-table th:nth-child(3),.transkrip-table td:nth-child(3){width:20%!important;text-align:center!important}
+.transkrip-table .tr-rata-total td:first-child,.transkrip-table .tr-rata-total td:last-child{font-weight:700!important;text-align:center!important;vertical-align:middle!important}
+.transkrip-footer{margin-top:8mm!important;margin-left:auto!important;width:38%!important;text-align:center!important;font-size:12pt!important;line-height:1.25!important}
+.transkrip-footer .ttd-space{height:18mm!important;font-size:0!important}
+.transkrip-footer .ttd-name{font-weight:700!important;text-decoration:underline!important}
+#trKotaTanggal,#trKepala,#trNipKepala{font-size:12pt!important;line-height:1.25!important}
+`;
+}
+
+async function buildExportDocument(){
+  const area=await ensureTranskripReady();
+  if(!area)return null;
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  const freshArea=document.getElementById('transkripPrintArea');
+  if(!freshArea)return null;
+  const css=getTranskripCss();
+  return '<!doctype html><html><head><meta charset="utf-8"><title>Transkrip Nilai</title><style>'+css+'</style></head><body>'+freshArea.outerHTML+'</body></html>';
+}
+
+async function exportTranskripPDF(){
+  const doc=await buildExportDocument();
+  if(!doc)return;
+  const w=window.open('','_blank','width=900,height=1000');
+  if(!w){toast('Popup diblokir browser. Izinkan popup untuk ekspor PDF.','error');return;}
+  w.document.open();w.document.write(doc);w.document.close();
+  setTimeout(function(){w.focus();w.print();},700);
+}
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){a.remove();URL.revokeObjectURL(url);},1000);
+}
+
+async function exportTranskripWord(){
+  const doc=await buildExportDocument();
+  if(!doc)return;
+  const blob=new Blob(['\ufeff',doc],{type:'application/msword'});
+  const siswa=getSelectedTranskripStudent();
+  const name='Transkrip_'+sanitizeFileName(siswa?.nama||'Siswa')+'.doc';
+  downloadBlob(blob,name);
+  toast('File Word berhasil dibuat.','success');
+}
+
+async function exportTranskripExcel(){
+  const doc=await buildExportDocument();
+  if(!doc)return;
+  const siswa=getSelectedTranskripStudent();
+  const excelDoc=doc.replace(
+    '</style>',
+    '.transkrip-paper{margin:0!important;box-shadow:none!important;width:190mm!important;max-width:190mm!important}.transkrip-table{border-collapse:collapse!important;width:100%!important}</style>'
+  );
+  const blob=new Blob(['\ufeff',excelDoc],{type:'application/vnd.ms-excel'});
+  const name='Transkrip_'+sanitizeFileName(siswa?.nama||'Siswa')+'.xls';
+  downloadBlob(blob,name);
+  toast('File Excel berhasil dibuat.','success');
+}
+
+function printTranskrip(){
+  exportTranskripPDF();
+}
+
+function sanitizeFileName(v){
+  return String(v||'Siswa').replace(/[\\\\/:*?"<>|]+/g,'_').trim()||'Siswa';
+}
+
+function printTranskrip(){
+  exportTranskripPDF();
+}
+
+/* =====================================================
+   RENDER IJAZAH
+===================================================== */
+
+function renderIjazah() {
+
+  const select =
+    document.getElementById(
+      'ijazah_siswa'
+    );
+
+
+  const content =
+    document.getElementById(
+      'ijazahContent'
+    );
+
+
+  const idSiswa =
+    String(
+      select.value || ''
+    ).trim();
+
+
+  if (!idSiswa) {
+
+    content.innerHTML = `
+
+      <div class="empty">
+        Silakan pilih siswa untuk melihat rekap nilai.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const siswa =
+    APP_DATA.siswa.find(
+      function(item) {
+
+        return (
+          String(item.id) ===
+          idSiswa
+        );
+
+      }
+    );
+
+
+  if (!siswa) {
+
+    content.innerHTML = `
+
+      <div class="empty">
+        Data siswa tidak ditemukan.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /*
+   * Ambil semua nilai siswa.
+   */
+
+  const nilaiSiswa =
+    APP_DATA.nilai.filter(
+      function(item) {
+
+        return (
+          String(
+            item.idSiswa
+          ) ===
+          idSiswa
+        );
+
+      }
+    );
+
+
+  /*
+   * Buat baris berdasarkan
+   * seluruh mata pelajaran.
+   */
+
+  const rows =
+    APP_DATA.mapel.map(
+      function(mapel,index) {
+
+        const nilai =
+          nilaiSiswa.find(
+            function(item) {
+
+              return (
+                String(
+                  item.idMapel
+                ) ===
+                String(
+                  mapel.id
+                )
+              );
+
+            }
+          );
+
+
+        if (!nilai) {
+
+          return {
+
+            no:
+              index + 1,
+
+            mapel:
+              mapel,
+
+            nilai:
+              null
+
+          };
+
+        }
+
+
+        return {
+
+          no:
+            index + 1,
+
+          mapel:
+            mapel,
+
+          nilai:
+            nilai
+
+        };
+
+      }
+    );
+
+
+  /*
+   * Rata-rata tiap semester
+   */
+
+  const semesterTotals =
+    [0,0,0,0,0,0];
+
+
+  const semesterCounts =
+    [0,0,0,0,0,0];
+
+
+  let totalNilaiAkhir = 0;
+
+  let countNilaiAkhir = 0;
+
+
+  rows.forEach(
+    function(row) {
+
+      if (!row.nilai) {
+        return;
+      }
+
+
+      const values = [
+
+        row.nilai.s1,
+        row.nilai.s2,
+        row.nilai.s3,
+        row.nilai.s4,
+        row.nilai.s5,
+        row.nilai.s6
+
+      ];
+
+
+      values.forEach(
+        function(value,index) {
+
+          if (
+            value !== '' &&
+            value !== null &&
+            value !== undefined &&
+            !isNaN(
+              Number(value)
+            )
+          ) {
+
+            semesterTotals[index] +=
+              Number(value);
+
+            semesterCounts[index]++;
+
+          }
+
+        }
+      );
+
+
+      if (
+        row.nilai.rataRata !== '' &&
+        row.nilai.rataRata !== null &&
+        !isNaN(
+          Number(
+            row.nilai.rataRata
+          )
+        )
+      ) {
+
+        totalNilaiAkhir +=
+          Number(
+            row.nilai.rataRata
+          );
+
+        countNilaiAkhir++;
+
+      }
+
+    }
+  );
+
+
+  const semesterAverage =
+    semesterTotals.map(
+      function(total,index) {
+
+        if (
+          semesterCounts[index] === 0
+        ) {
+
+          return '-';
+
+        }
+
+
+        return formatRataRata(
+          total /
+          semesterCounts[index]
+        );
+
+      }
+    );
+
+
+  const overall =
+    countNilaiAkhir > 0
+      ? formatRataRata(
+          totalNilaiAkhir /
+          countNilaiAkhir
+        )
+      : '-';
+
+
+  content.innerHTML = `
+
+    <div class="ijazah-info">
+
+      <div class="info-box">
+
+        <div class="info-label">
+          Nama Siswa
+        </div>
+
+        <div class="info-value">
+          ${escapeHtml(
+            siswa.nama
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="info-box">
+
+        <div class="info-label">
+          NISN
+        </div>
+
+        <div class="info-value">
+          ${escapeHtml(
+            siswa.nisn || '-'
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="info-box">
+
+        <div class="info-label">
+          Kelas
+        </div>
+
+        <div class="info-value">
+          ${escapeHtml(
+            siswa.kelas || '-'
+          )}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>No</th>
+
+            <th>Mata Pelajaran</th>
+
+            <th>S1</th>
+
+            <th>S2</th>
+
+            <th>S3</th>
+
+            <th>S4</th>
+
+            <th>S5</th>
+
+            <th>S6</th>
+
+            <th>Rata-rata</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          ${
+            rows.length === 0
+
+              ? `
+
+                <tr>
+
+                  <td colspan="9">
+
+                    <div class="empty">
+                      Belum ada mata pelajaran.
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              `
+
+              :
+
+              rows.map(
+                function(row) {
+
+                  const n =
+                    row.nilai;
+
+
+                  return `
+
+                    <tr>
+
+                      <td>
+                        ${row.no}
+                      </td>
+
+                      <td>
+                        <strong>
+                          ${escapeHtml(
+                            row.mapel.nama
+                          )}
+                        </strong>
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s1)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s2)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s3)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s4)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s5)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          n
+                            ? displayNumber(n.s6)
+                            : '-'
+                        }
+                      </td>
+
+                      <td>
+                        <strong>
+                          ${
+                            n
+                              ? displayNumber(
+                                  n.rataRata
+                                )
+                              : '-'
+                          }
+                        </strong>
+                      </td>
+
+                    </tr>
+
+                  `;
+
+                }
+              ).join('')
+          }
+
+
+        </tbody>
+
+
+        <tfoot>
+
+          <tr>
+
+            <th colspan="2">
+              Rata-rata Siswa
+            </th>
+
+            <th>
+              ${semesterAverage[0]}
+            </th>
+
+            <th>
+              ${semesterAverage[1]}
+            </th>
+
+            <th>
+              ${semesterAverage[2]}
+            </th>
+
+            <th>
+              ${semesterAverage[3]}
+            </th>
+
+            <th>
+              ${semesterAverage[4]}
+            </th>
+
+            <th>
+              ${semesterAverage[5]}
+            </th>
+
+            <th>
+              ${overall}
+            </th>
+
+          </tr>
+
+        </tfoot>
+
+      </table>
+
+    </div>
+
+
+    <div class="ijazah-total">
+
+      <div class="ijazah-total-box">
+
+        Rata-rata Semester 1
+
+        <strong>
+          ${semesterAverage[0]}
+        </strong>
+
+      </div>
+
+
+      <div class="ijazah-total-box">
+
+        Rata-rata Semester 6
+
+        <strong>
+          ${semesterAverage[5]}
+        </strong>
+
+      </div>
+
+
+      <div class="ijazah-total-box">
+
+        Rata-rata Keseluruhan
+
+        <strong>
+          ${overall}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div
+      style="
+        margin-top:18px;
+        padding:12px;
+        background:#f8fafc;
+        border-radius:8px;
+        color:#64748b;
+        font-size:12px;
+      "
+    >
+
+      <strong>Catatan:</strong>
+
+      Nilai pada menu ini merupakan
+      rekap/perhitungan dari nilai Semester
+      1 sampai Semester 6 yang tersimpan
+      dalam aplikasi. Gunakan sebagai
+      bahan pengolahan nilai ijazah sesuai
+      ketentuan kurikulum dan sekolah.
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   CETAK IJAZAH
+===================================================== */
+
+function printIjazah() {
+
+  const idSiswa =
+    document.getElementById(
+      'ijazah_siswa'
+    ).value;
+
+
+  if (!idSiswa) {
+
+    toast(
+      'Silakan pilih siswa terlebih dahulu.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const siswa =
+    APP_DATA.siswa.find(
+      function(item) {
+
+        return (
+          String(item.id) ===
+          String(idSiswa)
+        );
+
+      }
+    );
+
+
+  if (!siswa) {
+
+    toast(
+      'Data siswa tidak ditemukan.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const school =
+    APP_DATA.settings || {};
+
+
+  const nilaiSiswa =
+    APP_DATA.nilai.filter(
+      function(item) {
+
+        return (
+          String(
+            item.idSiswa
+          ) ===
+          String(idSiswa)
+        );
+
+      }
+    );
+
+
+  const rows =
+    APP_DATA.mapel.map(
+      function(mapel,index) {
+
+        const nilai =
+          nilaiSiswa.find(
+            function(item) {
+
+              return (
+                String(
+                  item.idMapel
+                ) ===
+                String(
+                  mapel.id
+                )
+              );
+
+            }
+          );
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${index + 1}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                mapel.nama
+              )}
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s1)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s2)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s3)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s4)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s5)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              ${
+                nilai
+                  ? displayNumber(nilai.s6)
+                  : '-'
+              }
+            </td>
+
+            <td>
+              <strong>
+                ${
+                  nilai
+                    ? displayNumber(
+                        nilai.rataRata
+                      )
+                    : '-'
+                }
+              </strong>
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    )
+    .join('');
+
+
+  const printWindow =
+    window.open(
+      '',
+      '_blank'
+    );
+
+
+  if (!printWindow) {
+
+    toast(
+      'Browser memblokir jendela cetak. Izinkan pop-up untuk aplikasi ini.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  printWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>
+        Rekap Nilai ${escapeHtml(
+          siswa.nama
+        )}
+      </title>
+
+
+      <style>
+
+        body {
+
+          font-family:
+            Arial,
+            sans-serif;
+
+          padding:
+            30px;
+
+          color:
+            #111;
+
+        }
+
+
+        h2,
+        h3 {
+
+          text-align:
+            center;
+
+          margin:
+            4px;
+
+        }
+
+
+        .identitas {
+
+          margin-top:
+            25px;
+
+          margin-bottom:
+            20px;
+
+          line-height:
+            1.7;
+
+        }
+
+
+        table {
+
+          width:
+            100%;
+
+          border-collapse:
+            collapse;
+
+        }
+
+
+        th,
+        td {
+
+          border:
+            1px solid #333;
+
+          padding:
+            7px;
+
+          font-size:
+            12px;
+
+          text-align:
+            center;
+
+        }
+
+
+        th:nth-child(2),
+        td:nth-child(2) {
+
+          text-align:
+            left;
+
+        }
+
+
+        th {
+
+          background:
+            #eee;
+
+        }
+
+
+        .signature {
+
+          width:
+            100%;
+
+          margin-top:
+            50px;
+
+        }
+
+
+        .signature td {
+
+          border:
+            none;
+
+          text-align:
+            center;
+
+          vertical-align:
+            top;
+
+          height:
+            100px;
+
+        }
+
+
+        @media print {
+
+          body {
+            padding: 10px;
+          }
+
+        }
+
+      
+/* PERBAIKAN NOMOR SURAT TRANSKRIP */
+.tr-nomor-surat,
+.tr-nomor-surat span,
+#transkripPrintArea .tr-nomor-surat,
+#transkripPrintArea .tr-nomor-surat span,
+#transkripPrintArea #trNomor{
+  display:block !important;
+  visibility:visible !important;
+  font-size:12pt !important;
+  line-height:1.3 !important;
+  font-family:Arial,sans-serif !important;
+}
+@media print{
+  .tr-nomor-surat,
+  .tr-nomor-surat span,
+  #transkripPrintArea #trNomor{
+    font-size:12pt !important;
+    line-height:1.3 !important;
+  }
+}
+
+/* FINAL TRANSKRIP PRINT FIX: data tabel dan nomor surat */
+#transkripPrintArea .transkrip-title .tr-nomor-surat,
+#transkripPrintArea .transkrip-title .tr-nomor-surat span,
+#transkripPrintArea .transkrip-title #trNomor{
+  display:block !important;
+  visibility:visible !important;
+  font-size:12pt !important;
+  line-height:1.3 !important;
+  font-family:Arial,sans-serif !important;
+}
+#transkripPrintArea .transkrip-table,
+#transkripPrintArea .transkrip-table tbody,
+#transkripPrintArea .transkrip-table tr,
+#transkripPrintArea .transkrip-table th,
+#transkripPrintArea .transkrip-table td{
+  display:table !important;
+  visibility:visible !important;
+}
+#transkripPrintArea .transkrip-table tbody{display:table-row-group !important}
+#transkripPrintArea .transkrip-table tr{display:table-row !important}
+#transkripPrintArea .transkrip-table th,
+#transkripPrintArea .transkrip-table td{display:table-cell !important}
+@media print{
+  #transkripPrintArea .transkrip-title .tr-nomor-surat,
+  #transkripPrintArea .transkrip-title .tr-nomor-surat span,
+  #transkripPrintArea .transkrip-title #trNomor{font-size:12pt !important}
+}
+
+
+/* =====================================================
+   SURAT KETERANGAN LULUS (SKL)
+===================================================== */
+.skl-paper{width:210mm;min-height:297mm;margin:18px auto;background:#fff;color:#111;padding:12mm 15mm;box-sizing:border-box;font-family:Arial,sans-serif;box-shadow:0 3px 18px rgba(15,23,42,.12)}
+.skl-kop{position:relative;width:100%;min-height:27mm;box-sizing:border-box}
+.skl-logo-wrap{position:absolute;left:0;top:0;width:24mm;height:24mm;display:flex;align-items:center;justify-content:center}.skl-logo{width:21mm;height:21mm;object-fit:contain}.skl-kop-center{width:100%;text-align:center}.skl-instansi{font-size:12pt;font-weight:700}.skl-sekolah{font-size:15pt;font-weight:800}.skl-kecamatan{font-size:11pt;font-weight:700}.skl-alamat,.skl-email{font-size:9.5pt}.skl-line{border-bottom:3px double #111;margin-top:3mm}.skl-title{text-align:center;margin:4mm 0 4mm;font-size:11pt}.skl-title h2{margin:0;font-size:14pt;text-decoration:underline}.skl-title div{margin-top:2px;font-size:11pt}.skl-intro,.skl-statement,.skl-note{font-size:10.5pt;line-height:1.5;text-align:justify}.skl-identitas{margin:4mm 0}.skl-identitas div{display:grid;grid-template-columns:42% 3% 55%;min-height:6mm;font-size:10.5pt;line-height:1.35}.skl-status{text-align:center;font-weight:800;font-size:15pt;letter-spacing:1px;margin:3mm 0;text-decoration:underline}.skl-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9.5pt;margin:4mm 0}.skl-table th,.skl-table td{border:1px solid #222;padding:4px 5px;vertical-align:middle}.skl-table th:nth-child(1),.skl-table td:nth-child(1){width:9%;text-align:center}.skl-table th:nth-child(2),.skl-table td:nth-child(2){width:71%;text-align:left}.skl-table th:nth-child(3),.skl-table td:nth-child(3){width:20%;text-align:center}.skl-table tfoot th{font-weight:700}.skl-note{font-size:9pt}.skl-footer{margin-top:8mm;margin-left:auto;width:40%;text-align:center;font-size:10.5pt;line-height:1.35}.skl-ttd-space{height:18mm}.skl-footer strong{font-size:11pt;text-decoration:underline}.skl-footer span{font-size:10.5pt}
+@media print{.sidebar,.topbar,.page-header,.no-print,#loginScreen,.toast-container,#loading{display:none!important}.main{margin:0!important;padding:0!important}.page{display:none!important}.page.active#page-skl{display:block!important;visibility:visible!important}.page.active#page-skl *{visibility:visible!important}.skl-paper{display:block!important;width:210mm;height:297mm;min-height:297mm;margin:0;padding:10mm 13mm;box-shadow:none;overflow:hidden}.skl-kop{min-height:25mm}.skl-logo-wrap{left:0}.skl-kop-center{text-align:center!important}.skl-title h2{font-size:14pt}.skl-title,.skl-title div{font-size:11pt}.skl-table{font-size:9pt}.skl-table th:nth-child(3),.skl-table td:nth-child(3),.skl-table tfoot th:last-child{text-align:center!important}.skl-footer{font-size:10.5pt}.skl-status{font-size:15pt}@page{size:A4 portrait;margin:0}}
+/* FINAL SKL PRINT: gunakan dokumen cetak mandiri seperti Transkrip */
+.skl-title div,.skl-title div span{font-size:12pt!important;line-height:1.3!important}.skl-table,.skl-table tbody,.skl-table thead,.skl-table tfoot,.skl-table tr,.skl-table th,.skl-table td{visibility:visible!important}.skl-table th:nth-child(3),.skl-table td:nth-child(3),.skl-table tfoot th:last-child{text-align:center!important}
+
+</style>
+
+    </head>
+
+
+    <body>
+
+
+      <h2>
+        ${escapeHtml(
+          school.nama_sekolah ||
+          'NAMA SEKOLAH'
+        )}
+      </h2>
+
+
+      <h3>
+        REKAP NILAI PESERTA DIDIK
+      </h3>
+
+
+      <h3>
+        SEMESTER 1 - SEMESTER 6
+      </h3>
+
+
+      <div class="identitas">
+
+        <strong>
+          Nama:
+        </strong>
+
+        ${escapeHtml(
+          siswa.nama
+        )}
+
+        <br>
+
+
+        <strong>
+          NISN:
+        </strong>
+
+        ${escapeHtml(
+          siswa.nisn || '-'
+        )}
+
+        <br>
+
+
+        <strong>
+          Kelas:
+        </strong>
+
+        ${escapeHtml(
+          siswa.kelas || '-'
+        )}
+
+      </div>
+
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>No</th>
+
+            <th>Mata Pelajaran</th>
+
+            <th>S1</th>
+
+            <th>S2</th>
+
+            <th>S3</th>
+
+            <th>S4</th>
+
+            <th>S5</th>
+
+            <th>S6</th>
+
+            <th>Rata-rata</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          ${rows}
+
+        </tbody>
+
+      </table>
+
+
+      <table class="signature">
+
+        <tr>
+
+          <td>
+
+            Mengetahui,<br>
+
+            Kepala Sekolah<br><br><br><br>
+
+            <strong>
+              ${escapeHtml(
+                school.kepala_sekolah ||
+                '................................'
+              )}
+            </strong>
+
+            <br>
+
+            NIP.
+            ${escapeHtml(
+              school.nip_kepala_sekolah ||
+              '................................'
+            )}
+
+          </td>
+
+
+          <td>
+
+            Wali Kelas<br><br><br><br><br>
+
+            <strong>
+              ${escapeHtml(
+                school.wali_kelas ||
+                '................................'
+              )}
+            </strong>
+
+            <br>
+
+            NIP.
+            ${escapeHtml(
+              school.nip_wali_kelas ||
+              '................................'
+            )}
+
+          </td>
+
+        </tr>
+
+      </table>
+
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  printWindow.document.close();
+
+
+  setTimeout(
+    function() {
+
+      printWindow.print();
+
+    },
+    500
+  );
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function renderSettings() {
+
+  const settings =
+    APP_DATA.settings || {};
+
+
+  const keys = [
+
+    'nama_sekolah',
+    'instansi_pemerintah',
+    'email_sekolah',
+    'url_logo',
+    'npsn',
+    'alamat_sekolah',
+    'desa',
+    'kecamatan',
+    'kabupaten',
+    'provinsi',
+    'tempat_tanda_tangan_skl',
+    'tahun_pelajaran',
+    'wali_kelas',
+    'nip_wali_kelas',
+    'kepala_sekolah',
+    'nip_kepala_sekolah',
+    'semester_aktif'
+
+  ];
+
+
+  keys.forEach(
+    function(key) {
+
+      const element =
+        document.getElementById(
+          'set_' + key
+        );
+
+
+      if (element) {
+
+        element.value =
+          settings[key] || '';
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+function saveSettings() {
+
+  const keys = [
+
+    'nama_sekolah',
+    'instansi_pemerintah',
+    'email_sekolah',
+    'url_logo',
+    'npsn',
+    'alamat_sekolah',
+    'desa',
+    'kecamatan',
+    'kabupaten',
+    'provinsi',
+    'tempat_tanda_tangan_skl',
+    'tahun_pelajaran',
+    'wali_kelas',
+    'nip_wali_kelas',
+    'kepala_sekolah',
+    'nip_kepala_sekolah',
+    'semester_aktif'
+
+  ];
+
+
+  const data = {};
+
+
+  keys.forEach(
+    function(key) {
+
+      data[key] =
+        document.getElementById(
+          'set_' + key
+        ).value;
+
+    }
+  );
+
+
+  setLoading(
+    true,
+    'Menyimpan pengaturan...'
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        toast(
+          result.message,
+          'success'
+        );
+
+        loadApplication();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        setLoading(false);
+
+        toast(
+          getErrorMessage(error),
+          'error'
+        );
+
+      }
+    )
+
+    .saveSettings(
+      SESSION_TOKEN,
+      data
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function doLogout() {
+
+  const token =
+    SESSION_TOKEN;
+
+
+  SESSION_TOKEN = '';
+
+  sessionStorage.removeItem(
+    'REKAP_NILAI_TOKEN'
+  );
+
+
+  showLogin(true);
+
+
+  document.getElementById(
+    'loginPassword'
+  ).value = '';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function() {}
+    )
+
+    .withFailureHandler(
+      function() {}
+    )
+
+    .logout(
+      token
+    );
+
+}
+
+
+/* =====================================================
+   LOGIN SCREEN
+===================================================== */
+
+function showLogin(
+  show
+) {
+
+  const screen =
+    document.getElementById(
+      'loginScreen'
+    );
+
+
+  if (show) {
+
+    screen.classList.remove(
+      'hidden'
+    );
+
+  } else {
+
+    screen.classList.add(
+      'hidden'
+    );
+
+  }
+
+}
+
+
+function showLoginError(
+  message
+) {
+
+  const element =
+    document.getElementById(
+      'loginError'
+    );
+
+
+  element.textContent =
+    message;
+
+
+  element.classList.add(
+    'show'
+  );
+
+}
+
+
+/* =====================================================
+   SESSION EXPIRED
+===================================================== */
+
+function sessionExpired(
+  message
+) {
+
+  SESSION_TOKEN = '';
+
+  sessionStorage.removeItem(
+    'REKAP_NILAI_TOKEN'
+  );
+
+
+  showLogin(true);
+
+
+  showLoginError(
+    message ||
+    'Sesi login telah berakhir.'
+  );
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal(
+  id
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  if (element) {
+
+    element.classList.remove(
+      'show'
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function setLoading(
+  show,
+  text
+) {
+
+  const element =
+    document.getElementById(
+      'loading'
+    );
+
+
+  document.getElementById(
+    'loadingText'
+  ).textContent =
+    text ||
+    'Memproses data...';
+
+
+  if (show) {
+
+    element.classList.add(
+      'show'
+    );
+
+  } else {
+
+    element.classList.remove(
+      'show'
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(
+  message,
+  type
+) {
+
+  const container =
+    document.getElementById(
+      'toastContainer'
+    );
+
+
+  const item =
+    document.createElement(
+      'div'
+    );
+
+
+  item.className =
+    'toast ' +
+    (
+      type ||
+      'success'
+    );
+
+
+  item.textContent =
+    message ||
+    'Berhasil.';
+
+
+  container.appendChild(
+    item
+  );
+
+
+  setTimeout(
+    function() {
+
+      item.remove();
+
+    },
+    4000
+  );
+
+}
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+function getErrorMessage(
+  error
+) {
+
+  if (!error) {
+
+    return 'Terjadi kesalahan pada server.';
+
+  }
+
+
+  if (
+    typeof error ===
+    'string'
+  ) {
+
+    return error;
+
+  }
+
+
+  return (
+    error.message ||
+    'Terjadi kesalahan pada server.'
+  );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return '';
+
+  }
+
+
+  return String(
+    value
+  )
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE ATTRIBUTE
+===================================================== */
+
+function escapeAttribute(
+  value
+) {
+
+  return escapeHtml(
+    value
+  );
+
+}
+
+
+/* =====================================================
+   JS STRING
+===================================================== */
+
+function jsString(
+  value
+) {
+
+  return String(
+    value || ''
+  )
+    .replace(
+      /\\/g,
+      '\\\\'
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT RATA-RATA
+   Khusus rata-rata Leger, Transkrip, SKL, dan Ijazah.
+===================================================== */
+function formatRataRata(value){
+  if(value === '' || value === null || value === undefined || isNaN(Number(value))) return '-';
+  return Number(value).toFixed(2).replace('.', ',');
+}
+
+/* =====================================================
+   DISPLAY NUMBER
+===================================================== */
+
+function displayNumber(
+  value
+) {
+
+  if (
+    value === '' ||
+    value === null ||
+    value === undefined
+  ) {
+
+    return '-';
+
+  }
+
+
+  const number =
+    Number(value);
+
+
+  if (
+    isNaN(number)
+  ) {
+
+    return '-';
+
+  }
+
+
+  return number
+    .toFixed(2)
+    .replace(
+      /\.00$/,
+      ''
+    );
+
+}
+
+
+/* =====================================================
+   ENTER LOGIN
+===================================================== */
+
+document.addEventListener(
+  'keydown',
+  function(event) {
+
+    if (
+      event.key ===
+      'Enter'
+    ) {
+
+      const screen =
+        document.getElementById(
+          'loginScreen'
+        );
+
+
+      if (
+        screen &&
+        !screen.classList.contains(
+          'hidden'
+        )
+      ) {
+
+        doLogin();
+
+      }
+
+    }
+
+  }
+);
+
+
+</script>
+
+
+<style id="skl-menu-position-fix">
+.sidebar .menu #menuSKL{display:block!important;position:static!important;width:100%!important;margin:0 0 4px 0!important;padding:13px 14px!important;box-sizing:border-box!important;transform:none!important;float:none!important;}
+
+/* Final requested formatting only: data siswa normal kecuali Nama; nama mapel di tengah */
+.transkrip-identitas > div > strong{font-weight:700!important}
+.transkrip-identitas > div > span{font-weight:400!important}
+.skl-identitas > div > strong{font-weight:700!important}
+.skl-identitas > div > span{font-weight:400!important}
+.transkrip-table th:nth-child(2),.transkrip-table td:nth-child(2){text-align:center!important}
+.skl-table th:nth-child(2){text-align:center!important}.skl-table td:nth-child(2){text-align:left!important}
+@media print{
+  .transkrip-table th:nth-child(2),.transkrip-table td:nth-child(2){text-align:center!important}
+  .skl-table th:nth-child(2){text-align:center!important}.skl-table td:nth-child(2){text-align:left!important}
+}
+</style>
+<script>
+(function(){
+  function fixSKLMenu(){
+    var menu=document.querySelector('.sidebar .menu');
+    var skl=document.getElementById('menuSKL');
+    if(!menu||!skl)return;
+    var buttons=menu.querySelectorAll('button');
+    var ij=null;
+    for(var i=0;i<buttons.length;i++){if(String(buttons[i].getAttribute('onclick')||'').indexOf("showPage('ijazah'")>=0){ij=buttons[i];break;}}
+    if(ij) menu.insertBefore(skl,ij); else if(skl.parentElement!==menu) menu.appendChild(skl);
+    skl.style.position='static';skl.style.display='block';skl.style.width='100%';
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixSKLMenu);else fixSKLMenu();
+  setTimeout(fixSKLMenu,100);
+})();
+</script>
+</body>
+
+</html>
+
+<style id="skl-mapel-position-final-fix">
+/* Hanya perbaikan posisi kolom Mata Pelajaran pada SKL. Tidak mengubah fitur lain. */
+#sklPrintArea .skl-table thead th:nth-child(2),
+#sklPrintArea .skl-table tfoot th:nth-child(2),
+#sklBulkPrintArea .skl-table thead th:nth-child(2),
+#sklBulkPrintArea .skl-table tfoot th:nth-child(2){
+  text-align:center!important;
+}
+#sklPrintArea .skl-table tbody td:nth-child(2),
+#sklBulkPrintArea .skl-table tbody td:nth-child(2){
+  text-align:left!important;
+}
+#sklPrintArea .skl-table th:nth-child(3),
+#sklPrintArea .skl-table td:nth-child(3),
+#sklPrintArea .skl-table tfoot th:last-child,
+#sklBulkPrintArea .skl-table th:nth-child(3),
+#sklBulkPrintArea .skl-table td:nth-child(3),
+#sklBulkPrintArea .skl-table tfoot th:last-child{
+  text-align:center!important;
+}
+@media print{
+  #sklPrintArea .skl-table thead th:nth-child(2),
+  #sklBulkPrintArea .skl-table thead th:nth-child(2){text-align:center!important;}
+  #sklPrintArea .skl-table tbody td:nth-child(2),
+  #sklBulkPrintArea .skl-table tbody td:nth-child(2){text-align:left!important;}
+}
+</style>
+
+<style id="transkrip-header-mapel-center-final">
+/* Hanya mengatur header "Mata Pelajaran" pada Transkrip. Nama mapel tetap kiri. */
+#transkripPrintArea .transkrip-table thead th:nth-child(2){
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+#transkripPrintArea .transkrip-table tbody td:nth-child(2){
+  text-align:left!important;
+}
+@media print{
+  #transkripPrintArea .transkrip-table thead th:nth-child(2){
+    text-align:center!important;
+  }
+  #transkripPrintArea .transkrip-table tbody td:nth-child(2){
+    text-align:left!important;
+  }
+}
+</style>
