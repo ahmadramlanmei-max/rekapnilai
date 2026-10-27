@@ -1611,7 +1611,47 @@ td {
   .transkrip-table tbody td:nth-child(3){text-align:center!important;}
   .skl-table tfoot th,.skl-table tfoot td{text-align:center!important;vertical-align:middle!important;}
 }
+
+/* PERBAIKAN TERBATAS: nilai mapel dua desimal untuk Leger, Transkrip, SKL, dan Nilai Ijazah */
+/* Cetak tiap dokumen satu lembar; cegah page-break setelah dokumen tunggal. */
+@media print {
+  #transkripPrintArea, #transkripPrintArea .transkrip-paper,
+  #sklPrintArea, #sklPrintArea .skl-paper,
+  #ijazahContent, #ijazahContent .ijazah-paper {
+    page-break-after: avoid !important;
+    break-after: avoid-page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
+  }
+  #transkripPrintArea .transkrip-paper { height: 281mm !important; min-height: 0 !important; overflow: hidden !important; }
+  #sklPrintArea .skl-paper { height: 281mm !important; min-height: 0 !important; overflow: hidden !important; }
+  #ijazahContent .ijazah-paper { height: 281mm !important; min-height: 0 !important; overflow: hidden !important; }
+  html, body { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+}
+
 </style>
+
+
+/* MOBILE SIDEBAR: tambahan responsif terbatas, desktop dan login tetap dipertahankan */
+#mobileMenuButton{display:none;border:0;border-radius:8px;background:#2563eb;color:#fff;padding:9px 12px;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0}
+#mobileMenuOverlay{display:none}
+@media(max-width:768px){
+  .sidebar{width:260px!important;max-width:85vw!important;height:100dvh!important;overflow-y:auto!important;overflow-x:hidden!important;transform:translateX(-105%);transition:transform .25s ease;z-index:9001!important;box-shadow:8px 0 28px rgba(0,0,0,.22)}
+  body.mobile-menu-open .sidebar{transform:translateX(0)}
+  #mobileMenuOverlay{display:block;position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:9000;opacity:0;visibility:hidden;transition:opacity .2s ease;touch-action:manipulation}
+  body.mobile-menu-open #mobileMenuOverlay{opacity:1;visibility:visible}
+  .main{margin-left:0!important;width:100%!important;min-width:0!important}
+  .topbar{height:auto!important;min-height:62px;padding:10px 12px!important;gap:10px}
+  #mobileMenuButton{display:inline-flex;align-items:center;justify-content:center}
+  .topbar-title{font-size:16px;flex:1;min-width:0}
+  .user-area{gap:7px;flex-shrink:0}
+  .user-name{display:none}
+  .content{padding:12px!important}
+  .page-header{gap:10px;align-items:flex-start;flex-wrap:wrap}
+  .page-title{font-size:20px}
+  body.mobile-menu-open{overflow:hidden}
+}
+@media(prefers-reduced-motion:reduce){.sidebar,#mobileMenuOverlay{transition:none!important}}
 
 </head>
 
@@ -1778,6 +1818,7 @@ td {
   </div>
 
 </aside>
+<div id="mobileMenuOverlay" aria-hidden="true"></div>
 
 
 <!-- =====================================================
@@ -1788,6 +1829,8 @@ td {
 
 
 <header class="topbar">
+
+  <button id="mobileMenuButton" type="button" aria-label="Buka menu navigasi" aria-expanded="false">☰ Menu</button>
 
   <div
     id="topbarTitle"
@@ -5135,7 +5178,7 @@ function renderNilai(){
     rows.push({item,siswa:siswa||{id:item.idSiswa,nama:namaSiswa},mapel:mapel||{id:item.idMapel,nama:namaMapel}});
   });
   if(!rows.length){tbody.innerHTML='<tr><td colspan="11"><div class="empty">'+(nilaiList.length?'Data nilai ada di Spreadsheet, tetapi data siswa/mapel belum cocok.':'Belum ada data nilai.')+'</div></td></tr>';return;}
-  tbody.innerHTML=rows.map((row,index)=>{const n=row.item;return `<tr><td>${index+1}</td><td>${escapeHtml(row.siswa.nama||'')}</td><td>${escapeHtml(row.mapel.nama||'')}</td><td>${displayNumber(n.s1)}</td><td>${displayNumber(n.s2)}</td><td>${displayNumber(n.s3)}</td><td>${displayNumber(n.s4)}</td><td>${displayNumber(n.s5)}</td><td>${displayNumber(n.s6)}</td><td><strong>${displayNumber(n.rataRata)}</strong></td><td><button class="btn btn-warning btn-small" onclick="openNilaiModal('${jsString(row.siswa.id)}','${jsString(row.mapel.id)}')">Edit</button></td></tr>`;}).join('');
+  tbody.innerHTML=rows.map((row,index)=>{const n=row.item;return `<tr><td>${index+1}</td><td>${escapeHtml(row.siswa.nama||'')}</td><td>${escapeHtml(row.mapel.nama||'')}</td><td>${formatNilaiDuaDesimal(n.s1)}</td><td>${formatNilaiDuaDesimal(n.s2)}</td><td>${formatNilaiDuaDesimal(n.s3)}</td><td>${formatNilaiDuaDesimal(n.s4)}</td><td>${formatNilaiDuaDesimal(n.s5)}</td><td>${formatNilaiDuaDesimal(n.s6)}</td><td><strong>${formatNilaiDuaDesimal(n.rataRata)}</strong></td><td><button class="btn btn-warning btn-small" onclick="openNilaiModal('${jsString(row.siswa.id)}','${jsString(row.mapel.id)}')">Edit</button></td></tr>`;}).join('');
 }
 
 /* =====================================================
@@ -5447,7 +5490,7 @@ function renderLeger(){
     const filled=vals.filter(v=>v!==null).length, overall=filled?vals.filter(v=>v!==null).reduce((a,b)=>a+b,0)/filled:null;
     return {s,vals,filled,overall};
   });
-  body.innerHTML=rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+escapeHtml(r.s.nisn||'-')+'</td><td><strong>'+escapeHtml(r.s.nama||'-')+'</strong></td><td>'+escapeHtml(r.s.kelas||'-')+'</td>'+r.vals.map(v=>'<td>'+ (v===null?'-':displayNumber(v))+'</td>').join('')+'<td><strong>'+(r.overall===null?'-':formatRataRata(r.overall))+'</strong></td><td class="'+(r.filled===mapel.length?'leger-complete':'leger-incomplete')+'">'+(r.filled===mapel.length?'Lengkap':r.filled+'/'+mapel.length)+'</td></tr>').join('');
+  body.innerHTML=rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+escapeHtml(r.s.nisn||'-')+'</td><td><strong>'+escapeHtml(r.s.nama||'-')+'</strong></td><td>'+escapeHtml(r.s.kelas||'-')+'</td>'+r.vals.map(v=>'<td>'+ (v===null?'-':formatNilaiDuaDesimal(v))+'</td>').join('')+'<td><strong>'+(r.overall===null?'-':formatRataRata(r.overall))+'</strong></td><td class="'+(r.filled===mapel.length?'leger-complete':'leger-incomplete')+'">'+(r.filled===mapel.length?'Lengkap':r.filled+'/'+mapel.length)+'</td></tr>').join('');
   const classAvgs=mapel.map((m,j)=>{const a=rows.map(r=>r.vals[j]).filter(v=>v!==null);return a.length?formatRataRata(a.reduce((x,y)=>x+y,0)/a.length):'-';});
   const overallVals=rows.map(r=>r.overall).filter(v=>v!==null);
   const overallAvg=overallVals.length?formatRataRata(overallVals.reduce((a,b)=>a+b,0)/overallVals.length):'-';
@@ -5560,7 +5603,7 @@ function renderSKL(){
   const r=getSKLRecord(s.id||s.nisn)||{};
   document.getElementById('skl_nomor').value=r.nomorSKL||'';document.getElementById('skl_nis').value=r.nis||'';document.getElementById('skl_tanggal').value=r.tanggalSKL||s.tanggalLulus||'';document.getElementById('skl_ortu').value=r.orangTuaWali||'';document.getElementById('skl_keputusan').value=r.nomorKeputusan||'';document.getElementById('skl_tgl_keputusan').value=r.tanggalKeputusan||'';document.getElementById('skl_status').value=r.statusKelulusan||'LULUS';document.getElementById('skl_keterangan').value=r.keterangan||'';
   set('sklPrintNomor',r.nomorSKL||'-');set('sklNama',s.nama);set('sklLahir',s.tempatLahir&&s.tanggalLahir?s.tempatLahir+', '+formatTanggalIndonesia(s.tanggalLahir):(s.tempatLahir||formatTanggalIndonesia(s.tanggalLahir)));set('sklPrintOrtu',r.orangTuaWali||'-');set('sklNis',r.nis||'-');set('sklNisn',s.nisn||'-');set('sklPrintKeputusan',r.nomorKeputusan||'-');set('sklPrintTglKeputusan',formatTanggalIndonesia(r.tanggalKeputusan));set('sklStatusPrint',r.statusKelulusan||'LULUS');set('sklKotaTanggal',formatTempatTanggalSKL_(settings.tempat_tanda_tangan_skl,r.tanggalSKL));
-  const nilai=SKL_DATA.nilai||[], mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&n.rataRata!=null&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return {no:i+1,nama:m.nama||'-',nilai:v};});const nums=rows.map(x=>x.nilai).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;document.getElementById('sklBody').innerHTML=rows.map(x=>'<tr><td>'+x.no+'</td><td>'+escapeHtml(x.nama)+'</td><td>'+(x.nilai===null?'-':String(Math.round(x.nilai)))+'</td></tr>').join('');set('sklRata',avg===null?'-':formatRataRata(avg));
+  const nilai=SKL_DATA.nilai||[], mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&n.rataRata!=null&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return {no:i+1,nama:m.nama||'-',nilai:v};});const nums=rows.map(x=>x.nilai).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;document.getElementById('sklBody').innerHTML=rows.map(x=>'<tr><td>'+x.no+'</td><td>'+escapeHtml(x.nama)+'</td><td>'+(x.nilai===null?'-':formatNilaiDuaDesimal(x.nilai))+'</td></tr>').join('');set('sklRata',avg===null?'-':formatRataRata(avg));
 }
 function saveSKL(){const s=getSelectedSKLStudent();if(!s){toast('Silakan pilih siswa terlebih dahulu.','warning');return;}const data={idSiswa:s.id||s.nisn,nis:document.getElementById('skl_nis').value,nomorSKL:document.getElementById('skl_nomor').value,tanggalSKL:document.getElementById('skl_tanggal').value,orangTuaWali:document.getElementById('skl_ortu').value,statusKelulusan:document.getElementById('skl_status').value,nomorKeputusan:document.getElementById('skl_keputusan').value,tanggalKeputusan:document.getElementById('skl_tgl_keputusan').value,keterangan:document.getElementById('skl_keterangan').value};setLoading(true,'Menyimpan data SKL...');google.script.run.withSuccessHandler(function(r){setLoading(false);toast(r?.message||'Data SKL tersimpan.','success');google.script.run.withSuccessHandler(function(d){SKL_DATA.records=d||[];renderSKL();}).withFailureHandler(function(){}).getSKLRecordsOnly(SESSION_TOKEN);}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).saveSKLRecord(SESSION_TOKEN,data);}
 function printSKL(){const s=getSelectedSKLStudent();if(!s){toast('Silakan pilih siswa terlebih dahulu.','warning');return;}saveSKLAndPrint_();}
@@ -5604,7 +5647,7 @@ function selectAllSKLBulk(flag){document.querySelectorAll('.skl-bulk-check').for
 function generateSKLBulkNumbers(){const prefix=String(document.getElementById('skl_bulk_prefix')?.value||'').trim();let start=parseInt(document.getElementById('skl_bulk_start')?.value||'1',10);if(!prefix||isNaN(start)){toast('Isi pola nomor dan nomor urut awal terlebih dahulu.','warning');return;}let n=start;document.querySelectorAll('.skl-bulk-check:checked').forEach(ch=>{const input=document.querySelector('.skl-bulk-row-number[data-id="'+CSS.escape(ch.value)+'"]');if(input){input.value=prefix.replace(/\{n\}/g,String(n++));}});toast('Nomor SKL berhasil dibuat untuk siswa terpilih.','success');}
 function collectSKLBulkRecords(){const statusDefault=document.getElementById('skl_bulk_status').value;const keputusan=document.getElementById('skl_bulk_keputusan').value.trim();const tglKeputusan=document.getElementById('skl_bulk_tgl_keputusan').value;const tanggal=document.getElementById('skl_bulk_tanggal').value;const selected=Array.from(document.querySelectorAll('.skl-bulk-check:checked'));return selected.map(ch=>{const id=ch.value;const s=(SKL_DATA.siswa||[]).find(x=>normalizeId(x.id||x.nisn)===normalizeId(id))||{};const numEl=document.querySelector('.skl-bulk-row-number[data-id="'+CSS.escape(id)+'"]');const statEl=document.querySelector('.skl-bulk-row-status[data-id="'+CSS.escape(id)+'"]');const old=getSKLRecord(id)||{};return {idSiswa:id,nis:(old.nis||'').trim(),nomorSKL:(numEl?.value||old.nomorSKL||'').trim(),tanggalSKL:tanggal||old.tanggalSKL||s.tanggalLulus||'',orangTuaWali:old.orangTuaWali||'',statusKelulusan:statEl?.value||statusDefault||'LULUS',nomorKeputusan:keputusan||old.nomorKeputusan||'',tanggalKeputusan:tglKeputusan||old.tanggalKeputusan||'',keterangan:old.keterangan||''};});}
 function saveSKLBulk(){const records=collectSKLBulkRecords();if(!records.length){toast('Pilih minimal satu siswa.','warning');return;}const noNum=records.filter(r=>!r.nomorSKL);if(noNum.length){toast('Masih ada siswa terpilih yang belum memiliki Nomor SKL. Gunakan tombol Buat Nomor SKL atau isi manual.','warning');return;}setLoading(true,'Menyimpan penetapan kelulusan...');google.script.run.withSuccessHandler(function(r){setLoading(false);toast(r?.message||'Penetapan kelulusan tersimpan.','success');loadSKLData();}).withFailureHandler(function(e){setLoading(false);toast(getErrorMessage(e),'error');}).saveSKLBulk(SESSION_TOKEN,records);}
-function buildSKLBulkPaper_(s,rec){const settings=SKL_DATA.settings||{};const nilai=SKL_DATA.nilai||[],mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return '<tr><td>'+(i+1)+'</td><td>'+escapeHtml(m.nama||'-')+'</td><td>'+(v===null?'-':String(Math.round(v)))+'</td></tr>';}).join('');const nums=mapel.map(m=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));return n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;}).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;const logo=settings.url_logo?'<img class="skl-logo" src="'+escapeAttribute(settings.url_logo)+'" alt="Logo">':'';const lahir=s.tempatLahir&&s.tanggalLahir?s.tempatLahir+', '+formatTanggalIndonesia(s.tanggalLahir):(s.tempatLahir||formatTanggalIndonesia(s.tanggalLahir));return '<div class="skl-paper skl-bulk-paper"><div class="skl-kop"><div class="skl-logo-wrap">'+logo+'</div><div class="skl-kop-center"><div class="skl-instansi">'+escapeHtml(settings.instansi_pemerintah||'')+'</div><div class="skl-sekolah">'+escapeHtml(settings.nama_sekolah||'')+'</div><div class="skl-kecamatan">KECAMATAN '+escapeHtml(settings.kecamatan||'')+'</div><div class="skl-alamat">'+escapeHtml(settings.alamat_sekolah||'')+'</div><div class="skl-email">Email : '+escapeHtml(settings.email_sekolah||'')+'</div></div></div><div class="skl-line"></div><div class="skl-title"><h2>SURAT KETERANGAN LULUS</h2><div>Nomor: '+escapeHtml(rec.nomorSKL||'-')+'</div></div><p class="skl-intro">Yang bertanda tangan di bawah ini, Kepala <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong>, menerangkan bahwa:</p><div class="skl-identitas"><div><span>Nama</span><b>:</b><strong>'+escapeHtml(s.nama||'-')+'</strong></div><div><span>Tempat, Tanggal Lahir</span><b>:</b><strong>'+escapeHtml(lahir||'-')+'</strong></div><div><span>Nama Orang Tua/Wali</span><b>:</b><strong>'+escapeHtml(rec.orangTuaWali||'-')+'</strong></div><div><span>Nomor Induk Siswa</span><b>:</b><strong>'+escapeHtml(rec.nis||'-')+'</strong></div><div><span>Nomor Induk Siswa Nasional (NISN)</span><b>:</b><strong>'+escapeHtml(s.nisn||'-')+'</strong></div></div><p class="skl-statement">Berdasarkan keputusan Kepala Sekolah '+escapeHtml(settings.nama_sekolah||'-')+' Nomor <strong>'+escapeHtml(rec.nomorKeputusan||'-')+'</strong> tanggal <strong>'+escapeHtml(formatTanggalIndonesia(rec.tanggalKeputusan)||'-')+'</strong>, peserta didik tersebut dinyatakan:</p><div class="skl-status">'+escapeHtml(rec.statusKelulusan||'LULUS')+'</div><p class="skl-statement">dari <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong> Tahun Pelajaran <strong>'+escapeHtml(settings.tahun_pelajaran||'-')+'</strong>, dengan rata-rata nilai sebagai berikut:</p><table class="skl-table"><thead><tr><th>No.</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr><th colspan="2">Rata-rata</th><th>'+escapeHtml(avg===null?'-':formatRataRata(avg))+'</th></tr></tfoot></table><p class="skl-note">Surat Keterangan Lulus ini dapat digunakan untuk keperluan melanjutkan pendidikan dan keperluan lain sesuai kebutuhan, serta bersifat sementara sampai dengan diterbitkannya Ijazah.</p><div class="skl-footer"><div>'+escapeHtml(formatTempatTanggalSKL_(settings.tempat_tanda_tangan_skl,rec.tanggalSKL))+'</div><div>Kepala Sekolah,</div><div class="skl-ttd-space"></div><strong>'+escapeHtml(settings.kepala_sekolah||'-')+'</strong><div>NIP. '+escapeHtml(settings.nip_kepala_sekolah||'-')+'</div></div></div>';}
+function buildSKLBulkPaper_(s,rec){const settings=SKL_DATA.settings||{};const nilai=SKL_DATA.nilai||[],mapel=SKL_DATA.mapel||[];const rows=mapel.map((m,i)=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));const v=n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;return '<tr><td>'+(i+1)+'</td><td>'+escapeHtml(m.nama||'-')+'</td><td>'+(v===null?'-':formatNilaiDuaDesimal(v))+'</td></tr>';}).join('');const nums=mapel.map(m=>{const n=nilai.find(x=>(normalizeId(x.idSiswa)===normalizeId(s.id)||normalizeId(x.idSiswa)===normalizeId(s.nisn)||normalizeId(x.nisnSiswa)===normalizeId(s.nisn))&&(normalizeId(x.idMapel)===normalizeId(m.id)||String(x.kodeMapel||'').toLowerCase()===String(m.kode||'').toLowerCase()||String(x.namaMapel||'').toLowerCase()===String(m.nama||'').toLowerCase()));return n&&n.rataRata!==''&&!isNaN(Number(n.rataRata))?Number(n.rataRata):null;}).filter(v=>v!==null);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;const logo=settings.url_logo?'<img class="skl-logo" src="'+escapeAttribute(settings.url_logo)+'" alt="Logo">':'';const lahir=s.tempatLahir&&s.tanggalLahir?s.tempatLahir+', '+formatTanggalIndonesia(s.tanggalLahir):(s.tempatLahir||formatTanggalIndonesia(s.tanggalLahir));return '<div class="skl-paper skl-bulk-paper"><div class="skl-kop"><div class="skl-logo-wrap">'+logo+'</div><div class="skl-kop-center"><div class="skl-instansi">'+escapeHtml(settings.instansi_pemerintah||'')+'</div><div class="skl-sekolah">'+escapeHtml(settings.nama_sekolah||'')+'</div><div class="skl-kecamatan">KECAMATAN '+escapeHtml(settings.kecamatan||'')+'</div><div class="skl-alamat">'+escapeHtml(settings.alamat_sekolah||'')+'</div><div class="skl-email">Email : '+escapeHtml(settings.email_sekolah||'')+'</div></div></div><div class="skl-line"></div><div class="skl-title"><h2>SURAT KETERANGAN LULUS</h2><div>Nomor: '+escapeHtml(rec.nomorSKL||'-')+'</div></div><p class="skl-intro">Yang bertanda tangan di bawah ini, Kepala <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong>, menerangkan bahwa:</p><div class="skl-identitas"><div><span>Nama</span><b>:</b><strong>'+escapeHtml(s.nama||'-')+'</strong></div><div><span>Tempat, Tanggal Lahir</span><b>:</b><strong>'+escapeHtml(lahir||'-')+'</strong></div><div><span>Nama Orang Tua/Wali</span><b>:</b><strong>'+escapeHtml(rec.orangTuaWali||'-')+'</strong></div><div><span>Nomor Induk Siswa</span><b>:</b><strong>'+escapeHtml(rec.nis||'-')+'</strong></div><div><span>Nomor Induk Siswa Nasional (NISN)</span><b>:</b><strong>'+escapeHtml(s.nisn||'-')+'</strong></div></div><p class="skl-statement">Berdasarkan keputusan Kepala Sekolah '+escapeHtml(settings.nama_sekolah||'-')+' Nomor <strong>'+escapeHtml(rec.nomorKeputusan||'-')+'</strong> tanggal <strong>'+escapeHtml(formatTanggalIndonesia(rec.tanggalKeputusan)||'-')+'</strong>, peserta didik tersebut dinyatakan:</p><div class="skl-status">'+escapeHtml(rec.statusKelulusan||'LULUS')+'</div><p class="skl-statement">dari <strong>'+escapeHtml(settings.nama_sekolah||'-')+'</strong> Tahun Pelajaran <strong>'+escapeHtml(settings.tahun_pelajaran||'-')+'</strong>, dengan rata-rata nilai sebagai berikut:</p><table class="skl-table"><thead><tr><th>No.</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr><th colspan="2">Rata-rata</th><th>'+escapeHtml(avg===null?'-':formatRataRata(avg))+'</th></tr></tfoot></table><p class="skl-note">Surat Keterangan Lulus ini dapat digunakan untuk keperluan melanjutkan pendidikan dan keperluan lain sesuai kebutuhan, serta bersifat sementara sampai dengan diterbitkannya Ijazah.</p><div class="skl-footer"><div>'+escapeHtml(formatTempatTanggalSKL_(settings.tempat_tanda_tangan_skl,rec.tanggalSKL))+'</div><div>Kepala Sekolah,</div><div class="skl-ttd-space"></div><strong>'+escapeHtml(settings.kepala_sekolah||'-')+'</strong><div>NIP. '+escapeHtml(settings.nip_kepala_sekolah||'-')+'</div></div></div>';}
 function printSKLBulk(){const records=collectSKLBulkRecords();if(!records.length){toast('Pilih minimal satu siswa.','warning');return;}const missing=records.filter(r=>!r.nomorSKL);if(missing.length){toast('Lengkapi Nomor SKL siswa terpilih sebelum mencetak.','warning');return;}const papers=records.map(rec=>{const s=(SKL_DATA.siswa||[]).find(x=>normalizeId(x.id||x.nisn)===normalizeId(rec.idSiswa));return s?buildSKLBulkPaper_(s,rec):'';}).join('');const w=window.open('','_blank','width=900,height=1000');if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak SKL.','error');return;}const html='<!doctype html><html><head><meta charset="utf-8"><title>SKL Siswa Terpilih</title><style>'+getSKLPrintCss_()+'</style></head><body>'+papers+'</body></html>';w.document.open();w.document.write(html);w.document.close();waitForSKLImages_(w.document).then(function(){setTimeout(function(){w.focus();w.print();},350);});}
 
 /* =====================================================
@@ -5759,7 +5802,7 @@ function renderTranskrip(){
           const rows=Array.isArray(d?.rows)?d.rows:[];
           const nilaiRows=rows.map(r=>{
             const v=Number(r.nilai);
-            const tampil=(r.nilai===''||r.nilai===null||r.nilai===undefined||isNaN(v))?'-':String(Math.round(v));
+            const tampil=(r.nilai===''||r.nilai===null||r.nilai===undefined||isNaN(v))?'-':formatNilaiDuaDesimal(v);
             return '<tr><td>'+r.no+'</td><td>'+escapeHtml(r.nama)+'</td><td>'+tampil+'</td></tr>';
           }).join('');
           const rataAkhir=d&&d.rataSemua!==null&&d.rataSemua!==undefined?formatRataRata(d.rataSemua):'-';
@@ -6281,7 +6324,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s1)
+                            ? formatNilaiDuaDesimal(n.s1)
                             : '-'
                         }
                       </td>
@@ -6289,7 +6332,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s2)
+                            ? formatNilaiDuaDesimal(n.s2)
                             : '-'
                         }
                       </td>
@@ -6297,7 +6340,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s3)
+                            ? formatNilaiDuaDesimal(n.s3)
                             : '-'
                         }
                       </td>
@@ -6305,7 +6348,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s4)
+                            ? formatNilaiDuaDesimal(n.s4)
                             : '-'
                         }
                       </td>
@@ -6313,7 +6356,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s5)
+                            ? formatNilaiDuaDesimal(n.s5)
                             : '-'
                         }
                       </td>
@@ -6321,7 +6364,7 @@ function renderIjazah() {
                       <td>
                         ${
                           n
-                            ? displayNumber(n.s6)
+                            ? formatNilaiDuaDesimal(n.s6)
                             : '-'
                         }
                       </td>
@@ -7527,6 +7570,12 @@ function jsString(
    FORMAT RATA-RATA
    Khusus rata-rata Leger, Transkrip, SKL, dan Ijazah.
 ===================================================== */
+function formatNilaiDuaDesimal(value){
+  if(value===null||value===undefined||String(value).trim()==='')return '-';
+  const n=Number(value);
+  return Number.isFinite(n)?n.toFixed(2).replace('.', ','):'-';
+}
+
 function formatRataRata(value){
   if(value === '' || value === null || value === undefined || isNaN(Number(value))) return '-';
   return Number(value).toFixed(2).replace('.', ',');
@@ -7643,51 +7692,37 @@ document.addEventListener(
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixSKLMenu);else fixSKLMenu();
   setTimeout(fixSKLMenu,100);
 })();
-</script>
 
-<style id="mobile-sidebar-only-fix">
-/* Navigasi HP saja; tidak mengubah login atau fungsi aplikasi. */
-#mobileMenuToggle{display:none}
-#mobileSidebarBackdrop{display:none}
-@media(max-width:768px){
-  #mobileMenuToggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 12px;border:0;border-radius:9px;background:#2563eb;color:#fff;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0}
-  .topbar{height:auto;min-height:62px;padding:10px 12px;gap:10px;justify-content:flex-start;flex-wrap:wrap}
-  .topbar-title{flex:1;min-width:90px;font-size:16px}
-  .user-area{margin-left:auto;gap:7px;flex-wrap:wrap;justify-content:flex-end}
-  .user-name{font-size:11px;max-width:130px;overflow-wrap:anywhere}
-  .logout-button{padding:7px 9px;font-size:12px}
-  .sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:min(82vw,290px)!important;height:100dvh!important;max-height:100vh!important;overflow-y:auto!important;transform:translateX(-105%)!important;transition:transform .25s ease!important;z-index:10002!important;box-shadow:8px 0 30px rgba(0,0,0,.2)}
-  body.mobile-menu-open .sidebar{transform:translateX(0)!important}
-  .main{margin-left:0!important;min-width:0!important;width:100%!important}
-  .content{padding:14px!important}
-  #mobileSidebarBackdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:10001;display:none}
-  body.mobile-menu-open #mobileSidebarBackdrop{display:block}
-  body.mobile-menu-open{overflow:hidden}
-  .sidebar .menu{padding:12px 10px 24px}
-  .sidebar .menu button{min-height:44px;font-size:14px}
-}
-@media(prefers-reduced-motion:reduce){.sidebar{transition:none!important}}
-</style>
-<script id="mobile-sidebar-only-script">
+</script>
+<script id="mobile-sidebar-navigation">
 (function(){
   function initMobileSidebar(){
+    var button=document.getElementById('mobileMenuButton');
+    var overlay=document.getElementById('mobileMenuOverlay');
     var sidebar=document.querySelector('.sidebar');
-    var topbar=document.querySelector('.topbar');
-    if(!sidebar||!topbar||document.getElementById('mobileMenuToggle'))return;
-    var toggle=document.createElement('button');
-    toggle.id='mobileMenuToggle';toggle.type='button';
-    toggle.setAttribute('aria-label','Buka menu navigasi');toggle.setAttribute('aria-expanded','false');
-    toggle.innerHTML='☰ <span>Menu</span>';topbar.insertBefore(toggle,topbar.firstChild);
-    var backdrop=document.createElement('div');backdrop.id='mobileSidebarBackdrop';backdrop.setAttribute('aria-hidden','true');document.body.appendChild(backdrop);
-    function closeMenu(){document.body.classList.remove('mobile-menu-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Buka menu navigasi');}
-    function openMenu(){document.body.classList.add('mobile-menu-open');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Tutup menu navigasi');}
-    toggle.addEventListener('click',function(){if(document.body.classList.contains('mobile-menu-open'))closeMenu();else openMenu();});
-    backdrop.addEventListener('click',closeMenu);
-    sidebar.querySelectorAll('.menu button').forEach(function(btn){btn.addEventListener('click',function(){if(window.matchMedia('(max-width: 768px)').matches)closeMenu();});});
+    if(!button||!overlay||!sidebar||button.dataset.mobileReady==='1')return;
+    button.dataset.mobileReady='1';
+    function closeMenu(){
+      document.body.classList.remove('mobile-menu-open');
+      button.setAttribute('aria-expanded','false');
+      button.setAttribute('aria-label','Buka menu navigasi');
+    }
+    function toggleMenu(){
+      var open=!document.body.classList.contains('mobile-menu-open');
+      document.body.classList.toggle('mobile-menu-open',open);
+      button.setAttribute('aria-expanded',open?'true':'false');
+      button.setAttribute('aria-label',open?'Tutup menu navigasi':'Buka menu navigasi');
+    }
+    button.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggleMenu();});
+    overlay.addEventListener('click',closeMenu);
+    sidebar.querySelectorAll('.menu button').forEach(function(item){
+      item.addEventListener('click',function(){if(window.matchMedia('(max-width: 768px)').matches)closeMenu();});
+    });
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
     window.addEventListener('resize',function(){if(!window.matchMedia('(max-width: 768px)').matches)closeMenu();});
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);else initMobileSidebar();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);
+  else initMobileSidebar();
 })();
 </script>
 </body>
