@@ -7699,6 +7699,27 @@ document.addEventListener(
   setTimeout(fixSKLMenu,100);
 })();
 </script>
+
+<script>
+/* Perbaikan terbatas: tombol menu HP. Tidak mengubah fungsi login. */
+(function(){
+  function initMobileSidebar(){
+    var toggle=document.getElementById('mobileMenuToggle');
+    var overlay=document.getElementById('mobileSidebarOverlay');
+    var menu=document.querySelector('.sidebar .menu');
+    if(!toggle||!overlay||toggle.dataset.bound==='1')return;
+    toggle.dataset.bound='1';
+    function closeMenu(){document.body.classList.remove('mobile-sidebar-open');toggle.setAttribute('aria-expanded','false');overlay.setAttribute('aria-hidden','true');}
+    function openMenu(){document.body.classList.add('mobile-sidebar-open');toggle.setAttribute('aria-expanded','true');overlay.setAttribute('aria-hidden','false');}
+    toggle.addEventListener('click',function(){document.body.classList.contains('mobile-sidebar-open')?closeMenu():openMenu();});
+    overlay.addEventListener('click',closeMenu);
+    if(menu)menu.addEventListener('click',function(e){if(e.target.closest('button'))closeMenu();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+    window.addEventListener('resize',function(){if(window.innerWidth>768)closeMenu();});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);else initMobileSidebar();
+})();
+</script>
 </body>
 
 </html>
