@@ -5539,7 +5539,60 @@ function printLeger(){
   clonedTable.className='leger-print-table';
   const note=document.getElementById('legerNote');
   const noteText=note?String(note.textContent||'').trim():'';
-  const html='<!doctype html><html><head><meta charset="utf-8"><title>Leger Nilai Siswa</title><style>'+getLegerPrintCss_()+'</style></head><body><div class="leger-paper">'+title+'<div class="leger-table-wrap">'+clonedTable.outerHTML+'</div>'+(noteText?'<div class="leger-print-note">'+escapeHtml(noteText)+'</div>':'')+'</div></body></html>';
+  const html='<!doctype html><html><head><meta charset="utf-8"><title>Leger Nilai Siswa</title><style>'+getLegerPrintCss_()+'</style></head><body><div class="leger-paper">'+title+'<div class="leger-table-wrap">'+clonedTable.outerHTML+'</div>'+(noteText?'<div class="leger-print-note">'+escapeHtml(noteText)+'</div>':'')+'</div>
+<style id="mobile-sidebar-only-fix">
+/* Tambahan khusus navigasi HP; tampilan desktop dan fitur lain tetap dipertahankan. */
+#mobileMenuToggle{display:none}
+#mobileSidebarBackdrop{display:none}
+@media(max-width:768px){
+  #mobileMenuToggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 12px;border:0;border-radius:9px;background:#2563eb;color:#fff;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0}
+  .topbar{height:auto;min-height:62px;padding:10px 12px;gap:10px;justify-content:flex-start;flex-wrap:wrap}
+  .topbar-title{flex:1;min-width:90px;font-size:16px}
+  .user-area{margin-left:auto;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+  .user-name{font-size:11px;max-width:130px;overflow-wrap:anywhere}
+  .logout-button{padding:7px 9px;font-size:12px}
+  .sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:min(82vw,290px)!important;height:100dvh!important;max-height:100vh!important;overflow-y:auto!important;transform:translateX(-105%)!important;transition:transform .25s ease!important;z-index:10002!important;box-shadow:8px 0 30px rgba(0,0,0,.2)}
+  body.mobile-menu-open .sidebar{transform:translateX(0)!important}
+  .main{margin-left:0!important;min-width:0!important;width:100%!important}
+  .content{padding:14px!important}
+  #mobileSidebarBackdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:10001;display:none}
+  body.mobile-menu-open #mobileSidebarBackdrop{display:block}
+  body.mobile-menu-open{overflow:hidden}
+  .sidebar .menu{padding:12px 10px 24px}
+  .sidebar .menu button{min-height:44px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.sidebar{transition:none!important}}
+</style>
+<script id="mobile-sidebar-only-script">
+(function(){
+  function initMobileSidebar(){
+    var sidebar=document.querySelector('.sidebar');
+    var topbar=document.querySelector('.topbar');
+    if(!sidebar||!topbar||document.getElementById('mobileMenuToggle'))return;
+    var toggle=document.createElement('button');
+    toggle.id='mobileMenuToggle';
+    toggle.type='button';
+    toggle.setAttribute('aria-label','Buka menu navigasi');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.innerHTML='☰ <span>Menu</span>';
+    topbar.insertBefore(toggle,topbar.firstChild);
+    var backdrop=document.createElement('div');
+    backdrop.id='mobileSidebarBackdrop';
+    backdrop.setAttribute('aria-hidden','true');
+    document.body.appendChild(backdrop);
+    function closeMenu(){document.body.classList.remove('mobile-menu-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Buka menu navigasi');}
+    function openMenu(){document.body.classList.add('mobile-menu-open');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Tutup menu navigasi');}
+    toggle.addEventListener('click',function(){if(document.body.classList.contains('mobile-menu-open'))closeMenu();else openMenu();});
+    backdrop.addEventListener('click',closeMenu);
+    sidebar.querySelectorAll('.menu button').forEach(function(btn){btn.addEventListener('click',function(){if(window.matchMedia('(max-width: 768px)').matches)closeMenu();});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+    window.addEventListener('resize',function(){if(!window.matchMedia('(max-width: 768px)').matches)closeMenu();});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);else initMobileSidebar();
+})();
+</script>
+
+</body></html>';
   const w=window.open('','_blank','width=1200,height=900');
   if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak Leger.','error');return;}
   w.document.open();w.document.write(html);w.document.close();
