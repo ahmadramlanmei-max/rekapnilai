@@ -7698,6 +7698,33 @@ document.addEventListener(
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixSKLMenu);else fixSKLMenu();
   setTimeout(fixSKLMenu,100);
 })();
+</script><script>
+(function () {
+  const tombol = document.getElementById('mobileMenuToggle');
+  const overlay = document.getElementById('mobileSidebarOverlay');
+  const sidebar = document.querySelector('.sidebar');
+
+  if (!tombol || !overlay || !sidebar) return;
+
+  tombol.addEventListener('click', function () {
+    const terbuka = document.body.classList.toggle('mobile-sidebar-open');
+    tombol.setAttribute('aria-expanded', String(terbuka));
+  });
+
+  overlay.addEventListener('click', function () {
+    document.body.classList.remove('mobile-sidebar-open');
+    tombol.setAttribute('aria-expanded', 'false');
+  });
+
+  sidebar.querySelectorAll('.menu button').forEach(function (item) {
+    item.addEventListener('click', function () {
+      if (window.innerWidth <= 768) {
+        document.body.classList.remove('mobile-sidebar-open');
+        tombol.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+})();
 </script>
 </body>
 
