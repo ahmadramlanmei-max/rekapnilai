@@ -5570,27 +5570,7 @@ function printLeger(){
   clonedTable.className='leger-print-table';
   const note=document.getElementById('legerNote');
   const noteText=note?String(note.textContent||'').trim():'';
-  const html='<!doctype html><html><head><meta charset="utf-8"><title>Leger Nilai Siswa</title><style>'+getLegerPrintCss_()+'</style></head><body><div class="leger-paper">'+title+'<div class="leger-table-wrap">'+clonedTable.outerHTML+'</div>'+(noteText?'<div class="leger-print-note">'+escapeHtml(noteText)+'</div>':'')+'</div>
-<script id="mobile-sidebar-controls">
-(function(){
-  function initMobileSidebar(){
-    var toggle=document.getElementById('mobileMenuToggle');
-    var overlay=document.getElementById('mobileSidebarOverlay');
-    var menu=document.querySelector('.sidebar .menu');
-    if(!toggle||!overlay||toggle.dataset.bound==='1')return;
-    toggle.dataset.bound='1';
-    function closeMenu(){document.body.classList.remove('mobile-sidebar-open');toggle.setAttribute('aria-expanded','false');overlay.setAttribute('aria-hidden','true');}
-    function openMenu(){document.body.classList.add('mobile-sidebar-open');toggle.setAttribute('aria-expanded','true');overlay.setAttribute('aria-hidden','false');}
-    toggle.addEventListener('click',function(){document.body.classList.contains('mobile-sidebar-open')?closeMenu():openMenu();});
-    overlay.addEventListener('click',closeMenu);
-    if(menu)menu.addEventListener('click',function(e){if(e.target.closest('button'))closeMenu();});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
-    window.addEventListener('resize',function(){if(window.innerWidth>768)closeMenu();});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);else initMobileSidebar();
-})();
-</script>
-</body></html>';
+  const html='<!doctype html><html><head><meta charset="utf-8"><title>Leger Nilai Siswa</title><style>'+getLegerPrintCss_()+'</style></head><body><div class="leger-paper">'+title+'<div class="leger-table-wrap">'+clonedTable.outerHTML+'</div>'+(noteText?'<div class="leger-print-note">'+escapeHtml(noteText)+'</div>':'')+'</div></body></html>';
   const w=window.open('','_blank','width=1200,height=900');
   if(!w){toast('Popup diblokir browser. Izinkan popup untuk mencetak Leger.','error');return;}
   w.document.open();w.document.write(html);w.document.close();
@@ -7717,6 +7697,27 @@ document.addEventListener(
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixSKLMenu);else fixSKLMenu();
   setTimeout(fixSKLMenu,100);
+})();
+</script>
+
+<script>
+/* Perbaikan terbatas: tombol menu HP. Tidak mengubah fungsi login. */
+(function(){
+  function initMobileSidebar(){
+    var toggle=document.getElementById('mobileMenuToggle');
+    var overlay=document.getElementById('mobileSidebarOverlay');
+    var menu=document.querySelector('.sidebar .menu');
+    if(!toggle||!overlay||toggle.dataset.bound==='1')return;
+    toggle.dataset.bound='1';
+    function closeMenu(){document.body.classList.remove('mobile-sidebar-open');toggle.setAttribute('aria-expanded','false');overlay.setAttribute('aria-hidden','true');}
+    function openMenu(){document.body.classList.add('mobile-sidebar-open');toggle.setAttribute('aria-expanded','true');overlay.setAttribute('aria-hidden','false');}
+    toggle.addEventListener('click',function(){document.body.classList.contains('mobile-sidebar-open')?closeMenu():openMenu();});
+    overlay.addEventListener('click',closeMenu);
+    if(menu)menu.addEventListener('click',function(e){if(e.target.closest('button'))closeMenu();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+    window.addEventListener('resize',function(){if(window.innerWidth>768)closeMenu();});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileSidebar);else initMobileSidebar();
 })();
 </script>
 </body>
